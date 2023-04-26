@@ -12,7 +12,7 @@ from config import bcrypt,db
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-created_at', '-updated_at')
+    serialize_rules = ('-inventory.users', '-swap.users', '-messages.user', '-created_at', '-updated_at')
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
@@ -29,14 +29,12 @@ class User(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     loaned_games = db.relationship('Swap', foreign_keys='Swap.loaning_user_id', cascade="all, delete, delete-orphan", overlaps='borrowed_games')
-    borrowed_games = db.relationship('Swap', foreign_keys='Swap.borrower_user_id', cascade="all, delete, delete-orphan", overlaps='loaned_games')
+    borrowed_games = db.relationship('Swap', foreign_keys='Swap.borrowing_user_id', cascade="all, delete, delete-orphan", overlaps='loaned_games')
     inventories = db.relationship('Inventory', backref='user', cascade="all, delete, delete-orphan")
-    # teams = db.relationship('Team', backref='user', cascade="all, delete, delete-orphan")
-    # calendars = db.relationship('Calendar', backref='user', cascade="all, delete, delete-orphan")
-    # loaned_games = db.relationship('Swap', foreign_keys='Swap.loaning_user_id', cascade="all, delete, delete-orphan", overlaps='borrowed_games')
-    # borrowed_games = db.relationship('Swap', foreign_keys='Swap.borrower_user_id', cascade="all, delete, delete-orphan", overlaps='loaned_games')
-
-    # games = association_proxy('swaps', 'game')
+    sent_messages = db.relationship('Message', foreign_keys='Message.sender_user_id', cascade="all, delete, delete-orphan", overlaps='received_messages')
+    received_messages = db.relationship('Message', foreign_keys='Message.receiver_user_id', cascade="all, delete, delete-orphan", overlaps='sent_messages')
+    
+    games = association_proxy('swaps', 'game')
     games = association_proxy('inventories', 'game')
 
     @hybrid_property
@@ -95,7 +93,7 @@ class User(db.Model, SerializerMixin):
 class Game(db.Model, SerializerMixin): 
     __tablename__ = 'games'
 
-    serialize_rules = ('-created_at', '-updated_at')
+    serialize_rules = ('inventory.games', 'swap.games', '-created_at', '-updated_at')
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
@@ -113,10 +111,6 @@ class Game(db.Model, SerializerMixin):
 
     inventories = db.relationship('Inventory', backref='game', cascade="all, delete, delete-orphan")
     users = association_proxy('inventories', 'user')
-    
-    # vendoritems = db.relationship('VendorItem', back_populates='game', cascade="all, delete, delete-orphan")
-    # vendors = association_proxy('vendoritems', 'vendor',
-    #     creator=lambda us: VendorItem(vendor=us))
 
     @validates('title')
     def validate_game_title(self, key, title):
@@ -127,7 +121,8 @@ class Game(db.Model, SerializerMixin):
     @validates('type')
     def validate_type(self, key, type):
         types = [
-            "Board Games", "Card Games", "Video Games", "Tabletop Role-playing Games", "Casino Games"
+            "Board Games", "Card Games", "Video Games", 
+            "Tabletop Role-playing Games", "Casino Games"
             ]
         if not type:
             raise ValueError("Game must have a Type")
@@ -138,12 +133,17 @@ class Game(db.Model, SerializerMixin):
     @validates('genre1', 'genre2')
     def validate_genre(self, key, genre):
         genres = [
-            "Action", "Adult", "Adventure", "Battle Royale", "City-building", "Educational", "Escape Room", 
-            "Fighting", "Gambling", "Horror", "Incremental/Idle", "Interactive Fiction", "Management", 
-            "MMO (massively multiplayer online)", "MOBA (multiplayer online battle arena)", 
-            "Music", "Other", "Party", "Platformer", "Puzzle", "Racing", "Role-playing", 
-            "Roguelike", "Sandbox", "Science Fiction", "Shooter", "Simulation", "Sports", 
-            "Strategy", "Survival", "Tactical", "Trading Card", "Trivia", "Visual Novel"
+            "Action", "Adult", "Adventure", "Battle Royale", 
+            "City-building", "Educational", "Escape Room", 
+            "Fighting", "Gambling", "Horror", "Incremental/Idle", 
+            "Interactive Fiction", "Management", 
+            "MMO (massively multiplayer online)", 
+            "MOBA (multiplayer online battle arena)", 
+            "Music", "Other", "Party", "Platformer", "Puzzle", 
+            "Racing", "Role-playing", "Roguelike", "Sandbox", 
+            "Science Fiction", "Shooter", "Simulation", "Sports", 
+            "Strategy", "Survival", "Tactical", "Trading Card", 
+            "Trivia", "Visual Novel"
             ]
         if not genre:
             raise ValueError("Game must have a Genre")
@@ -170,7 +170,7 @@ class Game(db.Model, SerializerMixin):
             raise ValueError("Game must have the Maximum Number of Players.")
         if not isinstance(player_num_max, int):
             raise ValueError("Game Maximum Number of Players must be an Integer")
-        elif int(player_num_max) < self._player_num_min:    ## Comparison against class-level variable
+        if int(player_num_max) < self._player_num_min:      ## Comparison against class-level variable
             raise ValueError("Game Maximum Number of Players cannot be less than Minimum Players.")
         return player_num_max
     
@@ -205,7 +205,7 @@ class Game(db.Model, SerializerMixin):
 class Inventory(db.Model, SerializerMixin):
     __tablename__ = 'inventories'
 
-    serialize_rules = ('-created_at', '-updated_at')
+    serialize_rules = ('-user.inventories', 'game.inventories', '-created_at', '-updated_at')
 
     id = db.Column(db.Integer, primary_key=True)
     refund = db.Column(db.Boolean)
@@ -239,11 +239,127 @@ class Inventory(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<Inventory #{self.id}, User: {self.user.username}, Game: {self.game.title}, Inventory Date: {self.created_at}>'
 
+class Swap(db.Model, SerializerMixin): 
+    __tablename__ = 'swaps'
 
+    serialize_rules = ('-user.swaps', '-game.swaps', '-created_at', '-updated_at',)
 
-serialize_rules = ('-user.swap', '-updated_at',)
+    id = db.Column(db.Integer, primary_key=True)
+    swap_status = db.Column(db.String, nullable=False)
+    borrow_date = db.Column(db.DateTime, nullable=False)
+    due_date = db.Column(db.DateTime, nullable=False)
+    
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
+    game_swapped_id = db.Column(db.Integer, db.ForeignKey('games.id'))
+    
     loaning_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    borrower_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    borrowing_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     loaner = db.relationship('User', foreign_keys=[loaning_user_id], back_populates='loaned_games')
-    borrower = db.relationship('User', foreign_keys=[borrower_user_id], back_populates='borrowed_games')
+    borrower = db.relationship('User', foreign_keys=[borrowing_user_id], back_populates='borrowed_games')
+    
+    @validates('swap_status')
+    def validate_task_status(self, key, swap_status):
+        if not swap_status:
+            raise ValueError("Swap must have a Status")
+        return swap_status
+
+    _borrow_date = None                                     ## Class-level variable for storing borrow_date value
+
+    @validates('borrow_date')
+    def validate_swap_borrow_date(self, key, borrow_date):
+        if not borrow_date:
+            raise ValueError("Swap must have a Borrow Date")
+        self._borrow_date = borrow_date                     ## Update class-level variable
+        return borrow_date
+    
+    @validates('due_date')
+    def validate_swap_due_date(self, key, due_date):
+        if not due_date:
+            raise ValueError("Swap must have a Due Date")
+        if due_date < self._borrow_date:                    ## Comparison against class-level variable
+            raise ValueError("Due Date must be after the Borrow Date.")
+        return due_date
+       
+    @validates('loaning_user_id')
+    def validate_loaning_user_id(self, key, loaning_user_id):
+        users = User.query.all()
+        ids = [user.id for user in users]
+        if not loaning_user_id:
+            raise ValueError("Swap must have an Loaning User")
+        elif int(loaning_user_id) not in ids:
+            raise ValueError('Swap Loaning User must exist.')
+        return loaning_user_id
+    
+    @validates('borrowing_user_id')
+    def validate_borrowing_user_id(self, key, borrowing_user_id):
+        users = User.query.all()
+        ids = [user.id for user in users]
+        if not borrowing_user_id:
+            raise ValueError("Swap must have an Borrowing User")
+        elif int(borrowing_user_id) not in ids:
+            raise ValueError('Swap Borrowing User must exist.')
+        return borrowing_user_id
+    
+    @validates('game_swapped_id')
+    def validate_game_swapped_id(self, key, game_swapped_id):
+        games = Game.query.all()
+        ids = [game.id for game in games]
+        if not game_swapped_id:
+            raise ValueError("Swap must have a Game Id")
+        elif int(game_swapped_id) not in ids:
+            raise ValueError('Swap Game must exist.')
+        return game_swapped_id
+
+    def __repr__(self):
+        return f'<Swap #{self.id}, Game: {self.game.title}, Game Loaned By: {self.loaning_user_id.username}, Swap Borrow Date: {self.borrow_date}, Swap Due Date: {self.due_date}, Swap Status: {self.swap_status}, >'
+
+class Message(db.Model, SerializerMixin):
+    __tablename__ = 'messages'
+
+    serialize_rules = ('-user.messages', '-updated_at',)
+
+    id = db.Column(db.Integer, primary_key=True)
+    message_text = db.Column(db.String, db.CheckConstraint('len(message_text) <= 250', name='max_chat_message_length'))
+     
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now()) 
+
+    sender_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    receiver_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    sender = db.relationship('User', foreign_keys=[sender_user_id], back_populates='sent_messages')
+    receiver = db.relationship('User', foreign_keys=[receiver_user_id], back_populates='received_messages')
+
+    @validates('message_text')
+    def validate_event_description_length(self, key, message_text):
+        if not message_text:
+            raise ValueError("Chat Message must have Message Text")
+        if len(message_text) >= 250:
+            raise ValueError("Chat Message Message Text must be less than or equal to 250 characters long.")
+        return message_text
+
+    @validates('sender_user_id')
+    def validate_sender_user_id(self, key, sender_user_id):
+        users = User.query.all()
+        ids = [user.id for user in users]
+        if not sender_user_id:
+            raise ValueError("Chat Message must have a Sending User")
+        elif int(sender_user_id) not in ids:
+            raise ValueError('Chat Message Sending User must exist.')
+        return sender_user_id
+    
+    @validates('receiver_user_id')
+    def validate_receiver_user_id(self, key, receiver_user_id):
+        users = User.query.all()
+        ids = [user.id for user in users]
+        if not receiver_user_id:
+            raise ValueError("Chat Message must have a Receiving User")
+        elif int(receiver_user_id) not in ids:
+            raise ValueError('Chat Message Receiving User must exist.')
+        return receiver_user_id
+
+    def __repr__(self):
+        return f'<Message #{self.id}, Message Text: {self.message_text}, Message Date: {self.created_at}, Sender: {self.sender_user_id.username}, Receiver: {self.receiver_user_id.username}>'
+
+    
