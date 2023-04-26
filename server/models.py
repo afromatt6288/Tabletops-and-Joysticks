@@ -112,6 +112,7 @@ class Game(db.Model, SerializerMixin):
     type = db.Column(db.String, nullable=False)
     genre1 = db.Column(db.String, nullable=False)
     genre2 = db.Column(db.String, nullable=False)
+    platform = db.Column(db.String, nullable=False)
     player_num_min = db.Column(db.Integer, db.CheckConstraint('player_num_min >=1 ', name='min_player_number'), nullable=False)
     player_num_max = db.Column(db.Integer, db.CheckConstraint('player_num_max >= player_num_min', name='max_player_number'), nullable=False)
     image_url = db.Column(db.String, nullable=False)
@@ -130,6 +131,8 @@ class Game(db.Model, SerializerMixin):
             raise ValueError("Game must have a Title")
         return title
 
+    _type = None                                            ## Class-level variable for storing type value
+    
     @validates('type')
     def validate_type(self, key, type):
         types = [
@@ -140,6 +143,7 @@ class Game(db.Model, SerializerMixin):
             raise ValueError("Game must have a Type")
         if type not in types:
             raise ValueError("Game Type not found")
+        self._type = type                                   ## Update class-level variable
         return type
 
     @validates('genre1', 'genre2')
@@ -148,20 +152,38 @@ class Game(db.Model, SerializerMixin):
             "Action", "Adult", "Adventure", "Battle Royale", 
             "City-building", "Educational", "Escape Room", 
             "Fighting", "Gambling", "Horror", "Incremental/Idle", 
-            "Interactive Fiction", "Management", 
-            "MMO (massively multiplayer online)", 
+            "Interactive Fiction", "JRPG", "Life Simulator", "Management", 
+            "MMORPG (massively multiplayer online role playing game)", 
             "MOBA (multiplayer online battle arena)", 
             "Music", "Other", "Party", "Platformer", "Puzzle", 
-            "Racing", "Role-playing", "Roguelike", "Sandbox", 
+            "Racing", "Role-playing", "Roguelike", "Rhythm", "Sandbox", 
             "Science Fiction", "Shooter", "Simulation", "Sports", 
             "Strategy", "Survival", "Tactical", "Trading Card", 
-            "Trivia", "Visual Novel"
+            "Trivia", "Vehicle Simulator", "Visual Novel"
             ]
         if not genre:
             raise ValueError("Game must have a Genre")
         if genre not in genres:
             raise ValueError("Game Genre not found")
         return genre
+    
+    @validates('platform')
+    def validate_platform(self, key, platform):
+        if self._type == "Video Games":
+            platforms = ["NES", "SNES", "Nintendo 64", "GameCube", "Wii",
+            "Wii U", "Nintendo Switch", "GameBoy", "GameBoy Advance",
+            "Nintendo DS", "Nintendo 3DS", "XBox", "XBox 360",
+            "XBox One", "XBox Series X/S", "PlayStation", "PlayStation 2",
+            "PlayStation 3", "PlayStation 4", "PlayStation 5", "PSP",
+            "PS Vita", "Genesis", "DreamCast", "PC"]
+            if not platform:
+                raise ValueError("Video Games must have a Platform")
+            if platform not in platforms:
+                raise ValueError("Video Game Platform not found")
+            return platform
+        else:
+            platform="Table Top"
+        return platform
     
     _player_num_min = None                                  ## Class-level variable for storing player_num_min value
    

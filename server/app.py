@@ -198,6 +198,7 @@ class Games(Resource):
                 type=data['type'], 
                 genre1=data['genre1'],
                 genre2=data['genre2'],
+                platform=data['platform'],
                 player_num_min=data['player_num_min'],
                 player_num_max=data['player_num_max'],
                 image_url=data['image_url'],
