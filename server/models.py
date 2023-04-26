@@ -4,15 +4,12 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.hybrid import hybrid_property
 from config import bcrypt,db
 
-# project and item = game
-# transaction and file = inventory
-# task = swap
-
+###############################################################
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-inventory.users', '-swap.users', '-messages.user', '-created_at', '-updated_at')
+    serialize_rules = ('-inventory.users', '-swap.users', '-messages.user', '-chat_messages.user', '-created_at', '-updated_at')
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
@@ -21,18 +18,23 @@ class User(db.Model, SerializerMixin):
     address = db.Column(db.String, nullable=False)
     avatar_url = db.Column(db.String)
     avatar_blob = db.Column(db.Blob)
-    willing_travel_distance = db.Column(db.Integer)
+    stars = db.Column(db.Integer)
+    travel_distance = db.Column(db.Integer)
     is_active = db.Column(db.Boolean)
     is_admin = db.Column(db.Boolean)
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
+    inventories = db.relationship('Inventory', backref='user', cascade="all, delete, delete-orphan")
+    chat_rooms = db.relationship('Chat_Room', backref='user', cascade="all, delete, delete-orphan")
+    chat_messages = db.relationship('Chat_Message', backref='user', cascade="all, delete, delete-orphan")
     loaned_games = db.relationship('Swap', foreign_keys='Swap.loaning_user_id', cascade="all, delete, delete-orphan", overlaps='borrowed_games')
     borrowed_games = db.relationship('Swap', foreign_keys='Swap.borrowing_user_id', cascade="all, delete, delete-orphan", overlaps='loaned_games')
-    inventories = db.relationship('Inventory', backref='user', cascade="all, delete, delete-orphan")
     sent_messages = db.relationship('Message', foreign_keys='Message.sender_user_id', cascade="all, delete, delete-orphan", overlaps='received_messages')
     received_messages = db.relationship('Message', foreign_keys='Message.receiver_user_id', cascade="all, delete, delete-orphan", overlaps='sent_messages')
+    sent_review = db.relationship('Review', foreign_keys='Review.review_sender_user_id', cascade="all, delete, delete-orphan", overlaps='recieved_review')
+    recieved_review = db.relationship('Review', foreign_keys='Review.review_receiver_user_id', cascade="all, delete, delete-orphan", overlaps='sent_review')
     
     games = association_proxy('swaps', 'game')
     games = association_proxy('inventories', 'game')
@@ -80,15 +82,25 @@ class User(db.Model, SerializerMixin):
         if 'https://' not in avatar_url:
             raise ValueError("Avatar must be a URL link")
         return avatar_url
+
+    @validates('avatar_blob')
+    def validate_avatar_blob(self, key, avatar_blob):
+        if not avatar_blob:
+            raise ValueError("Game must have an Avatar")
+        if '.png' not in avatar_blob:
+            raise ValueError("Avatar must be a png file")
+        return avatar_blob
     
-    @validates('willing_travel_distance')
-    def validate_willing_travel_distance(self, key, willing_travel_distance):
-        if not isinstance(willing_travel_distance, int):
+    @validates('travel_distance')
+    def validate_willing_travel_distance(self, key, travel_distance):
+        if not isinstance(travel_distance, int):
             raise ValueError("Distance must be an Integer")
-        return willing_travel_distance
+        return travel_distance
     
     def __repr__(self):
-        return f'User ID: {self.id}, Username: {self.username}, Email: {self.email}, Address: {self.address}, Avatar: {self.avatar_url}, Travel Distance: {self.willing_travel_distance}, Is Admin: {self.is_admin}, Is Active: {self.is_active}>'
+        return f'User ID: {self.id}, Username: {self.username}, Email: {self.email}, Address: {self.address}, Avatar: {self.avatar_url}, Travel Distance: {self.travel_distance}, Is Admin: {self.is_admin}, Is Active: {self.is_active}>'
+
+###############################################################
 
 class Game(db.Model, SerializerMixin): 
     __tablename__ = 'games'
@@ -201,6 +213,7 @@ class Game(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<Game ID#{self.id}, Title: {self.title}, Type: {self.type}, Genres: {self.genre1}/{self.genre2}, Minimum # of Players: {self.player_num_min}, Maximum # of Players: {self.player_num_max}, Description: {self.description}>'
 
+###############################################################
 
 class Inventory(db.Model, SerializerMixin):
     __tablename__ = 'inventories'
@@ -248,7 +261,7 @@ class Swap(db.Model, SerializerMixin):
     swap_status = db.Column(db.String, nullable=False)
     borrow_date = db.Column(db.DateTime, nullable=False)
     due_date = db.Column(db.DateTime, nullable=False)
-    
+        
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
@@ -315,6 +328,8 @@ class Swap(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<Swap #{self.id}, Game: {self.game.title}, Game Loaned By: {self.loaning_user_id.username}, Swap Borrow Date: {self.borrow_date}, Swap Due Date: {self.due_date}, Swap Status: {self.swap_status}, >'
 
+###############################################################
+
 class Message(db.Model, SerializerMixin):
     __tablename__ = 'messages'
 
@@ -362,4 +377,136 @@ class Message(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<Message #{self.id}, Message Text: {self.message_text}, Message Date: {self.created_at}, Sender: {self.sender_user_id.username}, Receiver: {self.receiver_user_id.username}>'
 
+###############################################################
+
+###################
+## STRETCH GOALS ##
+###################
+
+class Review(db.Model, SerializerMixin):
+    __tablename__ = 'reviews'
+
+    serialize_rules = ('-user.reviews', '-updated_at',)
+
+    id = db.Column(db.Integer, primary_key=True)
+    review_content = db.Column(db.String, db.CheckConstraint('len(review_content) <= 250', name='max_chat_Review_length'))
+    review_stars = db.Column(db.Integer)
+     
+    review_date = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now()) 
+
+    review_sender_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    review_receiver_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    review_sender = db.relationship('User', foreign_keys=[review_sender_user_id], back_populates='sent_review')
+    review_receiver = db.relationship('User', foreign_keys=[review_receiver_user_id], back_populates='recieved_review')
+
+    @validates('review_content')
+    def validate_review_content(self, key, review_content):
+        if not review_content:
+            raise ValueError("Review must have Review Content")
+        if len(review_content) >= 250:
+            raise ValueError("Review Review Content must be less than or equal to 250 characters long.")
+        return review_content
     
+    @validates('review_stars')
+    def validate_review_stars(self, key, review_stars):
+        if not review_stars:
+            raise ValueError("Review must have an review_stars.")
+        elif int(review_stars) < 1:
+            raise ValueError("Review Stars cannot be empty.")
+        return review_stars
+
+    @validates('review_sender_user_id')
+    def validate_review_sender_user_id(self, key, review_sender_user_id):
+        users = User.query.all()
+        ids = [user.id for user in users]
+        if not review_sender_user_id:
+            raise ValueError("Review must have a Sending User")
+        elif int(review_sender_user_id) not in ids:
+            raise ValueError('Review Sending User must exist.')
+        return review_sender_user_id
+    
+    @validates('review_receiver_user_id')
+    def validate_review_receiver_user_id(self, key, review_receiver_user_id):
+        users = User.query.all()
+        ids = [user.id for user in users]
+        if not review_receiver_user_id:
+            raise ValueError("Review must have a Receiving User")
+        elif int(review_receiver_user_id) not in ids:
+            raise ValueError('Review Receiving User must exist.')
+        return review_receiver_user_id
+
+    def __repr__(self):
+        return f'<Review #{self.id}, Review Content: {self.review_content}, Review Stars: {self.review_stars}, Review Date: {self.review_date}, Review Sender: {self.review_sender_user_id.username}, Review Receiver: {self.review_receiver_user_id.username}>'
+    
+###############################################################
+
+class Chat_Room(db.Model, SerializerMixin):
+    __tablename__ = 'chat_rooms'
+
+    serialize_rules = ('-user.chat_rooms', '-updated_at',)
+
+    id = db.Column(db.Integer, primary_key=True)
+    chat_room_name = db.Column(db.String, db.CheckConstraint('len(chat_room_name) <= 25', name='max_chat_room_name_length'))
+     
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now()) 
+
+    chat_room_creator_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    @validates('chat_room_name')
+    def validate_chat_room_name_length(self, key, chat_room_name):
+        if not chat_room_name:
+            raise ValueError("Chat Room must have Name")
+        if len(chat_room_name) >= 25:
+            raise ValueError("Chat Room Name must be less than or equal to 25 characters long.")
+        return chat_room_name
+
+    @validates('chat_room_creator_user_id')
+    def validate_chat_room_creator_user_id(self, key, chat_room_creator_user_id):
+        users = User.query.all()
+        ids = [user.id for user in users]
+        if not chat_room_creator_user_id:
+            raise ValueError("Chat Room must have a Creating User")
+        elif int(chat_room_creator_user_id) not in ids:
+            raise ValueError('Chat Room Creating User must exist.')
+        return chat_room_creator_user_id
+
+    def __repr__(self):
+        return f'<Chat Room #{self.id}, Chat Room Name: {self.chat_room_name}, Chat Room Date: {self.created_at}, Chat Room Creator: {self.chat_room_creator_user_id.username}>'
+
+###############################################################
+
+class Chat_Message(db.Model, SerializerMixin):
+    __tablename__ = 'chat_messages'
+
+    serialize_rules = ('-user.chat_messages', '-updated_at',)
+
+    id = db.Column(db.Integer, primary_key=True)
+    chat_message_text = db.Column(db.String, db.CheckConstraint('len(chat_message_text) <= 250', name='max_chat_message_length'))
+     
+    chat_message_date = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now()) 
+
+    chat_sender_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    @validates('chat_message_text')
+    def validate_event_description_length(self, key, chat_message_text):
+        if not chat_message_text:
+            raise ValueError("Chat Message must have Message Text")
+        if len(chat_message_text) >= 250:
+            raise ValueError("Chat Message Message Text must be less than or equal to 250 characters long.")
+        return chat_message_text
+
+    @validates('chat_sender_user_id')
+    def validate_sender_user_id(self, key, chat_sender_user_id):
+        users = User.query.all()
+        ids = [user.id for user in users]
+        if not chat_sender_user_id:
+            raise ValueError("Chat Message must have a Sending User")
+        elif int(chat_sender_user_id) not in ids:
+            raise ValueError('Chat Message Sending User must exist.')
+        return chat_sender_user_id
+
+    def __repr__(self):
+        return f'<Chat Message #{self.id}, Chat Message Text: {self.chat_message_text}, Chat Message Date: {self.chat_message_date}, Chat Message Sender: {self.chat_sender_user_id.username}>'

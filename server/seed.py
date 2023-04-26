@@ -39,3 +39,10 @@ with app.app_context():
         users.append(new_user)
     print('Adding User objects...')
     db.session.add_all(users)
+
+
+    
+    
+
+
+
