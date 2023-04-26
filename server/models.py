@@ -9,7 +9,7 @@ from config import bcrypt,db
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-inventory.users', '-swap.users', '-messages.user', '-chat_messages.user', '-created_at', '-updated_at')
+    serialize_rules = ('-inventory.users', '-swap.users', '-message.users', '-chat_message.users', '-created_at', '-updated_at',)
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
@@ -17,7 +17,7 @@ class User(db.Model, SerializerMixin):
     email = db.Column(db.String, nullable=False)
     address = db.Column(db.String, nullable=False)
     avatar_url = db.Column(db.String)
-    avatar_blob = db.Column(db.Blob)
+    # avatar_blob = db.Column(db.Blob)
     stars = db.Column(db.Integer)
     travel_distance = db.Column(db.Integer)
     is_active = db.Column(db.Boolean)
@@ -59,7 +59,7 @@ class User(db.Model, SerializerMixin):
         usernames = [user.username for user in users]
         if not username:
             raise ValueError("User must have a Username")
-        elif username in usernames:
+        if username in usernames:
             raise ValueError("User Username must be unique")
         return username
 
@@ -83,13 +83,13 @@ class User(db.Model, SerializerMixin):
             raise ValueError("Avatar must be a URL link")
         return avatar_url
 
-    @validates('avatar_blob')
-    def validate_avatar_blob(self, key, avatar_blob):
-        if not avatar_blob:
-            raise ValueError("Game must have an Avatar")
-        if '.png' not in avatar_blob:
-            raise ValueError("Avatar must be a png file")
-        return avatar_blob
+    # @validates('avatar_blob')
+    # def validate_avatar_blob(self, key, avatar_blob):
+    #     if not avatar_blob:
+    #         raise ValueError("Game must have an Avatar")
+    #     if '.png' not in avatar_blob:
+    #         raise ValueError("Avatar must be a png file")
+    #     return avatar_blob
     
     @validates('travel_distance')
     def validate_willing_travel_distance(self, key, travel_distance):
@@ -116,13 +116,15 @@ class Game(db.Model, SerializerMixin):
     player_num_min = db.Column(db.Integer, db.CheckConstraint('player_num_min >=1 ', name='min_player_number'), nullable=False)
     player_num_max = db.Column(db.Integer, db.CheckConstraint('player_num_max >= player_num_min', name='max_player_number'), nullable=False)
     image_url = db.Column(db.String, nullable=False)
-    image_blob = db.Column(db.Blob, nullable=False)
+    # image_blob = db.Column(db.Blob, nullable=False)
     description = db.Column(db.String, db.CheckConstraint('len(description) <= 250', name='max_description_length'), nullable=False)
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     inventories = db.relationship('Inventory', backref='game', cascade="all, delete, delete-orphan")
+    swaps = db.relationship('Swap', backref='game', cascade="all, delete, delete-orphan")
+    users = association_proxy('swaps', 'user')
     users = association_proxy('inventories', 'user')
 
     @validates('title')
@@ -193,7 +195,7 @@ class Game(db.Model, SerializerMixin):
             raise ValueError("Game must have the Minimum Number of Players.")
         if not isinstance(player_num_min, int):
             raise ValueError("Game Minimum Number of Players must be an Integer")
-        elif int(player_num_min) < 1:
+        if int(player_num_min) < 1:
             raise ValueError("Game must have 1 or more Players.")
         self._player_num_min = int(player_num_min)          ## Update class-level variable
         return player_num_min
@@ -216,13 +218,13 @@ class Game(db.Model, SerializerMixin):
             raise ValueError("Image must be a URL link")
         return image_url
     
-    @validates('image_blob')
-    def validate_image_blob(self, key, image_blob):
-        if not image_blob:
-            raise ValueError("Game must have an Image")
-        if '.png' not in image_blob:
-            raise ValueError("Image must be a png file")
-        return image_blob
+    # @validates('image_blob')
+    # def validate_image_blob(self, key, image_blob):
+    #     if not image_blob:
+    #         raise ValueError("Game must have an Image")
+    #     if '.png' not in image_blob:
+    #         raise ValueError("Image must be a png file")
+    #     return image_blob
 
     @validates('description')
     def validate_description_length(self, key, description):
@@ -256,17 +258,17 @@ class Inventory(db.Model, SerializerMixin):
         ids = [user.id for user in users]
         if not user_id:
             raise ValueError("Inventory must have a User")
-        elif int(user_id) not in ids:
+        if int(user_id) not in ids:
             raise ValueError('Inventory User must exist.')
         return user_id
     
     @validates('game_id')
-    def validate_item_id(self, key, game_id):
+    def validate_game_id(self, key, game_id):
         games = Game.query.all()
         ids = [game.id for game in games]
         if not game_id:
             raise ValueError("Inventory must have a Game")
-        elif int(game_id) not in ids:
+        if int(game_id) not in ids:
             raise ValueError('Inventory Game must exist.')
         return game_id
 
@@ -322,7 +324,7 @@ class Swap(db.Model, SerializerMixin):
         ids = [user.id for user in users]
         if not loaning_user_id:
             raise ValueError("Swap must have an Loaning User")
-        elif int(loaning_user_id) not in ids:
+        if int(loaning_user_id) not in ids:
             raise ValueError('Swap Loaning User must exist.')
         return loaning_user_id
     
@@ -332,7 +334,7 @@ class Swap(db.Model, SerializerMixin):
         ids = [user.id for user in users]
         if not borrowing_user_id:
             raise ValueError("Swap must have an Borrowing User")
-        elif int(borrowing_user_id) not in ids:
+        if int(borrowing_user_id) not in ids:
             raise ValueError('Swap Borrowing User must exist.')
         return borrowing_user_id
     
@@ -341,32 +343,32 @@ class Swap(db.Model, SerializerMixin):
         games = Game.query.all()
         ids = [game.id for game in games]
         if not game_swapped_id:
-            raise ValueError("Swap must have a Game Id")
-        elif int(game_swapped_id) not in ids:
+            raise ValueError("Swap must have a Game")
+        if int(game_swapped_id) not in ids:
             raise ValueError('Swap Game must exist.')
         return game_swapped_id
 
     def __repr__(self):
-        return f'<Swap #{self.id}, Game: {self.game.title}, Game Loaned By: {self.loaning_user_id.username}, Swap Borrow Date: {self.borrow_date}, Swap Due Date: {self.due_date}, Swap Status: {self.swap_status}, >'
+        return f'<Swap #{self.id}, Game: {self.game.title}, Game Loaned By: {self.loaner.username}, Swap Borrow Date: {self.borrow_date}, Swap Due Date: {self.due_date}, Swap Status: {self.swap_status}, >'
 
 ###############################################################
 
 class Message(db.Model, SerializerMixin):
     __tablename__ = 'messages'
 
-    serialize_rules = ('-user.messages', '-updated_at',)
+    serialize_rules = ('-user.messages',)
 
     id = db.Column(db.Integer, primary_key=True)
     message_text = db.Column(db.String, db.CheckConstraint('len(message_text) <= 250', name='max_chat_message_length'))
      
     created_at = db.Column(db.DateTime, server_default=db.func.now())
-    updated_at = db.Column(db.DateTime, onupdate=db.func.now()) 
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     sender_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     receiver_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     sender = db.relationship('User', foreign_keys=[sender_user_id], back_populates='sent_messages')
     receiver = db.relationship('User', foreign_keys=[receiver_user_id], back_populates='received_messages')
-
+    
     @validates('message_text')
     def validate_event_description_length(self, key, message_text):
         if not message_text:
@@ -380,9 +382,9 @@ class Message(db.Model, SerializerMixin):
         users = User.query.all()
         ids = [user.id for user in users]
         if not sender_user_id:
-            raise ValueError("Chat Message must have a Sending User")
-        elif int(sender_user_id) not in ids:
-            raise ValueError('Chat Message Sending User must exist.')
+            raise ValueError("Message must have a Sending User")
+        if int(sender_user_id) not in ids:
+            raise ValueError('Message Sending User must exist.')
         return sender_user_id
     
     @validates('receiver_user_id')
@@ -390,9 +392,9 @@ class Message(db.Model, SerializerMixin):
         users = User.query.all()
         ids = [user.id for user in users]
         if not receiver_user_id:
-            raise ValueError("Chat Message must have a Receiving User")
-        elif int(receiver_user_id) not in ids:
-            raise ValueError('Chat Message Receiving User must exist.')
+            raise ValueError("Message must have a Receiving User")
+        if int(receiver_user_id) not in ids:
+            raise ValueError('Message Receiving User must exist.')
         return receiver_user_id
 
     def __repr__(self):
@@ -433,7 +435,7 @@ class Review(db.Model, SerializerMixin):
     def validate_review_stars(self, key, review_stars):
         if not review_stars:
             raise ValueError("Review must have an review_stars.")
-        elif int(review_stars) < 1:
+        if int(review_stars) < 1:
             raise ValueError("Review Stars cannot be empty.")
         return review_stars
 
@@ -443,7 +445,7 @@ class Review(db.Model, SerializerMixin):
         ids = [user.id for user in users]
         if not review_sender_user_id:
             raise ValueError("Review must have a Sending User")
-        elif int(review_sender_user_id) not in ids:
+        if int(review_sender_user_id) not in ids:
             raise ValueError('Review Sending User must exist.')
         return review_sender_user_id
     
@@ -453,7 +455,7 @@ class Review(db.Model, SerializerMixin):
         ids = [user.id for user in users]
         if not review_receiver_user_id:
             raise ValueError("Review must have a Receiving User")
-        elif int(review_receiver_user_id) not in ids:
+        if int(review_receiver_user_id) not in ids:
             raise ValueError('Review Receiving User must exist.')
         return review_receiver_user_id
 
@@ -490,7 +492,7 @@ class Chat_Room(db.Model, SerializerMixin):
         ids = [user.id for user in users]
         if not chat_room_creator_user_id:
             raise ValueError("Chat Room must have a Creating User")
-        elif int(chat_room_creator_user_id) not in ids:
+        if int(chat_room_creator_user_id) not in ids:
             raise ValueError('Chat Room Creating User must exist.')
         return chat_room_creator_user_id
 
@@ -527,7 +529,7 @@ class Chat_Message(db.Model, SerializerMixin):
         ids = [user.id for user in users]
         if not chat_sender_user_id:
             raise ValueError("Chat Message must have a Sending User")
-        elif int(chat_sender_user_id) not in ids:
+        if int(chat_sender_user_id) not in ids:
             raise ValueError('Chat Message Sending User must exist.')
         return chat_sender_user_id
 
