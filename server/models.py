@@ -221,7 +221,6 @@ class Inventory(db.Model, SerializerMixin):
     serialize_rules = ('-user.inventories', 'game.inventories', '-created_at', '-updated_at')
 
     id = db.Column(db.Integer, primary_key=True)
-    refund = db.Column(db.Boolean)
     
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
@@ -444,7 +443,7 @@ class Review(db.Model, SerializerMixin):
 class Chat_Room(db.Model, SerializerMixin):
     __tablename__ = 'chat_rooms'
 
-    serialize_rules = ('-user.chat_rooms', '-updated_at',)
+    serialize_rules = ('-user.chat_rooms', '-chat_message.chat_rooms', '-updated_at',)
 
     id = db.Column(db.Integer, primary_key=True)
     chat_room_name = db.Column(db.String, db.CheckConstraint('len(chat_room_name) <= 25', name='max_chat_room_name_length'))
@@ -453,6 +452,7 @@ class Chat_Room(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now()) 
 
     chat_room_creator_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    chat_messages = db.relationship('Chat_Message', backref='chat_room', cascade="all, delete, delete-orphan")
 
     @validates('chat_room_name')
     def validate_chat_room_name_length(self, key, chat_room_name):
@@ -480,7 +480,7 @@ class Chat_Room(db.Model, SerializerMixin):
 class Chat_Message(db.Model, SerializerMixin):
     __tablename__ = 'chat_messages'
 
-    serialize_rules = ('-user.chat_messages', '-updated_at',)
+    serialize_rules = ('-user.chat_messages', '-chat_room.chat_messages', '-updated_at',)
 
     id = db.Column(db.Integer, primary_key=True)
     chat_message_text = db.Column(db.String, db.CheckConstraint('len(chat_message_text) <= 250', name='max_chat_message_length'))
@@ -489,6 +489,7 @@ class Chat_Message(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now()) 
 
     chat_sender_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    chat_room_id = db.Column(db.Integer, db.ForeignKey('chat_rooms.id'))
 
     @validates('chat_message_text')
     def validate_event_description_length(self, key, chat_message_text):
