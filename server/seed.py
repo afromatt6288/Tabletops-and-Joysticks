@@ -148,7 +148,14 @@ with app.app_context():
 
     print("Creating Review data...")
     reviews = []
-
+    for user in users:
+        for n in range(randint(1, 10)):
+            review = Review(
+                review_content=f"{fake.sentence()}",
+                review_stars=randint(1,5),
+                review_sender_user_id=user,
+                review_receiver_user_id=rc(users))
+            reviews.append(review)
     print('Adding Review objects...')
     db.session.add_all(reviews)
 
@@ -156,6 +163,11 @@ with app.app_context():
 
     print("Creating Chat_Room data...")
     chat_rooms = []
+    for n in range(randint(1, 10)):
+        chat_room = Chat_Room(
+            chat_room_name=f"{fake.word()}",
+            chat_room_creator_user_id=rc(users))
+        chat_rooms.append(chat_room)
 
     print('Adding Chat_Room objects...')
     db.session.add_all(chat_rooms)
