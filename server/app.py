@@ -36,7 +36,7 @@ api.add_resource(Home, '/')
 
 class ClearSession(Resource):                   ## DEV Only. Don't want users to be able to clear their cookies. 
     def delete(self):    
-        session['user_cart'] = None
+        # session['user_cart'] = None
         session['user_id'] = None
         return {}, 204
 api.add_resource(ClearSession, '/clear', endpoint='clear')  

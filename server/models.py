@@ -4,25 +4,10 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.hybrid import hybrid_property
 from config import bcrypt,db
 
-# class SerializerMixin(OriginalSerializerMixin):
-
-#     def to_dict(self, rules=(), **kwargs):
-#         serialize_rules = getattr(self, 'serialize_rules', ())
-#         all_rules = rules + serialize_rules
-#         data = super().to_dict(rules=all_rules, **kwargs)
-
-#         for rule in all_rules:
-#             if rule.startswith('-'):
-#                 excluded_key = rule[1:]
-#                 data.pop(excluded_key, None)
-
-#         return data
-
 class SerializerMixin:
     def to_dict(self, max_depth=1, current_depth=0):
         if current_depth > max_depth:
             return None
-
         result = {}
         for key in self.__mapper__.c.keys():
             result[key] = getattr(self, key)
@@ -40,9 +25,8 @@ class SerializerMixin:
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    # serialize_rules = ('-inventories.user', '-chat_rooms.user', '-chat_messages.user', '-loaned_games.loaner', '-borrowed_games.borrower', '-sent_messages.sender', '-received_messages.receiver', '-sent_review.review_sender', '-recieved_review.review_receiver', '-created_at', '-updated_at',)
-    serialize_rules = ('-inventory.users', '-swap.users', '-message.users', '-review.users', '-chat_message.users', '-created_at', '-updated_at',)
-
+    serialize_rules = ('-inventory.user', '-chat_rooms.user', '-chat_messages.user', '-loaned_games.loaner', '-borrowed_games.borrower', '-swap.users', '-sent_messages.sender', '-received_messages.receiver', '-message.users', '-sent_review.review_sender', '-recieved_review.review_receiver', '-review.users', '-created_at', '-updated_at',)
+   
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
     _password_hash = db.Column(db.String, nullable=False)
@@ -137,7 +121,6 @@ class User(db.Model, SerializerMixin):
 class Game(db.Model, SerializerMixin): 
     __tablename__ = 'games'
 
-    # serialize_rules = ('-inventories.game', '-swaps.game', '-created_at', '-updated_at')
     serialize_rules = ('-inventory.games', '-swap.games', '-created_at', '-updated_at')
 
     id = db.Column(db.Integer, primary_key=True)
