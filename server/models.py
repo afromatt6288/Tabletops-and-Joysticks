@@ -4,12 +4,44 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.hybrid import hybrid_property
 from config import bcrypt,db
 
+# class SerializerMixin(OriginalSerializerMixin):
+
+#     def to_dict(self, rules=(), **kwargs):
+#         serialize_rules = getattr(self, 'serialize_rules', ())
+#         all_rules = rules + serialize_rules
+#         data = super().to_dict(rules=all_rules, **kwargs)
+
+#         for rule in all_rules:
+#             if rule.startswith('-'):
+#                 excluded_key = rule[1:]
+#                 data.pop(excluded_key, None)
+
+#         return data
+
+class SerializerMixin:
+    def to_dict(self, max_depth=1, current_depth=0):
+        if current_depth > max_depth:
+            return None
+
+        result = {}
+        for key in self.__mapper__.c.keys():
+            result[key] = getattr(self, key)
+        for key, relation in self.__mapper__.relationships.items():
+            related_obj = getattr(self, key)
+            if related_obj is not None:
+                if relation.direction.name == 'ONETOMANY':
+                    result[key] = [obj.to_dict(max_depth=max_depth, current_depth=current_depth + 1) for obj in related_obj]
+                elif relation.direction.name == 'MANYTOONE':
+                    result[key] = related_obj.to_dict(max_depth=max_depth, current_depth=current_depth + 1)
+        return result
+
 ###############################################################
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-inventory.users', '-swap.users', '-message.users', '-chat_message.users', '-created_at', '-updated_at',)
+    # serialize_rules = ('-inventories.user', '-chat_rooms.user', '-chat_messages.user', '-loaned_games.loaner', '-borrowed_games.borrower', '-sent_messages.sender', '-received_messages.receiver', '-sent_review.review_sender', '-recieved_review.review_receiver', '-created_at', '-updated_at',)
+    serialize_rules = ('-inventory.users', '-swap.users', '-message.users', '-review.users', '-chat_message.users', '-created_at', '-updated_at',)
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
@@ -29,12 +61,12 @@ class User(db.Model, SerializerMixin):
     inventories = db.relationship('Inventory', backref='user', cascade="all, delete, delete-orphan")
     chat_rooms = db.relationship('Chat_Room', backref='user', cascade="all, delete, delete-orphan")
     chat_messages = db.relationship('Chat_Message', backref='user', cascade="all, delete, delete-orphan")
-    loaned_games = db.relationship('Swap', foreign_keys='Swap.loaning_user_id', cascade="all, delete, delete-orphan", overlaps='borrowed_games')
-    borrowed_games = db.relationship('Swap', foreign_keys='Swap.borrowing_user_id', cascade="all, delete, delete-orphan", overlaps='loaned_games')
-    sent_messages = db.relationship('Message', foreign_keys='Message.sender_user_id', cascade="all, delete, delete-orphan", overlaps='received_messages')
-    received_messages = db.relationship('Message', foreign_keys='Message.receiver_user_id', cascade="all, delete, delete-orphan", overlaps='sent_messages')
-    sent_review = db.relationship('Review', foreign_keys='Review.review_sender_user_id', cascade="all, delete, delete-orphan", overlaps='recieved_review')
-    recieved_review = db.relationship('Review', foreign_keys='Review.review_receiver_user_id', cascade="all, delete, delete-orphan", overlaps='sent_review')
+    loaned_games = db.relationship('Swap', foreign_keys='Swap.loaning_user_id', cascade="all, delete, delete-orphan")
+    borrowed_games = db.relationship('Swap', foreign_keys='Swap.borrowing_user_id', cascade="all, delete, delete-orphan")
+    sent_messages = db.relationship('Message', foreign_keys='Message.sender_user_id', cascade="all, delete, delete-orphan")
+    received_messages = db.relationship('Message', foreign_keys='Message.receiver_user_id', cascade="all, delete, delete-orphan")
+    sent_review = db.relationship('Review', foreign_keys='Review.review_sender_user_id', cascade="all, delete, delete-orphan")
+    recieved_review = db.relationship('Review', foreign_keys='Review.review_receiver_user_id', cascade="all, delete, delete-orphan")
     
     games = association_proxy('swaps', 'game')
     games = association_proxy('inventories', 'game')
@@ -105,7 +137,8 @@ class User(db.Model, SerializerMixin):
 class Game(db.Model, SerializerMixin): 
     __tablename__ = 'games'
 
-    serialize_rules = ('inventory.games', 'swap.games', '-created_at', '-updated_at')
+    # serialize_rules = ('-inventories.game', '-swaps.game', '-created_at', '-updated_at')
+    serialize_rules = ('-inventory.games', '-swap.games', '-created_at', '-updated_at')
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
@@ -124,6 +157,7 @@ class Game(db.Model, SerializerMixin):
 
     inventories = db.relationship('Inventory', backref='game', cascade="all, delete, delete-orphan")
     swaps = db.relationship('Swap', backref='game', cascade="all, delete, delete-orphan")
+    
     users = association_proxy('swaps', 'user')
     users = association_proxy('inventories', 'user')
 
@@ -242,7 +276,7 @@ class Game(db.Model, SerializerMixin):
 class Inventory(db.Model, SerializerMixin):
     __tablename__ = 'inventories'
 
-    serialize_rules = ('-user.inventories', 'game.inventories', '-created_at', '-updated_at')
+    serialize_rules = ('-user.inventories', '-game.inventories', '-created_at', '-updated_at')
 
     id = db.Column(db.Integer, primary_key=True)
     
@@ -274,11 +308,13 @@ class Inventory(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f'<Inventory #{self.id}, User: {self.user.username}, Game: {self.game.title}, Inventory Date: {self.created_at}>'
+    
+###############################################################
 
 class Swap(db.Model, SerializerMixin): 
     __tablename__ = 'swaps'
 
-    serialize_rules = ('-user.swaps', '-game.swaps', '-created_at', '-updated_at',)
+    serialize_rules = ('-user.swaps', '-loaner.loaned_games', '-borrower.borrowed_games', '-game.swaps', '-created_at', '-updated_at',)
 
     id = db.Column(db.Integer, primary_key=True)
     swap_status = db.Column(db.String, nullable=False)
@@ -292,9 +328,7 @@ class Swap(db.Model, SerializerMixin):
     
     loaning_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     borrowing_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    loaner = db.relationship('User', foreign_keys=[loaning_user_id], back_populates='loaned_games')
-    borrower = db.relationship('User', foreign_keys=[borrowing_user_id], back_populates='borrowed_games')
-    
+
     @validates('swap_status')
     def validate_task_status(self, key, swap_status):
         if not swap_status:
@@ -356,8 +390,8 @@ class Swap(db.Model, SerializerMixin):
 class Message(db.Model, SerializerMixin):
     __tablename__ = 'messages'
 
-    serialize_rules = ('-user.messages',)
-
+    serialize_rules = ('-sender.sent_messages', '-receiver.received_messages')
+    
     id = db.Column(db.Integer, primary_key=True)
     message_text = db.Column(db.String, db.CheckConstraint('len(message_text) <= 250', name='max_chat_message_length'))
      
@@ -366,9 +400,7 @@ class Message(db.Model, SerializerMixin):
 
     sender_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     receiver_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    sender = db.relationship('User', foreign_keys=[sender_user_id], back_populates='sent_messages')
-    receiver = db.relationship('User', foreign_keys=[receiver_user_id], back_populates='received_messages')
-    
+
     @validates('message_text')
     def validate_event_description_length(self, key, message_text):
         if not message_text:
@@ -409,10 +441,10 @@ class Message(db.Model, SerializerMixin):
 class Review(db.Model, SerializerMixin):
     __tablename__ = 'reviews'
 
-    serialize_rules = ('-user.reviews', '-updated_at',)
-
+    serialize_rules = ('-review_sender.sent_review', '-review_receiver.recieved_review', '-updated_at',)
+    
     id = db.Column(db.Integer, primary_key=True)
-    review_content = db.Column(db.String, db.CheckConstraint('len(review_content) <= 250', name='max_chat_Review_length'))
+    review_content = db.Column(db.String, db.CheckConstraint('len(review_content) <= 250', name='max_review__content_length'))
     review_stars = db.Column(db.Integer)
      
     review_date = db.Column(db.DateTime, server_default=db.func.now())
@@ -420,21 +452,19 @@ class Review(db.Model, SerializerMixin):
 
     review_sender_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     review_receiver_user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    review_sender = db.relationship('User', foreign_keys=[review_sender_user_id], back_populates='sent_review')
-    review_receiver = db.relationship('User', foreign_keys=[review_receiver_user_id], back_populates='recieved_review')
 
     @validates('review_content')
     def validate_review_content(self, key, review_content):
         if not review_content:
-            raise ValueError("Review must have Review Content")
+            raise ValueError("Review must have Content")
         if len(review_content) >= 250:
-            raise ValueError("Review Review Content must be less than or equal to 250 characters long.")
+            raise ValueError("Review Content must be less than or equal to 250 characters long.")
         return review_content
     
     @validates('review_stars')
     def validate_review_stars(self, key, review_stars):
         if not review_stars:
-            raise ValueError("Review must have an review_stars.")
+            raise ValueError("Review must have Stars.")
         if int(review_stars) < 1:
             raise ValueError("Review Stars cannot be empty.")
         return review_stars
@@ -467,8 +497,8 @@ class Review(db.Model, SerializerMixin):
 class Chat_Room(db.Model, SerializerMixin):
     __tablename__ = 'chat_rooms'
 
-    serialize_rules = ('-user.chat_rooms', '-chat_message.chat_rooms', '-updated_at',)
-
+    serialize_rules = ('-user.chat_rooms', '-chat_messages.chat_room', '-updated_at',)
+   
     id = db.Column(db.Integer, primary_key=True)
     chat_room_name = db.Column(db.String, db.CheckConstraint('len(chat_room_name) <= 25', name='max_chat_room_name_length'))
      
@@ -505,7 +535,7 @@ class Chat_Message(db.Model, SerializerMixin):
     __tablename__ = 'chat_messages'
 
     serialize_rules = ('-user.chat_messages', '-chat_room.chat_messages', '-updated_at',)
-
+   
     id = db.Column(db.Integer, primary_key=True)
     chat_message_text = db.Column(db.String, db.CheckConstraint('len(chat_message_text) <= 250', name='max_chat_message_length'))
      

@@ -105,11 +105,11 @@ api.add_resource(Logout, '/logout', endpoint='logout')
 
 class Users(Resource):          
     def get(self):                              ## DEV Only. Don't want Users to be able to look up all other users
-        user_dict_list = []
+        user_dict = []
         for user in User.query.all(): 
-            user_dict_list.append(user.to_dict())
-        if user_dict_list != []:
-            response = make_response(jsonify(user_dict_list), 200)
+            user_dict.append(user.to_dict())
+        if user_dict != []:
+            response = make_response(jsonify(user_dict), 200)
             return response
         else:
             return_obj = {"valid": False, "Reason": "Can't query User data"}                 
