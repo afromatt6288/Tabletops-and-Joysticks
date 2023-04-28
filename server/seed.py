@@ -75,7 +75,7 @@ with app.app_context():
     games = []
     types = [
         "Board Games", "Card Games", "Video Games", 
-        "Tabletop Role-playing Games", "Casino Games"]
+        "Tabletop Role-playing Games", "Casino Games", "Puzzles"]
     genres = [
         "Action", "Adult", "Adventure", "Battle Royale", 
         "City-building", "Educational", "Escape Room", 
@@ -91,15 +91,14 @@ with app.app_context():
     platforms = ["NES", "SNES", "Nintendo 64", "GameCube", "Wii",
         "Wii U", "Nintendo Switch", "GameBoy", "GameBoy Advance",
         "Nintendo DS", "Nintendo 3DS", "XBox", "XBox 360",
-        "XBox One", "XBox Series X/S", "PlayStation", "PlayStation 2",
+        "XBox One", "XBox Series X/S", "Other", "PlayStation", "PlayStation 2",
         "PlayStation 3", "PlayStation 4", "PlayStation 5", "PSP",
         "PS Vita", "Genesis", "DreamCast", "PC"]
     for n in range(100):
         game = Game(
             title=fake.word(),
             type=rc(types),
-            genre1=rc(genres),
-            genre2=rc(genres),
+            genres=f"{rc(genres)}, {rc(genres)}",
             platform=rc(platforms),
             player_num_min=randint(1,4),
             player_num_max=randint(5,10),

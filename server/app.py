@@ -16,10 +16,10 @@ CORS(app)
 
 class Home(Resource):
     def get(self):
-        andez_dict = '''
+        tabletops_dict = '''
             <h1>"message": "Welcome to the Tabletops & Joysticks RESTful API"</h1>
         '''
-        response = make_response(andez_dict, 200)
+        response = make_response(tabletops_dict, 200)
         return response
 api.add_resource(Home, '/')
 
@@ -145,7 +145,7 @@ class UserById(Resource):                       ## For Users to see profiles
         user = User.query.filter(User.id == id).first()
         if user:
             user_dict = user.to_dict()
-            response = make_response(jsonify(user_dict, 200))
+            response = make_response(jsonify(user_dict), 200)
             return response
         return make_response(jsonify({"error": "User Record not found"}), 404)
 
@@ -222,7 +222,8 @@ class GamesById(Resource):
         game = Game.query.filter(Game.id == id).first()
         if game:
             game_dict = game.to_dict()
-            response = make_response(jsonify(game_dict, 200))
+            response = make_response(game_dict, 200)
+            print(game_dict)
             return response
         return make_response(jsonify({"error": "Game Record not found"}), 404)
 
@@ -291,7 +292,7 @@ class InventoryById(Resource):
         inventory = Inventory.query.filter(Inventory.id == id).first()
         if inventory:
             inventory_dict = inventory.to_dict()
-            response = make_response(jsonify(inventory_dict, 200))
+            response = make_response(jsonify(inventory_dict), 200)
             return response
         return make_response(jsonify({"error": "Inventory Record not found"}), 404)
 
@@ -364,7 +365,7 @@ class SwapById(Resource):
         swap = Swap.query.filter(Swap.id == id).first()
         if swap:
             swap_dict = swap.to_dict()
-            response = make_response(jsonify(swap_dict, 200))
+            response = make_response(jsonify(swap_dict), 200)
             return response
         return make_response(jsonify({"error": "Swap Record not found"}), 404)
 
@@ -434,7 +435,7 @@ class MessageById(Resource):
         message = Message.query.filter(Message.id == id).first()
         if message:
             message_dict = message.to_dict()
-            response = make_response(jsonify(message_dict, 200))
+            response = make_response(jsonify(message_dict), 200)
             return response
         return make_response(jsonify({"error": "Message Record not found"}), 404)
 
@@ -505,7 +506,7 @@ class ReviewById(Resource):
         review = Review.query.filter(Review.id == id).first()
         if review:
             review_dict = review.to_dict()
-            response = make_response(jsonify(review_dict, 200))
+            response = make_response(jsonify(review_dict), 200)
             return response
         return make_response(jsonify({"error": "Review Record not found"}), 404)
 
@@ -574,7 +575,7 @@ class Chat_RoomById(Resource):
         chat_room = Chat_Room.query.filter(Chat_Room.id == id).first()
         if chat_room:
             chat_room_dict = chat_room.to_dict()
-            response = make_response(jsonify(chat_room_dict, 200))
+            response = make_response(jsonify(chat_room_dict), 200)
             return response
         return make_response(jsonify({"error": "Chat Room Record not found"}), 404)
 
@@ -644,7 +645,7 @@ class Chat_MessageById(Resource):
         chat_message = Chat_Message.query.filter(Chat_Message.id == id).first()
         if chat_message:
             chat_message_dict = chat_message.to_dict()
-            response = make_response(jsonify(chat_message_dict, 200))
+            response = make_response(jsonify(chat_message_dict), 200)
             return response
         return make_response(jsonify({"error": "Chat Message Record not found"}), 404)
 

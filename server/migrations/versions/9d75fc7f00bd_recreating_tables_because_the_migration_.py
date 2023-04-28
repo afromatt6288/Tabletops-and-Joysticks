@@ -1,8 +1,8 @@
-"""Create tables users, games, inventories, swaps, messages, reviews, chat_rooms, chat_messages.
+"""Recreating tables, because the migration refused to cooperate.
 
-Revision ID: 62f30e88baaa
+Revision ID: 9d75fc7f00bd
 Revises: 
-Create Date: 2023-04-26 09:21:10.790819
+Create Date: 2023-04-27 21:58:55.315958
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '62f30e88baaa'
+revision = '9d75fc7f00bd'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -22,8 +22,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(), nullable=False),
     sa.Column('type', sa.String(), nullable=False),
-    sa.Column('genre1', sa.String(), nullable=False),
-    sa.Column('genre2', sa.String(), nullable=False),
+    sa.Column('genres', sa.String(), nullable=False),
     sa.Column('platform', sa.String(), nullable=False),
     sa.Column('player_num_min', sa.Integer(), nullable=False),
     sa.Column('player_num_max', sa.Integer(), nullable=False),
@@ -94,8 +93,8 @@ def upgrade():
     op.create_table('swaps',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('swap_status', sa.String(), nullable=False),
-    sa.Column('borrow_date', sa.DateTime(), nullable=False),
-    sa.Column('due_date', sa.DateTime(), nullable=False),
+    sa.Column('borrow_date', sa.String(), nullable=False),
+    sa.Column('due_date', sa.String(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.Column('game_swapped_id', sa.Integer(), nullable=True),

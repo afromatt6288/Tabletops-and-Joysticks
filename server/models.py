@@ -1,31 +1,36 @@
+from datetime import datetime
 from sqlalchemy.orm import validates, backref, relationship
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.hybrid import hybrid_property
 from config import bcrypt,db
 
-class SerializerMixin:
-    def to_dict(self, max_depth=1, current_depth=0):
-        if current_depth > max_depth:
-            return None
-        result = {}
-        for key in self.__mapper__.c.keys():
-            result[key] = getattr(self, key)
-        for key, relation in self.__mapper__.relationships.items():
-            related_obj = getattr(self, key)
-            if related_obj is not None:
-                if relation.direction.name == 'ONETOMANY':
-                    result[key] = [obj.to_dict(max_depth=max_depth, current_depth=current_depth + 1) for obj in related_obj]
-                elif relation.direction.name == 'MANYTOONE':
-                    result[key] = related_obj.to_dict(max_depth=max_depth, current_depth=current_depth + 1)
-        return result
+# class SerializerMixin:
+#     def to_dict(self, max_depth=1, current_depth=0):
+#         if current_depth > max_depth:
+#             return None
+#         result = {}
+#         for key in self.__mapper__.c.keys():
+#             value = getattr(self, key)
+#             if isinstance(value, datetime):
+#                 value = str(value)
+#             result[key] = value
+#         for key, relation in self.__mapper__.relationships.items():
+#             related_obj = getattr(self, key)
+#             if related_obj is not None:
+#                 if relation.direction.name == 'ONETOMANY':
+#                     result[key] = [obj.to_dict(max_depth=max_depth, current_depth=current_depth + 1) for obj in related_obj]
+#                 elif relation.direction.name == 'MANYTOONE':
+#                     result[key] = related_obj.to_dict(max_depth=max_depth, current_depth=current_depth + 1)
+#         return result
 
 ###############################################################
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-inventory.user', '-chat_rooms.user', '-chat_messages.user', '-loaned_games.loaner', '-borrowed_games.borrower', '-swap.users', '-sent_messages.sender', '-received_messages.receiver', '-message.users', '-sent_review.review_sender', '-recieved_review.review_receiver', '-review.users', '-created_at', '-updated_at',)
+    serialize_only = ('id', 'username', '_password_hash', 'email', 'address', 'avatar_url', 'stars', 'travel_distance', 'is_active', 'is_admin', 'inventories')
+    # serialize_rules = ('-inventory.user', '-chat_rooms.user', '-chat_messages.user', '-loaned_games.loaner', '-borrowed_games.borrower', '-swap.users', '-sent_messages.sender', '-received_messages.receiver', '-message.users', '-sent_review.review_sender', '-recieved_review.review_receiver', '-review.users', '-created_at', '-updated_at',)
    
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
@@ -121,13 +126,13 @@ class User(db.Model, SerializerMixin):
 class Game(db.Model, SerializerMixin): 
     __tablename__ = 'games'
 
-    serialize_rules = ('-inventory.games', '-swap.games', '-created_at', '-updated_at')
+    serialize_only = ('id', 'title', 'type', 'genres', 'platform', 'player_num_min', 'player_num_max', 'image_url', 'description')
+    # serialize_rules = ('-inventory.games', '-swap.games', '-created_at', '-updated_at',)
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     type = db.Column(db.String, nullable=False)
-    genre1 = db.Column(db.String, nullable=False)
-    genre2 = db.Column(db.String, nullable=False)
+    genres = db.Column(db.String, nullable=False)
     platform = db.Column(db.String, nullable=False)
     player_num_min = db.Column(db.Integer, db.CheckConstraint('player_num_min >=1 ', name='min_player_number'), nullable=False)
     player_num_max = db.Column(db.Integer, db.CheckConstraint('player_num_max >= player_num_min', name='max_player_number'), nullable=False)
@@ -156,7 +161,7 @@ class Game(db.Model, SerializerMixin):
     def validate_type(self, key, type):
         types = [
             "Board Games", "Card Games", "Video Games", 
-            "Tabletop Role-playing Games", "Casino Games"
+            "Tabletop Role-playing Games", "Casino Games", "Puzzles"
             ]
         if not type:
             raise ValueError("Game must have a Type")
@@ -165,25 +170,25 @@ class Game(db.Model, SerializerMixin):
         self._type = type                                   ## Update class-level variable
         return type
 
-    @validates('genre1', 'genre2')
+    @validates('genres')
     def validate_genre(self, key, genre):
-        genres = [
-            "Action", "Adult", "Adventure", "Battle Royale", 
-            "City-building", "Educational", "Escape Room", 
-            "Fighting", "Gambling", "Horror", "Incremental/Idle", 
-            "Interactive Fiction", "JRPG", "Life Simulator", "Management", 
-            "MMORPG (massively multiplayer online role playing game)", 
-            "MOBA (multiplayer online battle arena)", 
-            "Music", "Other", "Party", "Platformer", "Puzzle", 
-            "Racing", "Role-playing", "Roguelike", "Rhythm", "Sandbox", 
-            "Science Fiction", "Shooter", "Simulation", "Sports", 
-            "Strategy", "Survival", "Tactical", "Trading Card", 
-            "Trivia", "Vehicle Simulator", "Visual Novel"
-            ]
+        # genres = [
+        #     "Action", "Adult", "Adventure", "Battle Royale", 
+        #     "City-building", "Educational", "Escape Room", 
+        #     "Fighting", "Gambling", "Horror", "Incremental/Idle", 
+        #     "Interactive Fiction", "JRPG", "Life Simulator", "Management", 
+        #     "MMORPG (massively multiplayer online role playing game)", 
+        #     "MOBA (multiplayer online battle arena)", 
+        #     "Music", "Other", "Party", "Platformer", "Puzzle", 
+        #     "Racing", "Role-playing", "Roguelike", "Rhythm", "Sandbox", 
+        #     "Science Fiction", "Shooter", "Simulation", "Sports", 
+        #     "Strategy", "Survival", "Tactical", "Trading Card", 
+        #     "Trivia", "Vehicle Simulator", "Visual Novel"
+        #     ]
         if not genre:
             raise ValueError("Game must have a Genre")
-        if genre not in genres:
-            raise ValueError("Game Genre not found")
+        # if genre not in genres:
+        #     raise ValueError("Game Genre not found")
         return genre
     
     @validates('platform')
@@ -192,7 +197,7 @@ class Game(db.Model, SerializerMixin):
             platforms = ["NES", "SNES", "Nintendo 64", "GameCube", "Wii",
             "Wii U", "Nintendo Switch", "GameBoy", "GameBoy Advance",
             "Nintendo DS", "Nintendo 3DS", "XBox", "XBox 360",
-            "XBox One", "XBox Series X/S", "PlayStation", "PlayStation 2",
+            "XBox One", "XBox Series X/S", "Other", "PlayStation", "PlayStation 2",
             "PlayStation 3", "PlayStation 4", "PlayStation 5", "PSP",
             "PS Vita", "Genesis", "DreamCast", "PC"]
             if not platform:
@@ -252,14 +257,15 @@ class Game(db.Model, SerializerMixin):
         return description
     
     def __repr__(self):
-        return f'<Game ID#{self.id}, Title: {self.title}, Type: {self.type}, Genres: {self.genre1}/{self.genre2}, Minimum # of Players: {self.player_num_min}, Maximum # of Players: {self.player_num_max}, Description: {self.description}>'
+        return f'<Game ID#{self.id}, Title: {self.title}, Type: {self.type}, Genres: {self.genres}, Minimum # of Players: {self.player_num_min}, Maximum # of Players: {self.player_num_max}, Description: {self.description}>'
 
 ###############################################################
 
 class Inventory(db.Model, SerializerMixin):
     __tablename__ = 'inventories'
 
-    serialize_rules = ('-user.inventories', '-game.inventories', '-created_at', '-updated_at')
+    serialize_only = ('id', 'user_id', 'game_id')
+    # serialize_rules = ('-user.inventories', '-game.inventories', '-created_at', '-updated_at',)
 
     id = db.Column(db.Integer, primary_key=True)
     
@@ -268,6 +274,9 @@ class Inventory(db.Model, SerializerMixin):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
+
+    # user = db.relationship('User', backref='inventories')
+    # game = db.relationship('Game', backref='inventories')
 
     @validates('user_id')
     def validate_user_id(self, key, user_id):
@@ -297,12 +306,13 @@ class Inventory(db.Model, SerializerMixin):
 class Swap(db.Model, SerializerMixin): 
     __tablename__ = 'swaps'
 
-    serialize_rules = ('-user.swaps', '-loaner.loaned_games', '-borrower.borrowed_games', '-game.swaps', '-created_at', '-updated_at',)
+    serialize_only = ('id', 'swap_status', 'borrow_date', 'due_date', 'game_swapped_id', 'loaning_user_id', 'borrowing_user_id')
+    # serialize_rules = ('-user.swaps', '-loaner.loaned_games', '-borrower.borrowed_games', '-game.swaps', '-created_at', '-updated_at',)
 
     id = db.Column(db.Integer, primary_key=True)
     swap_status = db.Column(db.String, nullable=False)
-    borrow_date = db.Column(db.DateTime, nullable=False)
-    due_date = db.Column(db.DateTime, nullable=False)
+    borrow_date = db.Column(db.String, nullable=False)
+    due_date = db.Column(db.String, nullable=False)
         
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
@@ -373,7 +383,8 @@ class Swap(db.Model, SerializerMixin):
 class Message(db.Model, SerializerMixin):
     __tablename__ = 'messages'
 
-    serialize_rules = ('-sender.sent_messages', '-receiver.received_messages')
+    serialize_only = ('id', 'message_text', 'sender_user_id', 'receiver_user_id')
+    # serialize_rules = ('-sender.sent_messages', '-receiver.received_messages',)
     
     id = db.Column(db.Integer, primary_key=True)
     message_text = db.Column(db.String, db.CheckConstraint('len(message_text) <= 250', name='max_chat_message_length'))
@@ -424,7 +435,8 @@ class Message(db.Model, SerializerMixin):
 class Review(db.Model, SerializerMixin):
     __tablename__ = 'reviews'
 
-    serialize_rules = ('-review_sender.sent_review', '-review_receiver.recieved_review', '-updated_at',)
+    serialize_only = ('id', 'review_content', 'review_stars', 'review_date', 'review_sender_user_id', 'review_receiver_user_id')
+    # serialize_rules = ('-review_sender.sent_review', '-review_receiver.recieved_review', '-updated_at', '-review_date',)
     
     id = db.Column(db.Integer, primary_key=True)
     review_content = db.Column(db.String, db.CheckConstraint('len(review_content) <= 250', name='max_review__content_length'))
@@ -480,7 +492,8 @@ class Review(db.Model, SerializerMixin):
 class Chat_Room(db.Model, SerializerMixin):
     __tablename__ = 'chat_rooms'
 
-    serialize_rules = ('-user.chat_rooms', '-chat_messages.chat_room', '-updated_at',)
+    serialize_only = ('id', 'chat_room_name', 'chat_room_creator_user_id')
+    # serialize_rules = ('-user.chat_rooms', '-chat_messages.chat_room', '-updated_at',)
    
     id = db.Column(db.Integer, primary_key=True)
     chat_room_name = db.Column(db.String, db.CheckConstraint('len(chat_room_name) <= 25', name='max_chat_room_name_length'))
@@ -517,7 +530,8 @@ class Chat_Room(db.Model, SerializerMixin):
 class Chat_Message(db.Model, SerializerMixin):
     __tablename__ = 'chat_messages'
 
-    serialize_rules = ('-user.chat_messages', '-chat_room.chat_messages', '-updated_at',)
+    serialize_only = ('id', 'chat_message_text', 'chat_message_date', 'chat_sender_user_id', 'chat_room_id')
+    # serialize_rules = ('-user.chat_messages', '-chat_room.chat_messages', '-updated_at',)
    
     id = db.Column(db.Integer, primary_key=True)
     chat_message_text = db.Column(db.String, db.CheckConstraint('len(chat_message_text) <= 250', name='max_chat_message_length'))
