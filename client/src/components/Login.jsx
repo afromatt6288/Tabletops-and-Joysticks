@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import { useHistory, Link } from "react-router-dom"
-import UserNew from "./UserNew"
-import UserCard from "./UserCard"
+import { useHistory, Link } from "react-router-dom";
+import UserNew from "./UserNew";
+import UserProfile from "./UserProfile";
 
 function Login ({currentUser, setCurrentUser, toggle, users, onAddUser, onUserDelete}) {
     const [username, setUsername] = useState("")
@@ -12,13 +12,15 @@ function Login ({currentUser, setCurrentUser, toggle, users, onAddUser, onUserDe
     
     const history = useHistory()
 
+    // This transitions the login button to a profile that has the current users info
     const currentUserCard =
     currentUser &&
     users.find((user) => user.id === currentUser.id) && (
-      <UserCard
+      <UserProfile
         key={currentUser.id}
         user={currentUser}
         onUserDelete={onUserDelete}
+        forceLogOut={handleLogoutClick}
       />
     );
  
@@ -31,31 +33,34 @@ function Login ({currentUser, setCurrentUser, toggle, users, onAddUser, onUserDe
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ username, password }),
-        }).then((r) => {
-          if (r.ok) {
-            r.json().then((user) => {
-              setCurrentUser(user)
-            })
+        })
+          .then((r) => {
+            if (r.ok) {
+              r.json()
+              .then((user) => {
+                setCurrentUser(user)
+              })
             history.push(`/`)
             toggle()
-          } else { 
-            setInvalidUser(e=>setInvalidUser(!invalidUser))
+            } else { 
+              setInvalidUser(e=>setInvalidUser(!invalidUser))
           }});
-        }
+    }
         
-        function handleNewUser(addUser){
-          onAddUser(addUser)
-          setNewUser(!newUser)
-        }
+    function handleNewUser(addUser){
+      onAddUser(addUser)
+      setNewUser(!newUser)
+    }
         
-      function handleLogoutClick() {
-        <Link to={`/`}></Link>
-        fetch("api/logout", { method: "DELETE" }).then((r) => {
-          if (r.ok) {
-            setCurrentUser(null);
-          }
-        });
-      }
+    function handleLogoutClick() {
+      history.push(`/`)
+      fetch("api/logout", { method: "DELETE" }).then((r) => {
+        if (r.ok) {
+          setCurrentUser(null);
+          history.push(`/`)
+        }
+      });
+    }
 
     return (
         <div>

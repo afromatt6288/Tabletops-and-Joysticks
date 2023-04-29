@@ -7,17 +7,14 @@ function GameItem({ game}) {
     return (
         <div>
             <Link to={`/games/${id}`}>
-                <img src={image_url} alt={title} />
+                <img src={image_url} alt={`${title} Image`} />
             </Link>
             <p>{title} | #{id}</p>
-            <p>{genres}</p>
+            <p>{type}</p>
             <p>{platform}</p>
-            <p>{player_num_min}</p>
-            <p>{player_num_max}</p>
+            <p>{genres}</p>
+            <p>{player_num_min} to {player_num_max} Players</p>
             <p>{description}</p>
-            <div>
-                <p>{type}</p>
-            </div>
         </div>
     );
 }

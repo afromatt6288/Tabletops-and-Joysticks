@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import GameItem from "./GameItem";
-import GameSearch from "./GameSearch"
-import { Card } from "semantic-ui-react"
+import GameSearch from "./GameSearch";
+import { Card } from "semantic-ui-react";
 
-function GameList({games, onAddToCart}) {
+function GameList({games}) {
     const [search, setSearch] = useState("")
     const [sortBy, setSortBy] = useState("Alphabetical")
     const [filterByType, setFilterByType] = useState("All")

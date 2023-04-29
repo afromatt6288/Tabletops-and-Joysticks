@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-function UserCard({user, onUserDelete}) {
-    const {id, username, email, address} = user   
+function UserProfile({user, onUserDelete, forceLogOut}) {
+    const {id, username, email, address, avatar_url, stars, travel_distance, is_active, is_admin} = user    
     const [newEmail, setNewEmail] = useState(`${email}`)
     const [newAddress, setNewAddress] = useState(`${address}`)
 
@@ -30,11 +30,22 @@ function UserCard({user, onUserDelete}) {
           method: "DELETE"
         })        
         onUserDelete(id)
+        forceLogOut()
     }    
 
     return (
         <div>
-            <h3>{username}</h3>
+            <header>
+                <div>
+                    <span>{username} | #{id}
+                    <img src={avatar_url} alt={`${username} Avatar`} />
+                    </span>
+                </div>
+            </header>
+            <h3>{stars}</h3>
+            <h3>{travel_distance}</h3>
+            <h3>{is_active}</h3>
+            <h3>{is_admin}</h3>
             {/* <Link to={`/swaps`}>Swap History</Link> */}
             <form>
                 <label> Update Email</label>
@@ -47,4 +58,4 @@ function UserCard({user, onUserDelete}) {
         </div>
     )
 }
-export default UserCard
+export default UserProfile

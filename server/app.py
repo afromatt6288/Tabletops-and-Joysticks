@@ -43,18 +43,19 @@ api.add_resource(ClearSession, '/clear', endpoint='clear')
 
 class Signup(Resource):
     def post(self):
-        username = request.get_json()['username']  
-        password = request.get_json()['password']
-        email = request.get_json()['email']
-        address = request.get_json()['address']
-        avatar_url = request.get_json()['avatar_url']
-        # avatar_blob = request.get_json()['avatar_blob']
+        data=request.get_json()
+        username = data['username']  
+        password = data['password']
+        email = data['email']
+        address = data['address']
+        avatar_url = data['avatar_url']
+        # avatar_blob = data['avatar_blob']
         if username and password:
-            new_user = User(username=username, email=email, address=address, avatar_url=avatar_url, 
-                # avatar_blob=avatar_blob, 
-                stars=3, travel_distance=5, is_active = False, is_admin = False)
-            new_user.password_hash = password
             try:
+                new_user = User(username=username, email=email, address=address, avatar_url=avatar_url, 
+                    # avatar_blob=avatar_blob, 
+                    stars=3, travel_distance=5, is_active = False, is_admin = False)
+                new_user.password_hash = password
                 db.session.add(new_user)
                 db.session.commit()
                 session['user_id'] = new_user.id
@@ -129,7 +130,7 @@ class Users(Resource):
                 is_active = False,
                 is_admin = False,
                 ) 
-            new_user.password_hash = data['password'],
+            new_user.password_hash = data['password']
             db.session.add(new_user)
             db.session.commit()
         except Exception as e:
@@ -137,7 +138,7 @@ class Users(Resource):
         user_dict = new_user.to_dict()
         response = make_response(jsonify(user_dict), 201) 
         return response 
-    
+
 api.add_resource(Users, '/users', endpoint='user')
 
 class UserById(Resource):                       ## For Users to see profiles
@@ -198,13 +199,12 @@ class Games(Resource):
             new_game = Game(
                 title=data['title'], 
                 type=data['type'], 
-                genre1=data['genre1'],
-                genre2=data['genre2'],
+                genres=data['genres'],
                 platform=data['platform'],
                 player_num_min=data['player_num_min'],
                 player_num_max=data['player_num_max'],
                 image_url=data['image_url'],
-                image_blob=data['image_blob'],
+                # image_blob=data['image_blob'],
                 description=data['description'], 
                 )
             db.session.add(new_game)

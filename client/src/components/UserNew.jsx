@@ -7,12 +7,11 @@ function UserNew({onNewUser, toggle}) {
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [email, setEmail] = useState("");
     const [address, setAddress] = useState("");
-    const [avatar_url, setAvatar_url] = useState("https://123.com");
+    const [avatar_url, setAvatar_url] = useState("https://thumbs.dreamstime.com/b/new-content-text-quote-notepad-concept-background-new-content-text-quote-notepad-concept-background-217366624.jpg");
     const [stars, setStars] = useState(3);
     const [travel_distance, setTravel_distance] = useState(5);
     const [is_active, setIs_active] = useState(false);
     const [is_admin, setIs_admin] = useState(false);
-
 
     const history = useHistory();
     
@@ -37,13 +36,16 @@ function UserNew({onNewUser, toggle}) {
             },
             body: JSON.stringify(formData)
         })
-            .then(r => r.json())
-            .then(user => {
-                onNewUser(user)
-                history.push(`/`)
-            })
+            .then(r => {
+                if (r.ok) {
+                    r.json()
+                    .then(user => {
+                        onNewUser(user)
+                        history.push(`/`)
+                })}
             toggle()
-    }    
+            })
+        }
 
     return (
         <section id="signup-form">

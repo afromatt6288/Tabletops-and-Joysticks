@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useHistory, Link } from "react-router-dom"
+import { useParams, useHistory, Link } from "react-router-dom";
+import { Datepicker, Input, initTE } from "tw-elements";
 // import { Card } from "semantic-ui-react"
 
 function GameDetail({admin, onGameDelete}) {
     const [game, setGame] = useState(null);
     const { id } = useParams()
     const history = useHistory()
-    // console.log(id)
+
+    // This is what implements Tailwind... so DON'T delete it. 
+    useEffect(() => {
+      initTE({ Datepicker, Input });
+    }, []);
+
     useEffect(() => {
         fetch(`/api/games/${id}`)
             .then(r => r.json())
@@ -15,14 +21,6 @@ function GameDetail({admin, onGameDelete}) {
                 setGame(data)});
         }, [])
 
-        // .then(r => r.json())
-        // console.log(r)
-        // .then(data => {
-        //     console.log(data)
-        //     console.log(data[0])
-        //     setGame(data[0])})
-        // }, [id])
-        console.log(game)
         if (!game) return <h2>Loading...</h2>
     
     const { title, image_url, type, genres, platform, player_num_min, player_num_max, image_blob, description} = game    
