@@ -11,7 +11,7 @@ function UserItem({user}) {
             </Link>
             <p>{username} | #{id}</p>
             <p>{stars} Stars</p>
-            <p>Active? {is_active}</p>
+            <p>Status: {is_active ? "Online" : "Offline"}</p>
         </div>
     )
 }

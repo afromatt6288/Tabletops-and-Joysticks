@@ -41,16 +41,6 @@ function UserProfile({currentUser, onUserDelete, onLogoutClick, onEditProfile}) 
                 })}
         })
     }
-    // .then(r => r.json())
-    //         .then(currentUser => {
-                // setEdit(false)
-                // setNewAvatar(newAvatar)
-                // setNewEmail(newEmail)
-                // setNewAddress(newAddress)
-                // setNewTravel(parseInt(newTravel))
-                // history.push(`/`)
-    //         })
-    //     }
 
     function handleUserDelete() {
         fetch(`api/users/${id}`, {
@@ -82,7 +72,7 @@ function UserProfile({currentUser, onUserDelete, onLogoutClick, onEditProfile}) 
                     </span>
                 </div>
             </header>
-            <h3>Peer Rating: {stars} Stars | Active: {is_active ? "Online" : "Offline"}</h3>
+            <h3>Peer Rating: {stars} Stars | Status: {is_active ? "Online" : "Offline"}</h3>
             {edit ? 
                 <label>
                     Travel Distance: <input type="number" onChange={e => setNewTravel(e.target.value)} value={newTravel}/>Miles ✏️</label>
@@ -90,13 +80,11 @@ function UserProfile({currentUser, onUserDelete, onLogoutClick, onEditProfile}) 
             {/* <Link to={`/swaps`}>Swap History</Link> */}
             <form>
                 {edit ? 
-                    <label> 
-                        Email: <input type="text" onChange={e => setNewEmail(e.target.value)} value={newEmail}/>✏️</label>
-                : <label> Email: {email} </label>}
+                    <label>Email: <input type="text" onChange={e => setNewEmail(e.target.value)} value={newEmail}/>✏️</label>
+                :   <label> Email: {email} </label>}
                 {edit ? 
-                <label> 
-                    Address: <input type="text" onChange={e => setNewAddress(e.target.value)} value={newAddress}/>✏️</label>
-                : <label> Address: {address} </label>}
+                    <label>Address: <input type="text" onChange={e => setNewAddress(e.target.value)} value={newAddress}/>✏️</label>
+                :   <label> Address: {address} </label>}
             </form>
             <button onClick={handleLogoutClick}><label>Log Out </label></button>
             {edit ? <button type="submit" onClick={handleUserDelete}> <label> | Delete Account 👉 🗑</label> </button> : null}

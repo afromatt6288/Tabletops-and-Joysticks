@@ -75,7 +75,7 @@ function Login ({currentUser, setCurrentUser, toggle, users, onAddUser, onUserDe
             <form onSubmit={handleSubmit}>
                 <input type="text" id="username" placeholder="User Name" value={username} onChange={e => setUsername(e.target.value) }/>
                 <input type={isPasswordSecure? "password" : "text"} id="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>
-                <span><input label="show-password" type="checkbox" checked={!isPasswordSecure} onChange={(e)=>setIsPasswordSecure(!isPasswordSecure)}/> Show</span>
+                <span><input label="show-password" type="checkbox" checked={!isPasswordSecure} onChange={(e)=>setIsPasswordSecure(!isPasswordSecure)}/> {isPasswordSecure ? "🙈" : "🙉"}</span>
                 <br/>
                 <button type="submit">Login</button>
                 <br/>

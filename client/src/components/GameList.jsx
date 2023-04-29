@@ -8,6 +8,7 @@ function GameList({games}) {
     const [sortBy, setSortBy] = useState("Alphabetical")
     const [filterByType, setFilterByType] = useState("All")
     const [filterByGenre, setFilterByGenre] = useState("All")
+    const [filterByPlatform, setFilterByPlatform] = useState("All")
 
     // handle my Game sort
     const sortedGames = [...games].sort((game1, game2) => {
@@ -32,15 +33,21 @@ function GameList({games}) {
     const allGenres = genres.flat(1)
     const uniqueGenres = [...new Set(allGenres)].sort()
     const filteredByGenreGames = filteredByTypeGames.filter((game)=> filterByGenre === "All" ? filteredByTypeGames : game.genres.includes(filterByGenre))
+
+    // handle my Platform filter    
+    const platforms = games.map((game)=> game.platform)
+    const allPlatforms = platforms.flat(1)
+    const uniquePlatforms = [...new Set(allPlatforms)].sort()
+    const filteredByPlatformGames = filteredByGenreGames.filter((game)=> filterByPlatform === "All" ? filteredByGenreGames : game.platform.includes(filterByPlatform))
     
     // this is how I am handling the GameSearch function
-    const displayedGames = filteredByGenreGames.filter(game => game.title.toLowerCase().includes(search.toLowerCase()))
+    const displayedGames = filteredByPlatformGames.filter(game => game.title.toLowerCase().includes(search.toLowerCase()))
         
     return (
         <section id="games">
             <h2>T&J Games</h2>
             <div>
-                <GameSearch search={search} onSearchChange={setSearch} sortBy={sortBy} onSortChange={setSortBy} filterByType={filterByType} filterByGenre={filterByGenre} onHandleTypeFilter={setFilterByType} onHandleGenreFilter={setFilterByGenre} types={uniqueTypes} genres={uniqueGenres}/>
+                <GameSearch search={search} onSearchChange={setSearch} sortBy={sortBy} onSortChange={setSortBy} filterByType={filterByType} filterByGenre={filterByGenre} filterByPlatform={filterByPlatform} onHandleTypeFilter={setFilterByType} onHandleGenreFilter={setFilterByGenre} onHandlePlatformFilter={setFilterByPlatform} types={uniqueTypes} genres={uniqueGenres} platforms={uniquePlatforms}/>
             </div>
             <div>
                 <div>

@@ -47,7 +47,7 @@ class User(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    inventories = db.relationship('Inventory', backref='user', cascade="all, delete, delete-orphan")
+    inventories = db.relationship('Inventory', back_populates='user', cascade="all, delete, delete-orphan")
     chat_rooms = db.relationship('Chat_Room', backref='user', cascade="all, delete, delete-orphan")
     chat_messages = db.relationship('Chat_Message', backref='user', cascade="all, delete, delete-orphan")
     loaned_games = db.relationship('Swap', foreign_keys='Swap.loaning_user_id', cascade="all, delete, delete-orphan")
@@ -143,7 +143,7 @@ class Game(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    inventories = db.relationship('Inventory', backref='game', cascade="all, delete, delete-orphan")
+    inventories = db.relationship('Inventory', back_populates='game', cascade="all, delete, delete-orphan")
     swaps = db.relationship('Swap', backref='game', cascade="all, delete, delete-orphan")
     
     users = association_proxy('swaps', 'user')
@@ -264,8 +264,8 @@ class Game(db.Model, SerializerMixin):
 class Inventory(db.Model, SerializerMixin):
     __tablename__ = 'inventories'
 
-    serialize_only = ('id', 'user_id', 'game_id')
-    # serialize_rules = ('-user.inventories', '-game.inventories', '-created_at', '-updated_at',)
+    serialize_only = ('id', 'user_id', 'game_id', 'user', 'game')
+    serialize_rules = ('-user.inventories', '-game.inventories', '-created_at', '-updated_at',)
 
     id = db.Column(db.Integer, primary_key=True)
     
@@ -275,8 +275,8 @@ class Inventory(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
 
-    # user = db.relationship('User', backref='inventories')
-    # game = db.relationship('Game', backref='inventories')
+    user = db.relationship('User', back_populates='inventories')
+    game = db.relationship('Game', back_populates='inventories')
 
     @validates('user_id')
     def validate_user_id(self, key, user_id):

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
-import { Datepicker, Input, initTE } from "tw-elements"
+import { Datepicker, Input, initTE } from "tw-elements";
 
 
 function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
@@ -53,11 +53,12 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
     }
 
     function handleUserDelete() {
+        history.push(`/`)
         fetch(`api/users/${id}`, {
           method: "DELETE"
         })        
         onUserDelete(id)
-        forceLogOut()
+        history.push(`/users`)
     }    
 
     return (
@@ -68,9 +69,9 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
             </header>
             <h3>Peer Rating: {stars} Stars</h3>
             <h3>Travel Distance: {travel_distance} Miles</h3>
-            <h3>Active{is_active}</h3>
+            <h3>Status: {is_active ? "Online":"Offline"}</h3>
             <h3>Email: {email}</h3>
-            <h3>Address:{address}</h3>
+            <h3>Address: {address}</h3>
             <form onSubmit={handleSendMessage}>
                 <div className="relative mb-3" data-te-input-wrapper-init>
                     <textarea rows="4" id="send_messageFormControlInput1" value={message_text} onChange={e => setMessage_text(e.target.value)}

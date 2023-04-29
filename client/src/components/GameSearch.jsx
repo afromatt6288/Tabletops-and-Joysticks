@@ -1,6 +1,6 @@
 import React from "react";
 
-function GameSearch({search, onSearchChange, sortBy, onSortChange, onHandleTypeFilter, onHandleGenreFilter, filterByType, filterByGenre, types, genres}) {
+function GameSearch({search, onSearchChange, sortBy, onSortChange, onHandleTypeFilter, onHandleGenreFilter, onHandlePlatformFilter,filterByType, filterByGenre, filterByPlatform, types, genres, platforms}) {
   
   function handleSortChange(e){
     onSortChange(e.target.value)
@@ -12,6 +12,10 @@ function GameSearch({search, onSearchChange, sortBy, onSortChange, onHandleTypeF
 
   function handleGenreFilter(e){
     onHandleGenreFilter(e.target.value)
+  }
+
+  function handlePlatformFilter(e){
+    onHandlePlatformFilter(e.target.value)
   }
 
   return (
@@ -46,6 +50,13 @@ function GameSearch({search, onSearchChange, sortBy, onSortChange, onHandleTypeF
         <select onChange={handleGenreFilter} value={filterByGenre}>
           <option value="All">All</option>
           {genres.map((genre)=> <option value={genre} key = {(genre)}>{genre}</option>)}
+        </select>
+      </label>
+      <label>
+        <strong>Filter by Platform:</strong>
+        <select onChange={handlePlatformFilter} value={filterByPlatform}>
+          <option value="All">All</option>
+          {platforms.map((platform)=> <option value={platform} key = {(platform)}>{platform}</option>)}
         </select>
       </label>
       <div>
