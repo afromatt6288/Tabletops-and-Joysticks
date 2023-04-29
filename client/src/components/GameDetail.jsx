@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, initTE } from "tw-elements";
-// import { Card } from "semantic-ui-react"
+import { Card } from "semantic-ui-react"
 
 function GameDetail({admin, onGameDelete}) {
     const [game, setGame] = useState(null);
@@ -24,7 +24,7 @@ function GameDetail({admin, onGameDelete}) {
         if (!game) return <h2>Loading...</h2>
     
     const { title, image_url, type, genres, platform, player_num_min, player_num_max, image_blob, description} = game    
-    // const allusers = game.inventories.map((inv)=>inv.user)
+    const allusers = game.inventories.map((inv)=>inv.user)
     
     function handleDeleteClick() {
         fetch(`api/games/${id}`, {
@@ -50,7 +50,7 @@ function GameDetail({admin, onGameDelete}) {
                     <label>Player Maximum: <span>{player_num_max}</span></label>
                 </span>
                 <p>Description: {description}</p>
-                {/* <h2>Users:</h2>
+                <h2>Users:</h2>
                 <div>
                     <Card.Group className="cards" itemsPerRow={2}>
                         {allusers && allusers.map((user, index) => (
@@ -61,7 +61,7 @@ function GameDetail({admin, onGameDelete}) {
                             </div>
                         ))}
                     </Card.Group>  
-                </div>                */}
+                </div>               
             </div>
             <div>
                 <img src={image_url} alt={title}/>

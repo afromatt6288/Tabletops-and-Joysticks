@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, initTE } from "tw-elements";
-
+import { Card } from "semantic-ui-react"
 
 function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
     const [message_text, setMessage_text] = useState("")
@@ -24,7 +24,8 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
         
         if (!user) return <h2>Loading...</h2>
         
-    const {username, email, address, avatar_url, stars, travel_distance, is_active, is_admin} = user   
+    const {username, email, address, avatar_url, stars, travel_distance, is_active, is_admin} = user
+    const allGames = user.inventories.map((inv)=>inv.game)
     console.log(user, currentUser, message_text)
     
     function handleSendMessage(e) {
@@ -82,6 +83,20 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
                 </div>
                 <button type="submit">Send</button>   
             </form>
+            <h2>Games:</h2>
+                <div className="user-game-list">
+                    <Card.Group className="cards" itemsPerRow={2}>
+                        {allGames && allGames.map((game) => (
+                            <div key={game.id}>
+                                <h4>{game.title} | #{game.id}</h4>
+                                <Link to={`/items/${game.id}`}>
+                                    <img className="img-thumb" src={game.image} alt={game.title} />
+                                </Link>
+                                <h4>{game.type}</h4>
+                            </div>
+                        ))}
+                    </Card.Group>  
+                </div>
             {admin ? (
             <div>
                 <button>

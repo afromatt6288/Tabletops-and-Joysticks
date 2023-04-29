@@ -126,14 +126,14 @@ class User(db.Model, SerializerMixin):
 class Game(db.Model, SerializerMixin): 
     __tablename__ = 'games'
 
-    serialize_only = ('id', 'title', 'type', 'genres', 'platform', 'player_num_min', 'player_num_max', 'image_url', 'description')
+    serialize_only = ('id', 'title', 'type', 'genres', 'platforms', 'player_num_min', 'player_num_max', 'image_url', 'description', 'inventories')
     # serialize_rules = ('-inventory.games', '-swap.games', '-created_at', '-updated_at',)
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     type = db.Column(db.String, nullable=False)
     genres = db.Column(db.String, nullable=False)
-    platform = db.Column(db.String, nullable=False)
+    platforms = db.Column(db.String, nullable=False)
     player_num_min = db.Column(db.Integer, db.CheckConstraint('player_num_min >=1 ', name='min_player_number'), nullable=False)
     player_num_max = db.Column(db.Integer, db.CheckConstraint('player_num_max >= player_num_min', name='max_player_number'), nullable=False)
     image_url = db.Column(db.String, nullable=False)
@@ -160,8 +160,8 @@ class Game(db.Model, SerializerMixin):
     # @validates('type')
     # def validate_type(self, key, type):
     #     types = [
-    #         "Board Games", "Card Games", "Video Games", "other",
-    #         "Tabletop Role-playing Games", "Casino Games", "Puzzles"
+    #         "Board Games", "Card Games", "Video Games", "other", "Economic", "Strategy", 
+    #         "Tabletop Role-playing Games", "Casino Games", "Puzzles", "War", "Word", 
     #         ]
     #     if not type:
     #         raise ValueError("Game must have a Type")
@@ -174,7 +174,7 @@ class Game(db.Model, SerializerMixin):
     # def validate_genre(self, key, genre):
     #     # genres = [
     #     #     "Action", "Adult", "Adventure", "Battle Royale", 
-    #     #     "City-building", "Educational", "Escape Room", 
+    #     #     "City-building", "Educational", "Escape Room", "Family",
     #     #     "Fighting", "Gambling", "Horror", "Incremental/Idle", 
     #     #     "Interactive Fiction", "JRPG", "Life Simulator", "Management", 
     #     #     "MMORPG (massively multiplayer online role playing game)", 
@@ -182,7 +182,7 @@ class Game(db.Model, SerializerMixin):
     #     #     "Music", "Other", "Party", "Platformer", "Puzzle", 
     #     #     "Racing", "Role-playing", "Roguelike", "Rhythm", "Sandbox", 
     #     #     "Science Fiction", "Shooter", "Simulation", "Sports", 
-    #     #     "Strategy", "Survival", "Tactical", "Trading Card", 
+    #     #     "Strategy", "Survival", "Tactical", "Tile Placement", "Trading", "Trading Card", 
     #     #     "Trivia", "Vehicle Simulator", "Visual Novel"
     #     #     ]
     #     if not genre:
@@ -191,8 +191,8 @@ class Game(db.Model, SerializerMixin):
     #     #     raise ValueError("Game Genre not found")
     #     return genre
     
-    # @validates('platform')
-    # def validate_platform(self, key, platform):
+    # @validates('platforms')
+    # def validate_platform(self, key, platforms):
     #     if self._type == "Video Games":
     #         platforms = ["NES", "SNES", "Nintendo 64", "GameCube", "Wii",
     #         "Wii U", "Nintendo Switch", "GameBoy", "GameBoy Advance",
@@ -200,14 +200,14 @@ class Game(db.Model, SerializerMixin):
     #         "XBox One", "XBox Series X/S", "Other", "PlayStation", "PlayStation 2",
     #         "PlayStation 3", "PlayStation 4", "PlayStation 5", "PSP",
     #         "PS Vita", "Genesis", "DreamCast", "PC"]
-    #         if not platform:
+    #         if not platforms:
     #             raise ValueError("Video Games must have a Platform")
-    #         # if platform not in platforms:
+    #         # if platforms not in platforms:
     #         #     raise ValueError("Video Game Platform not found")
-    #         return platform
+    #         return platforms
     #     else:
-    #         platform="Table Top"
-    #     return platform
+    #         platforms="Table Top"
+    #     return platforms
     
     # _player_num_min = None                                  ## Class-level variable for storing player_num_min value
    

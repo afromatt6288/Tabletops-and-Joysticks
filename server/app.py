@@ -200,7 +200,7 @@ class Games(Resource):
                 title=data['title'], 
                 type=data['type'], 
                 genres=data['genres'],
-                platform=data['platform'],
+                platforms=data['platforms'],
                 player_num_min=data['player_num_min'],
                 player_num_max=data['player_num_max'],
                 image_url=data['image_url'],
