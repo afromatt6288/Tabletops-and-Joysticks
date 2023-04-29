@@ -3,7 +3,7 @@ import { useHistory, Link } from "react-router-dom";
 import UserNew from "./UserNew";
 import UserProfile from "./UserProfile";
 
-function Login ({currentUser, setCurrentUser, toggle, users, onAddUser, onUserDelete}) {
+function Login ({currentUser, setCurrentUser, toggle, users, onAddUser, onUserDelete, onEditProfile}) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [isPasswordSecure, setIsPasswordSecure] = useState(true)
@@ -18,9 +18,10 @@ function Login ({currentUser, setCurrentUser, toggle, users, onAddUser, onUserDe
     users.find((user) => user.id === currentUser.id) && (
       <UserProfile
         key={currentUser.id}
-        user={currentUser}
+        currentUser={currentUser}
         onUserDelete={onUserDelete}
-        forceLogOut={handleLogoutClick}
+        onLogoutClick={handleLogoutClick}
+        onEditProfile={onEditProfile}
       />
     );
  
@@ -64,31 +65,23 @@ function Login ({currentUser, setCurrentUser, toggle, users, onAddUser, onUserDe
 
     return (
         <div>
-          <div>
-            {currentUser ? 
-              <div>
-                <section id="profile">
-                  {currentUserCard}
-                </section>
-              </div>
-              : newUser ? <UserNew onNewUser={handleNewUser} toggle={toggle} /> :
-                <form onSubmit={handleSubmit}>
-                    <input type="text" id="username" placeholder="User Name" value={username} onChange={e => setUsername(e.target.value) }/>
-                    <input type={isPasswordSecure? "password" : "text"} id="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>
-                    <span><input label="show-password" type="checkbox" checked={!isPasswordSecure} onChange={(e)=>setIsPasswordSecure(!isPasswordSecure)}/> Show</span>
-                    <br/>
-                    <button type="submit">Login</button>
-                    <br/>
-                    {invalidUser ? <small>Invalid User</small> : null}
-                    <button onClick={e=>setNewUser(!newUser)}>New User? Sign up here!</button> 
-                </form>}
-                {currentUser ? 
-                  <div>
-                    <button onClick={handleLogoutClick}>Log Out</button>
-                    <span>_</span>
-                  </div>
-                : null}
+          {currentUser ? 
+            <div>
+              <section id="profile">
+                {currentUserCard}
+              </section>
             </div>
+          : newUser ? <UserNew onNewUser={handleNewUser} toggle={toggle} /> :
+            <form onSubmit={handleSubmit}>
+                <input type="text" id="username" placeholder="User Name" value={username} onChange={e => setUsername(e.target.value) }/>
+                <input type={isPasswordSecure? "password" : "text"} id="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>
+                <span><input label="show-password" type="checkbox" checked={!isPasswordSecure} onChange={(e)=>setIsPasswordSecure(!isPasswordSecure)}/> Show</span>
+                <br/>
+                <button type="submit">Login</button>
+                <br/>
+                {invalidUser ? <small>Invalid User</small> : null}
+                <button onClick={e=>setNewUser(!newUser)}>New User? Sign up here!</button> 
+            </form>}
         </div>
     );
  }

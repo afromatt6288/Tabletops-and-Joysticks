@@ -16,6 +16,7 @@ function App() {
     const [currentUser, setCurrentUser] = useState("")
     const [seen, setSeen] = useState(false)
     const [admin, setAdmin] = useState(false)
+
     const history = useHistory();
 
 /////////////////////
@@ -77,6 +78,11 @@ function App() {
     function handleUserDelete(id) {
         const updatedUsers = users.filter(user => user.id !== id)
         setUsers(updatedUsers)        
+    }
+
+    function handleEditProfile(currentUser){
+        console.log(currentUser)
+        setCurrentUser(currentUser)
     }
 
 ////////// 
@@ -143,7 +149,7 @@ function App() {
                 <h1 className="text-red-500" >Tabletops & Joysticks</h1>
                 <div>
                     <button onClick={togglePop} >{currentUser ? "Profile" : "Log In"}</button>
-                    {seen ? <Login toggle={togglePop} currentUser={currentUser} setCurrentUser={setCurrentUser} users={users} onAddUser={handleAddUser} onUserDelete={handleUserDelete}/> : null}
+                    {seen ? <Login toggle={togglePop} currentUser={currentUser} setCurrentUser={setCurrentUser} users={users} onAddUser={handleAddUser} onUserDelete={handleUserDelete} onEditProfile={handleEditProfile}/> : null}
                 </div>
                 </header>
                 {currentUser ? <NavBar admin={admin}/> : seen ? null : <h2>Please Log In</h2>}
@@ -152,10 +158,10 @@ function App() {
                         <Home currentUser={currentUser}/>
                     </Route>
                     <Route exact path="/users">
-                        <UserList currentUser={currentUser} users={users} games={games} onUserDelete={handleUserDelete} onSendMessage={handleSendMessage}/>
+                        <UserList users={users} games={games}/>
                     </Route>
                     <Route exact path="/users/:id">
-                        <UserDetail currentUser={currentUser} users={users} games={games} onUserDelete={handleUserDelete} onSendMessage={handleSendMessage}/>
+                        <UserDetail admin={admin} currentUser={currentUser} users={users} games={games} onUserDelete={handleUserDelete} onSendMessage={handleSendMessage}/>
                     </Route>
                     {admin ? 
                     <Route exact path="/tbd">
@@ -168,7 +174,7 @@ function App() {
                         <GameDetail admin={admin} onGameDelete={handleGameDelete}/>
                     </Route>
                     <Route exact path="/games">
-                        <GameList games={games} />
+                        <GameList games={games} users={users}/>
                     </Route>
                     <Route path="*">
                         <h1>404 not found</h1>
