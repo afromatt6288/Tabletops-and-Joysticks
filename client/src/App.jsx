@@ -168,7 +168,7 @@ function App() {
                         <TBD/>
                     </Route> : null }
                     <Route exact path="/games/new">
-                        <GameNew key={games.id} onGameAdd={handleGameAdd}/>
+                        <GameNew key={games.id} games={games} onGameAdd={handleGameAdd}/>
                     </Route>
                     <Route exact path="/games/:id">
                         <GameDetail admin={admin} onGameDelete={handleGameDelete}/>

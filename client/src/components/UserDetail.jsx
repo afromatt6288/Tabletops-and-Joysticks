@@ -89,7 +89,7 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
                         {allGames && allGames.map((game) => (
                             <div key={game.id}>
                                 <h4>{game.title} | #{game.id}</h4>
-                                <Link to={`/items/${game.id}`}>
+                                <Link to={`/games/${game.id}`}>
                                     <img className="img-thumb" src={game.image} alt={game.title} />
                                 </Link>
                                 <h4>{game.type}</h4>

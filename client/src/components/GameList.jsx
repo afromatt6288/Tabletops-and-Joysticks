@@ -35,10 +35,10 @@ function GameList({games}) {
     const filteredByGenreGames = filteredByTypeGames.filter((game)=> filterByGenre === "All" ? filteredByTypeGames : game.genres.includes(filterByGenre))
 
     // handle my Platform filter    
-    const platforms = games.map((game)=> game.platform)
+    const platforms = games.map((game)=> game.platforms.split(", "))
     const allPlatforms = platforms.flat(1)
     const uniquePlatforms = [...new Set(allPlatforms)].sort()
-    const filteredByPlatformGames = filteredByGenreGames.filter((game)=> filterByPlatform === "All" ? filteredByGenreGames : game.platform.includes(filterByPlatform))
+    const filteredByPlatformGames = filteredByGenreGames.filter((game)=> filterByPlatform === "All" ? filteredByGenreGames : game.platforms.includes(filterByPlatform))
     
     // this is how I am handling the GameSearch function
     const displayedGames = filteredByPlatformGames.filter(game => game.title.toLowerCase().includes(search.toLowerCase()))
