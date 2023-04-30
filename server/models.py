@@ -138,7 +138,7 @@ class Game(db.Model, SerializerMixin):
     player_num_max = db.Column(db.Integer, db.CheckConstraint('player_num_max >= player_num_min', name='max_player_number'), nullable=False)
     image_url = db.Column(db.String, nullable=False)
     # image_blob = db.Column(db.Blob, nullable=False)
-    description = db.Column(db.String, db.CheckConstraint('len(description) <= 250', name='max_description_length'), nullable=False)
+    description = db.Column(db.String, db.CheckConstraint('len(description) <= 500', name='max_description_length'), nullable=False)
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
@@ -149,112 +149,124 @@ class Game(db.Model, SerializerMixin):
     users = association_proxy('swaps', 'user')
     users = association_proxy('inventories', 'user')
 
-    # @validates('title')
-    # def validate_game_title(self, key, title):
-    #     if not title:
-    #         raise ValueError("Game must have a Title")
-    #     return title
+    @validates('title')
+    def validate_game_title(self, key, title):
+        if not title:
+            raise ValueError("Game must have a Title")
+        return title
 
-    # _type = None                                            ## Class-level variable for storing type value
+    _type = None                                            ## Class-level variable for storing type value
     
-    # @validates('type')
-    # def validate_type(self, key, type):
-    #     types = [
-    #         "Board Games", "Card Games", "Video Games", "other", "Economic", "Strategy", 
-    #         "Tabletop Role-playing Games", "Casino Games", "Puzzles", "War", "Word", 
-    #         ]
-    #     if not type:
-    #         raise ValueError("Game must have a Type")
-    #     # if type not in types:
-    #     #     raise ValueError("Game Type not found")
-    #     self._type = type                                   ## Update class-level variable
-    #     return type
+    @validates('type')
+    def validate_type(self, key, type):
+        types = [
+            "Board Games", "Card Games", "Casino Games", "Deck Building Games", "Dice Games", "Escape Room Games", 
+            "Miniatures Games", "Mobile Games", "Party Games", "Puzzles", "Social Deduction Games", "Sports Games", 
+            "Tabletop Role-playing Games", "Virtual Reality Games", "Video Games", "Word Games"
+            ]
+        if not type:
+            raise ValueError("Game must have a Type")
+        if type not in types:
+            raise ValueError("Game Type not found")
+        self._type = type                                   ## Update class-level variable
+        return type
 
-    # @validates('genres')
-    # def validate_genre(self, key, genre):
-    #     # genres = [
-    #     #     "Action", "Adult", "Adventure", "Battle Royale", 
-    #     #     "City-building", "Educational", "Escape Room", "Family",
-    #     #     "Fighting", "Gambling", "Horror", "Incremental/Idle", 
-    #     #     "Interactive Fiction", "JRPG", "Life Simulator", "Management", 
-    #     #     "MMORPG (massively multiplayer online role playing game)", 
-    #     #     "MOBA (multiplayer online battle arena)", 
-    #     #     "Music", "Other", "Party", "Platformer", "Puzzle", 
-    #     #     "Racing", "Role-playing", "Roguelike", "Rhythm", "Sandbox", 
-    #     #     "Science Fiction", "Shooter", "Simulation", "Sports", 
-    #     #     "Strategy", "Survival", "Tactical", "Tile Placement", "Trading", "Trading Card", 
-    #     #     "Trivia", "Vehicle Simulator", "Visual Novel"
-    #     #     ]
-    #     if not genre:
-    #         raise ValueError("Game must have a Genre")
-    #     # if genre not in genres:
-    #     #     raise ValueError("Game Genre not found")
-    #     return genre
+    @validates('genres')
+    def validate_genre(self, key, genre):
+        genres = [
+            "Abstract", "Action", "Adult", "Adventure", "Alternate History", "Area Control", "Asymmetric", "Bag Building", "Battle", "Battle Royale", 
+            "Bluffing", "Campaign", "Card Drafting", "Card Game", "City-building", "Civilization", "Cooperative", "Deck Building", 
+            "Deduction", "Dice Rolling", "Drafting", "Economic", "Educational", "Engine Building", 
+            "Epic", "Escape Room", "Espionage", "Evolution", "Exploration", "Family", "Fantasy", "Farming", "Fighting", "Gambling", "Heist", "Horror", "Incremental/Idle", 
+            "Interactive Fiction", "Investigation", "JRPG", "Life Simulator", "Management", 
+            "Massively Multiplayer Online Role Playing Game (MMORPG)", "Medieval", "Mini-games", "Multiplayer", "Multiplayer Online Battle Arena (MOBA)", 
+            "First-Person Shooter (FPS)", "Music", "Nature", "Other", "Party", "Pattern Building", "Platformer", "Politics", "Push Your Luck", 
+            "Puzzle", "Racing", "Real-time", "Resource Management", "Role-playing", "Roll-and-Write", "Roguelike", "Route Building", "Rhythm", 
+            "Sandbox", "Science Fiction", "Set Collection", "Shooter", "Simulation", "Social Deduction", "Sports", "Stealth", "Strategy", "Storytelling", 
+            "Survival", "Tactical", "Tile Placement", "Trading", "Trading Card", "Trains", "Trick-taking", "Trivia", 
+            "Vehicle Simulator", "Visual Novel", "Vocabulary", "War", "Western", "Word", "Worker Placement"
+        ]
+        if not genre:
+            raise ValueError("Game must have a Genre")
+        genre_list = genre.split(', ')
+        for g in genre_list:
+            if g not in genres:
+                raise ValueError(f"Genre '{g}' not found")
+        return genre
     
-    # @validates('platforms')
-    # def validate_platform(self, key, platforms):
-    #     if self._type == "Video Games":
-    #         platforms = ["NES", "SNES", "Nintendo 64", "GameCube", "Wii",
-    #         "Wii U", "Nintendo Switch", "GameBoy", "GameBoy Advance",
-    #         "Nintendo DS", "Nintendo 3DS", "XBox", "XBox 360",
-    #         "XBox One", "XBox Series X/S", "Other", "PlayStation", "PlayStation 2",
-    #         "PlayStation 3", "PlayStation 4", "PlayStation 5", "PSP",
-    #         "PS Vita", "Genesis", "DreamCast", "PC"]
-    #         if not platforms:
-    #             raise ValueError("Video Games must have a Platform")
-    #         # if platforms not in platforms:
-    #         #     raise ValueError("Video Game Platform not found")
-    #         return platforms
-    #     else:
-    #         platforms="Table Top"
-    #     return platforms
+    @validates('platforms')
+    def validate_platform(self, key, platform):
+        if self._type == "Video Games":
+            platforms = [
+                "Digital", "DreamCast", "GameBoy", "GameBoy Advance", "GameCube", "Genesis", "Mac", 
+                "Mobile", "NES", "Nintendo 3DS", "Nintendo 64", "Nintendo DS", "Nintendo Switch", "PC", 
+                "PS Vita", "PlayStation", "PlayStation 2", "PlayStation 3", "PlayStation 4", 
+                "PlayStation 5", "PSP", "Wii", "Wii U", "XBox", "XBox 360", 
+                "XBox One", "XBox Series X/S", "Other"
+            ]
+            if not platform:
+                raise ValueError("Video Games must have a Platform")
+            platform_list = platform.split(', ')
+            for p in platform_list:
+                if p not in platforms:
+                    raise ValueError(f"Platform '{p}' not found")
+            return platform
+        else:
+            platforms=["Tabletop", "Digital", "Mobile", "Other"]
+            if not platform:
+                raise ValueError("Games must have a Platform")
+            platform_list = platform.split(', ')
+            for p in platform_list:
+                if p not in platforms:
+                    raise ValueError(f"Platform '{p}' not found")
+            return platform
     
-    # _player_num_min = None                                  ## Class-level variable for storing player_num_min value
+    _player_num_min = None                                  ## Class-level variable for storing player_num_min value
    
-    # @validates('player_num_min')
-    # def validate_player_num_min(self, key, player_num_min):
-    #     if not player_num_min:
-    #         raise ValueError("Game must have the Minimum Number of Players.")
-    #     if not isinstance(player_num_min, int):
-    #         raise ValueError("Game Minimum Number of Players must be an Integer")
-    #     if int(player_num_min) < 1:
-    #         raise ValueError("Game must have 1 or more Players.")
-    #     self._player_num_min = int(player_num_min)          ## Update class-level variable
-    #     return player_num_min
+    @validates('player_num_min')
+    def validate_player_num_min(self, key, player_num_min):
+        if not player_num_min:
+            raise ValueError("Game must have the Minimum Number of Players.")
+        if not isinstance(player_num_min, int):
+            raise ValueError("Game Minimum Number of Players must be an Integer")
+        if int(player_num_min) < 1:
+            raise ValueError("Game must have 1 or more Players.")
+        self._player_num_min = int(player_num_min)          ## Update class-level variable
+        return player_num_min
     
-    # @validates('player_num_max')
-    # def validate_player_num_max(self, key, player_num_max):
-    #     if not player_num_max:
-    #         raise ValueError("Game must have the Maximum Number of Players.")
-    #     if not isinstance(player_num_max, int):
-    #         raise ValueError("Game Maximum Number of Players must be an Integer")
-    #     if int(player_num_max) < self._player_num_min:      ## Comparison against class-level variable
-    #         raise ValueError("Game Maximum Number of Players cannot be less than Minimum Players.")
-    #     return player_num_max
+    @validates('player_num_max')
+    def validate_player_num_max(self, key, player_num_max):
+        if not player_num_max:
+            raise ValueError("Game must have the Maximum Number of Players.")
+        if not isinstance(player_num_max, int):
+            raise ValueError("Game Maximum Number of Players must be an Integer")
+        if int(player_num_max) < self._player_num_min:      ## Comparison against class-level variable
+            raise ValueError("Game Maximum Number of Players cannot be less than Minimum Players.")
+        return player_num_max
     
-    # @validates('image_url')
-    # def validate_image_url(self, key, image_url):
-    #     if not image_url:
+    @validates('image_url')
+    def validate_image_url(self, key, image_url):
+        if not image_url:
+            raise ValueError("Game must have an Image")
+        if 'https://' not in image_url:
+            raise ValueError("Image must be a URL link")
+        return image_url
+    
+    # @validates('image_blob')
+    # def validate_image_blob(self, key, image_blob):
+    #     if not image_blob:
     #         raise ValueError("Game must have an Image")
-    #     # if 'https://' not in image_url:
-    #     #     raise ValueError("Image must be a URL link")
-    #     return image_url
-    
-    # # @validates('image_blob')
-    # # def validate_image_blob(self, key, image_blob):
-    # #     if not image_blob:
-    # #         raise ValueError("Game must have an Image")
-    # #     if '.png' not in image_blob:
-    # #         raise ValueError("Image must be a png file")
-    # #     return image_blob
+    #     if '.png' not in image_blob:
+    #         raise ValueError("Image must be a png file")
+    #     return image_blob
 
-    # @validates('description')
-    # def validate_description_length(self, key, description):
-    #     if not description:
-    #         raise ValueError("Game must have a Description")
-    #     if len(description) >= 250:
-    #         raise ValueError("Game Description must be less than or equal to 250 characters long.")
-    #     return description
+    @validates('description')
+    def validate_description_length(self, key, description):
+        if not description:
+            raise ValueError("Game must have a Description")
+        if len(description) >= 500:
+            raise ValueError("Game Description must be less than or equal to 500 characters long.")
+        return description
     
     def __repr__(self):
         return f'<Game ID#{self.id}, Title: {self.title}, Type: {self.type}, Genres: {self.genres}, Minimum # of Players: {self.player_num_min}, Maximum # of Players: {self.player_num_max}, Description: {self.description}>'
