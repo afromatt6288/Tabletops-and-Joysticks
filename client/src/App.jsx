@@ -9,6 +9,7 @@ import GameNew from "./components/GameNew";
 import Login from "./components/Login";
 import UserList from "./components/UserList";
 import UserDetail from "./components/UserDetail";
+import UserProfile from "./components/UserProfile";
 import TBD from "./components/TBD";
 // import { MessageList } from "semantic-ui-react";
 
@@ -16,6 +17,7 @@ function App() {
     const [currentUser, setCurrentUser] = useState("")
     const [seen, setSeen] = useState(false)
     const [admin, setAdmin] = useState(false)
+    const [isDarkMode, setIsDarkMode] = useState(false)
 
     const history = useHistory();
 
@@ -76,14 +78,25 @@ function App() {
     }
 
     function handleUserDelete(id) {
-        const updatedUsers = users.filter(user => user.id !== id)
-        setUsers(updatedUsers)        
+        // const updatedUsers = users.filter(user => user.id !== id)
+        // setUsers(updatedUsers)   
+        setUsers(users =>users.filter(user => user.id !== id))
     }
 
     function handleEditProfile(currentUser){
         console.log(currentUser)
         setCurrentUser(currentUser)
     }
+
+    function handleLogoutClick() {
+        history.push(`/`)
+        fetch("api/logout", { method: "DELETE" }).then((r) => {
+          if (r.ok) {
+            setCurrentUser(null);
+            history.push(`/`)
+          }
+        });
+      }
 
 ////////// 
 // GAME //
@@ -147,18 +160,28 @@ function App() {
             <div>
                 <header> 
                 <h1 className="text-red-500" >Tabletops & Joysticks</h1>
-                <div>
-                    <button onClick={togglePop} >{currentUser ? "Profile" : "Log In"}</button>
-                    {seen ? <Login toggle={togglePop} currentUser={currentUser} setCurrentUser={setCurrentUser} users={users} onAddUser={handleAddUser} onUserDelete={handleUserDelete} onEditProfile={handleEditProfile}/> : null}
-                </div>
+                {currentUser ? 
+                    <div>
+                        <button onClick={togglePop} >"Profile"</button>
+                        {seen ? currentUser && users.find((user) => user.id === currentUser.id) && (<UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile}/>) : null}                        
+                    </div>
+                : 
+                    <div>
+                        <button onClick={togglePop} >"Log In"</button>
+                        {seen ? <Login toggle={togglePop} currentUser={currentUser} setCurrentUser={setCurrentUser} users={users} onAddUser={handleAddUser}/> : null}
+                    </div>
+                }
                 </header>
                 {currentUser ? <NavBar admin={admin}/> : seen ? null : <h2>Please Log In</h2>}
                 {currentUser ? <Switch>
                     <Route exact path="/">
                         <Home currentUser={currentUser}/>
                     </Route>
+                    {/* <Route exact path="/messages">
+                        <Message currentUser={currentUser}/>
+                    </Route> */}
                     <Route exact path="/users">
-                        <UserList users={users} games={games}/>
+                        <UserList currentUser={currentUser} users={users} games={games}/>
                     </Route>
                     <Route exact path="/users/:id">
                         <UserDetail admin={admin} currentUser={currentUser} users={users} games={games} onUserDelete={handleUserDelete} onSendMessage={handleSendMessage}/>

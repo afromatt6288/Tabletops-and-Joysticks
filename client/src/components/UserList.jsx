@@ -3,13 +3,14 @@ import UserItem from "./UserItem";
 import UserSearch from "./UserSearch";
 import { Card } from "semantic-ui-react";
 
-function UserList({users, games}) {    
+function UserList({currentUser, users, games}) {    
     const [search, setSearch] = useState("")
     const [sortBy, setSortBy] = useState("Alphabetical")
     const [filterByGameType, setFilterByGameType] = useState("All")
 
     // handle my User sort
-    const sortedUsers = [...users].sort((user1, user2) => {
+    const notCurrentUsers = users.filter(user => user.id !== currentUser.id)
+    const sortedUsers = [...notCurrentUsers].sort((user1, user2) => {
         if (sortBy === "Alphabetical") {
             return user1.username.localeCompare(user2.username)
         } else if (sortBy === "ID Number") {

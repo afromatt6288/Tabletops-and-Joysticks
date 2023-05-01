@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
+import { Card } from "semantic-ui-react";
+import AddGameById from "./AddGameById"
 
-function UserProfile({currentUser, onUserDelete, onLogoutClick, onEditProfile}) {
+function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick, onEditProfile}) {
     const {id, username, email, address, avatar_url, stars, travel_distance, is_active, is_admin} = currentUser    
     const [edit, setEdit] = useState(false)
     const [newAvatar, setNewAvatar] = useState(`${avatar_url}`)
@@ -10,6 +12,7 @@ function UserProfile({currentUser, onUserDelete, onLogoutClick, onEditProfile}) 
     const [newTravel, setNewTravel] = useState(`${travel_distance}`)
     
     const history = useHistory()
+    const allGames = currentUser.inventories.map((inv)=>inv.game)
 
     function handleUpdate(e) {
         e.preventDefault()
@@ -48,6 +51,7 @@ function UserProfile({currentUser, onUserDelete, onLogoutClick, onEditProfile}) 
         })        
         onUserDelete(id)
         onLogoutClick()
+        history.push(`/users`)
     } 
     
     function handleLogoutClick() {
@@ -88,6 +92,20 @@ function UserProfile({currentUser, onUserDelete, onLogoutClick, onEditProfile}) 
             </form>
             <button onClick={handleLogoutClick}><label>Log Out </label></button>
             {edit ? <button type="submit" onClick={handleUserDelete}> <label> | Delete Account 👉 🗑</label> </button> : null}
+            <h2>Games:</h2>
+                <div className="user-game-list">
+                    <Card.Group className="cards" itemsPerRow={2}>
+                        {allGames.map((game) => (
+                            <div key={game.id}>
+                                <h4>{game.title} | #{game.id}</h4>
+                                <Link to={`/games/${game.id}`}>
+                                    <img className="img-thumb" src={game.image} alt={game.title} />
+                                </Link>
+                                <h4>{game.type}</h4>
+                            </div>
+                        ))}
+                    </Card.Group>  
+                </div>
         </div>
     )
 }

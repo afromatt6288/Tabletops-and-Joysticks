@@ -3,7 +3,7 @@ import { useHistory, Link } from "react-router-dom";
 import UserNew from "./UserNew";
 import UserProfile from "./UserProfile";
 
-function Login ({currentUser, setCurrentUser, toggle, users, onAddUser, onUserDelete, onEditProfile}) {
+function Login ({currentUser, setCurrentUser, toggle, users, onAddUser}) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [isPasswordSecure, setIsPasswordSecure] = useState(true)
@@ -12,19 +12,6 @@ function Login ({currentUser, setCurrentUser, toggle, users, onAddUser, onUserDe
     
     const history = useHistory()
 
-    // This transitions the login button to a profile that has the current users info
-    const currentUserCard =
-    currentUser &&
-    users.find((user) => user.id === currentUser.id) && (
-      <UserProfile
-        key={currentUser.id}
-        currentUser={currentUser}
-        onUserDelete={onUserDelete}
-        onLogoutClick={handleLogoutClick}
-        onEditProfile={onEditProfile}
-      />
-    );
- 
     function handleSubmit(e) {
         e.preventDefault();
         <Link to={`/`}></Link>
@@ -53,25 +40,9 @@ function Login ({currentUser, setCurrentUser, toggle, users, onAddUser, onUserDe
       setNewUser(!newUser)
     }
         
-    function handleLogoutClick() {
-      history.push(`/`)
-      fetch("api/logout", { method: "DELETE" }).then((r) => {
-        if (r.ok) {
-          setCurrentUser(null);
-          history.push(`/`)
-        }
-      });
-    }
-
     return (
         <div>
-          {currentUser ? 
-            <div>
-              <section id="profile">
-                {currentUserCard}
-              </section>
-            </div>
-          : newUser ? <UserNew onNewUser={handleNewUser} toggle={toggle} /> :
+          {newUser ? <UserNew onNewUser={handleNewUser} toggle={toggle} /> :
             <form onSubmit={handleSubmit}>
                 <input type="text" id="username" placeholder="User Name" value={username} onChange={e => setUsername(e.target.value) }/>
                 <input type={isPasswordSecure? "password" : "text"} id="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>

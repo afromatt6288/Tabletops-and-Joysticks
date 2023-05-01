@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, initTE } from "tw-elements";
-import { Card } from "semantic-ui-react"
+import { Card } from "semantic-ui-react";
 
 function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
     const [message_text, setMessage_text] = useState("")
@@ -9,6 +9,8 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
     const { id } = useParams()
     const history = useHistory()
     
+    console.log(user, currentUser, message_text)
+
     // This is what implements Tailwind... so DON'T delete it. 
     useEffect(() => {
         initTE({ Datepicker, Input });
@@ -25,9 +27,10 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
         if (!user) return <h2>Loading...</h2>
         
     const {username, email, address, avatar_url, stars, travel_distance, is_active, is_admin} = user
-    const allGames = user.inventories.map((inv)=>inv.game)
-    console.log(user, currentUser, message_text)
     
+    // Add the users games to each user
+    const allGames = user.inventories.map((inv)=>inv.game)
+
     function handleSendMessage(e) {
         e.preventDefault()
         history.push(`/`)
@@ -59,6 +62,7 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
           method: "DELETE"
         })        
         onUserDelete(id)
+        history.push(`/`)
         history.push(`/users`)
     }    
 

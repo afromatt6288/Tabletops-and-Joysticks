@@ -27,6 +27,7 @@ function GameDetail({admin, onGameDelete}) {
     const allusers = game.inventories.map((inv)=>inv.user)
     
     function handleDeleteClick() {
+        history.push(`/`)
         fetch(`api/games/${id}`, {
           method: "DELETE"
         }) 
