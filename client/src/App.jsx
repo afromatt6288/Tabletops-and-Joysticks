@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Switch, Route, useHistory  } from "react-router-dom";
-import { Datepicker, Input, initTE } from "tw-elements";
+import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 import GameList from "./components/GameList";
@@ -34,7 +34,7 @@ function App() {
 
     // This is what implements Tailwind... so DON'T delete it. 
     useEffect(() => {
-      initTE({ Datepicker, Input });
+      initTE({ Datepicker, Input, Ripple, Select,});
     }, []);
         
     // Check users cookies to keep them logged in
@@ -162,12 +162,12 @@ function App() {
                 <h1 className="text-red-500" >Tabletops & Joysticks</h1>
                 {currentUser ? 
                     <div>
-                        <button onClick={togglePop} >"Profile"</button>
-                        {seen ? currentUser && users.find((user) => user.id === currentUser.id) && (<UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile}/>) : null}                        
+                        <button onClick={togglePop} >PROFILE</button>
+                        {seen ? currentUser && users.find((user) => user.id === currentUser.id) && (<UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} />) : null}                        
                     </div>
                 : 
                     <div>
-                        <button onClick={togglePop} >"Log In"</button>
+                        <button onClick={togglePop} >LOGIN</button>
                         {seen ? <Login toggle={togglePop} currentUser={currentUser} setCurrentUser={setCurrentUser} users={users} onAddUser={handleAddUser}/> : null}
                     </div>
                 }

@@ -20,7 +20,7 @@ function GameSearch({search, onSearchChange, sortBy, onSortChange, onHandleTypeF
 
   return (
     <div>
-      <label>Sort By :         
+      <label>Sort By:          
         <input
           type="radio"
           value="Alphabetical"
@@ -28,7 +28,7 @@ function GameSearch({search, onSearchChange, sortBy, onSortChange, onHandleTypeF
           checked={sortBy === "Alphabetical"}
           onChange={handleSortChange}
         />
-        Alphabetical
+          Alphabetical | 
         <input
           type="radio"
           value="Maximum Number of Players"
@@ -37,28 +37,28 @@ function GameSearch({search, onSearchChange, sortBy, onSortChange, onHandleTypeF
           onChange={handleSortChange}
         />
         Maximum Number of Players
-      </label>
+       | </label>
       <label>
         <strong>Filter by Type:</strong>
         <select onChange={handleTypeFilter} value={filterByType}>
           <option value="All">All</option>
           {types.map((type)=> <option value={type} key = {(type)}>{type}</option>)}
         </select>
-      </label>
+       | </label>
       <label>
         <strong>Filter by Genre:</strong>
         <select onChange={handleGenreFilter} value={filterByGenre}>
           <option value="All">All</option>
           {genres.map((genre)=> <option value={genre} key = {(genre)}>{genre}</option>)}
         </select>
-      </label>
+       | </label>
       <label>
         <strong>Filter by Platform:</strong>
         <select onChange={handlePlatformFilter} value={filterByPlatform}>
           <option value="All">All</option>
           {platforms.map((platform)=> <option value={platform} key = {(platform)}>{platform}</option>)}
         </select>
-      </label>
+       | </label>
       <div>
         <input type="text" name="search" placeholder="Search..." value={search} onChange={e=> onSearchChange(e.target.value)}/>
         <i/>

@@ -23,7 +23,7 @@ function GameDetail({admin, onGameDelete}) {
 
         if (!game) return <h2>Loading...</h2>
     
-    const { title, image_url, type, genres, platform, player_num_min, player_num_max, image_blob, description} = game    
+    const { title, image_url, type, genres, platforms, player_num_min, player_num_max, image_blob, description} = game    
     const allusers = game.inventories.map((inv)=>inv.user)
     
     function handleDeleteClick() {
@@ -44,12 +44,14 @@ function GameDetail({admin, onGameDelete}) {
             </header>
             <div>
                 <span>
-                    <label>Type: <span>{type}</span></label>
-                    <label>Platform: <span>{platform}</span></label>
-                    <label>Genres: <span>{genres}</span></label>
-                    <label>Player Minimum: <span>{player_num_min}</span></label>
-                    <label>Player Maximum: <span>{player_num_max}</span></label>
+                    <label>Type: <span>{type}</span> | </label>
+                    <label>Platforms: <span>{platforms}</span> | </label>
+                    <label>Genres: <span>{genres}</span> | </label>
+                    <span>{player_num_min} to {player_num_max} Players</span>
                 </span>
+                <div>
+                    <img src={image_url} alt={title}/>
+                </div>
                 <p>Description: {description}</p>
                 <h2>Users:</h2>
                 <div>
@@ -63,9 +65,6 @@ function GameDetail({admin, onGameDelete}) {
                         ))}
                     </Card.Group>  
                 </div>               
-            </div>
-            <div>
-                <img src={image_url} alt={title}/>
             </div>
             {admin ? (
             <div>

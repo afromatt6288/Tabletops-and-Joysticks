@@ -10,10 +10,14 @@ function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick,
     const [newEmail, setNewEmail] = useState(`${email}`)
     const [newAddress, setNewAddress] = useState(`${address}`)
     const [newTravel, setNewTravel] = useState(`${travel_distance}`)
+    const [currentUserGames, setCurrentUserGames] = useState(currentUser.inventories.map((inv)=>inv.game))
     
     const history = useHistory()
-    const allGames = currentUser.inventories.map((inv)=>inv.game)
 
+    function handleAddGameToProfile(){
+          setCurrentUserGames(currentUser.inventories.map((inv)=>inv.game));
+    }
+    
     function handleUpdate(e) {
         e.preventDefault()
         const formData = {
@@ -43,6 +47,16 @@ function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick,
                         history.push(`/`)
                 })}
         })
+    }
+
+    function handleRemoveGameFromProfile(){
+        const invToDelete = currentUser.inventories.find(inventory => inventory.game_id === id)
+        fetch(`api/inventories/${parseInt(invToDelete.id)}`, {
+            method: "DELETE"
+          })
+          onEditProfile(currentUser)        
+        //   onRemoveGameFromProfile(id)
+          history.push(`/`)
     }
 
     function handleUserDelete() {
@@ -90,18 +104,20 @@ function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick,
                     <label>Address: <input type="text" onChange={e => setNewAddress(e.target.value)} value={newAddress}/>✏️</label>
                 :   <label> Address: {address} </label>}
             </form>
-            <button onClick={handleLogoutClick}><label>Log Out </label></button>
-            {edit ? <button type="submit" onClick={handleUserDelete}> <label> | Delete Account 👉 🗑</label> </button> : null}
-            <h2>Games:</h2>
-                <div className="user-game-list">
+            <button onClick={handleLogoutClick}><label>LOGOUT </label></button>
+            {edit ? <label> | Delete Account 👉 <button type="submit" onClick={handleUserDelete}>🗑 </button></label> : null}
+            <br/>
+            <label>YOUR GAMES:<span>{edit ? <AddGameById currentUser={currentUser} onAddGameToProfile={handleAddGameToProfile}/> : null}</span></label>
+                <div>
                     <Card.Group className="cards" itemsPerRow={2}>
-                        {allGames.map((game) => (
+                        {currentUserGames.map((game) => (
                             <div key={game.id}>
                                 <h4>{game.title} | #{game.id}</h4>
                                 <Link to={`/games/${game.id}`}>
                                     <img className="img-thumb" src={game.image} alt={game.title} />
                                 </Link>
                                 <h4>{game.type}</h4>
+                                <button onClick={handleRemoveGameFromProfile}>X</button>
                             </div>
                         ))}
                     </Card.Group>  

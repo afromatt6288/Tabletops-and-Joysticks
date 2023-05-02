@@ -1,30 +1,53 @@
 import { useState } from "react"
+import { useHistory } from "react-router-dom";
 
-function AddItemByID({userId}){
-    const [gameId, setGameId] = useState(null)
+function AddGameByID({currentUser, setCurrentUser, onAddGameToProfile}){
+    const [gameId, setGameId] = useState("")
 
-    function handleSubmit(){
-        fetch("/inventories", {
+    const history = useHistory();
+
+    function handleCurrentUser(user) {
+        setCurrentUser
+    }
+    function handleSortChange(e){
+        onSortChange(e.target.value)
+      }
+
+    function handleAddGameToProfile(e){
+        e.preventDefault()
+        history.push(`/`)
+        const formData = {
+            user_id : parseInt(currentUser.id),
+            game_id : parseInt(gameId),
+        }
+        console.log(formData)
+        fetch("api/inventories", {
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
             },
-            body:JSON.stringify({
-                user_id:userId,
-                game_id:gameId
-            })
-        }).then(resp=>resp.json())
-    }
+            body:JSON.stringify(formData)
+        })
+        .then(r => {
+            if (r.ok) {
+                r.json()
+                .then(inv => {
+                    onAddGameToProfile(inv)
+                    setGameId("")
+                    history.push(`/`)
+            })}
+    })
+}
 
     return (
     <div>
-        <form onSubmit={()=>{handleSubmit()}}>
+        <form onSubmit={handleAddGameToProfile}>
+            <label> | Add Game By Id: </label>
             <input type = "number" placeholder="Game ID" id = "input-game-id" value={gameId} onChange={e=>{setGameId(e.target.value)}}></input>
-            <br/>
-            <button type="submit">Submit</button>
+            <button type="submit"> Submit</button>
         </form>
     </div>
     )
 }
 
-export default AddItemByID
+export default AddGameByID

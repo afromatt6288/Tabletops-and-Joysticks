@@ -80,14 +80,14 @@ function GameNew({onGameAdd, games}) {
         e.preventDefault()
         history.push(`/`)
         const formData = {
-                title: title,
-                type: type,
-                genres: genres,
-                platforms: platforms,
-                player_num_min: parseInt(player_num_min),
-                player_num_max: parseInt(player_num_max),
-                image_url: image_url,
-                description: description
+            title: title,
+            type: type,
+            genres: genres,
+            platforms: platforms,
+            player_num_min: parseInt(player_num_min),
+            player_num_max: parseInt(player_num_max),
+            image_url: image_url,
+            description: description
         }
         console.log(formData)
         fetch("api/games", {
