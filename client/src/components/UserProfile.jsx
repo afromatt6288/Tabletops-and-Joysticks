@@ -99,11 +99,11 @@ function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick,
             {/* <Link to={`/swaps`}>Swap History</Link> */}
             <form>
                 {edit ? 
-                    <label>Email: <input type="text" onChange={e => setNewEmail(e.target.value)} value={newEmail}/>✏️</label>
+                    <label> Email: <input type="text" onChange={e => setNewEmail(e.target.value)} value={newEmail}/>✏️</label>
                 :   <label> Email: {email} </label>}
                 {edit ? 
-                    <label>Address: <input type="text" onChange={e => setNewAddress(e.target.value)} value={newAddress}/>✏️</label>
-                :   <label> Address: {address} </label>}
+                    <label> | Address: <input type="text" onChange={e => setNewAddress(e.target.value)} value={newAddress}/>✏️</label>
+                :   <label> | Address: {address} </label>}
             </form>
             <button onClick={handleLogoutClick}><label>LOGOUT </label></button>
             {edit ? <label> | Delete Account 👉 <button type="submit" onClick={handleUserDelete}>🗑 </button></label> : null}
@@ -113,12 +113,11 @@ function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick,
                     <Card.Group className="cards" itemsPerRow={2}>
                         {currentUserGames.map((game) => (
                             <div key={game.id}>
-                                <h4>{game.title} | #{game.id}</h4>
+                                <h4>{game.title} | #{game.id}<span>{edit ? <button onClick={() => handleRemoveGameFromProfile(game)}> | Remove  🗑</button> : null}</span></h4>
                                 <Link to={`/games/${game.id}`}>
                                     <img className="img-thumb" src={game.image} alt={game.title} />
                                 </Link>
                                 <h4>{game.type}</h4>
-                                <button onClick={() => handleRemoveGameFromProfile(game)}>X</button>
                             </div>
                         ))}
                     </Card.Group>  
