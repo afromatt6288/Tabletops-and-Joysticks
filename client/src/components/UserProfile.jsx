@@ -3,7 +3,7 @@ import { useHistory, Link } from "react-router-dom";
 import { Card } from "semantic-ui-react";
 import AddGameById from "./AddGameById"
 
-function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick, onEditProfile}) {
+function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick, onEditProfile, onRemoveGameFromProfile}) {
     const {id, username, email, address, avatar_url, stars, travel_distance, is_active, is_admin} = currentUser    
     const [edit, setEdit] = useState(false)
     const [newAvatar, setNewAvatar] = useState(`${avatar_url}`)
@@ -14,11 +14,13 @@ function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick,
     
     const history = useHistory()
 
-    function handleAddGameToProfile(){
-          setCurrentUserGames(currentUser.inventories.map((inv)=>inv.game));
+    function handleAddGameToProfile(inv){
+        const updatedGames = [... currentUserGames, inv.game]
+        // onEditProfile(currentUser)  
+        setCurrentUserGames(updatedGames);
     }
     
-    function handleUpdate(e) {
+    function handleEditProfile(e) {
         e.preventDefault()
         const formData = {
             avatar_url: newAvatar,
@@ -54,7 +56,7 @@ function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick,
         fetch(`api/inventories/${parseInt(invToDelete.id)}`, {
             method: "DELETE"
           })
-          onEditProfile(currentUser)        
+        //   onEditProfile(currentUser)        
         //   onRemoveGameFromProfile(id)
           history.push(`/`)
     }
@@ -77,7 +79,7 @@ function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick,
             <label>Edit Account: </label>
             <button onClick={() => setEdit(!edit)}>✏️</button>
                 <span role="img" aria-label="edit">
-                     {edit ? <button type="submit" onClick={handleUpdate}> | Submit Changes</button> : null}
+                     {edit ? <button type="submit" onClick={handleEditProfile}> | Submit Changes</button> : null}
                 </span>
                      
             <header>

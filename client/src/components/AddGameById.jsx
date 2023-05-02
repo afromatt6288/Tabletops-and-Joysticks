@@ -33,6 +33,7 @@ function AddGameByID({currentUser, setCurrentUser, onAddGameToProfile}){
                 r.json()
                 .then(inv => {
                     onAddGameToProfile(inv)
+                    console.log(inv)
                     setGameId("")
                     history.push(`/`)
             })}

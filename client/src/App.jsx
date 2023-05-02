@@ -78,9 +78,10 @@ function App() {
     }
 
     function handleUserDelete(id) {
-        // const updatedUsers = users.filter(user => user.id !== id)
-        // setUsers(updatedUsers)   
-        setUsers(users =>users.filter(user => user.id !== id))
+        const updatedUsers = users.filter(user => user.id !== id)
+        setUsers(updatedUsers)   
+        console.log(users)
+        // setUsers(users =>users.filter(user => user.id !== id))
     }
 
     function handleEditProfile(currentUser){
@@ -163,7 +164,11 @@ function App() {
                 {currentUser ? 
                     <div>
                         <button onClick={togglePop} >PROFILE</button>
-                        {seen ? currentUser && users.find((user) => user.id === currentUser.id) && (<UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} />) : null}                        
+                        {seen ? 
+                        // currentUser && users.find((user) => user.id === currentUser.id) && (
+                        <UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} />
+                        // ) 
+                        : null}                        
                     </div>
                 : 
                     <div>
