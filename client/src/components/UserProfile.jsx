@@ -16,7 +16,6 @@ function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick,
 
     function handleAddGameToProfile(inv){
         const updatedGames = [... currentUserGames, inv.game]
-        // onEditProfile(currentUser)  
         setCurrentUserGames(updatedGames);
     }
     
@@ -51,14 +50,14 @@ function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick,
         })
     }
 
-    function handleRemoveGameFromProfile(){
-        const invToDelete = currentUser.inventories.find(inventory => inventory.game_id === id)
+    function handleRemoveGameFromProfile(gameToRemove){
+        const invToDelete = currentUser.inventories.find(inventory => inventory.game_id === gameToRemove.id)
         fetch(`api/inventories/${parseInt(invToDelete.id)}`, {
             method: "DELETE"
-          })
-        //   onEditProfile(currentUser)        
-        //   onRemoveGameFromProfile(id)
-          history.push(`/`)
+        })
+            const updatedGames = currentUserGames.filter(game => game.id !== gameToRemove.id)
+            setCurrentUserGames(updatedGames);
+            history.push(`/`)
     }
 
     function handleUserDelete() {
@@ -119,7 +118,7 @@ function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick,
                                     <img className="img-thumb" src={game.image} alt={game.title} />
                                 </Link>
                                 <h4>{game.type}</h4>
-                                <button onClick={handleRemoveGameFromProfile}>X</button>
+                                <button onClick={() => handleRemoveGameFromProfile(game)}>X</button>
                             </div>
                         ))}
                     </Card.Group>  

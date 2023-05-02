@@ -115,13 +115,13 @@ function App() {
 
     // Handle Game Add & Delete
     function handleGameAdd(addItem) {
-        const updatedItems = [...games, addItem]
-        setGames(updatedItems);
+        const updatedGames = [...games, addItem]
+        setGames(updatedGames);
     }
 
     function handleGameDelete(id) {
-        const updatedItems = games.filter(game => game.id !== id)
-        setGames(updatedItems)
+        const updatedGames = games.filter(game => game.id !== id)
+        setGames(updatedGames)
     }
 
 /////////////
@@ -164,11 +164,7 @@ function App() {
                 {currentUser ? 
                     <div>
                         <button onClick={togglePop} >PROFILE</button>
-                        {seen ? 
-                        // currentUser && users.find((user) => user.id === currentUser.id) && (
-                        <UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} />
-                        // ) 
-                        : null}                        
+                        {seen ? <UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile}/> : null}                        
                     </div>
                 : 
                     <div>
