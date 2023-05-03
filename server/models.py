@@ -395,7 +395,7 @@ class Swap(db.Model, SerializerMixin):
 class Message(db.Model, SerializerMixin):
     __tablename__ = 'messages'
 
-    serialize_only = ('id', 'message_text', 'sender_user_id', 'receiver_user_id')
+    serialize_only = ('id', 'message_text', 'sender_user_id', 'receiver_user_id', 'created_at',)
     # serialize_rules = ('-sender.sent_messages', '-receiver.received_messages',)
     
     id = db.Column(db.Integer, primary_key=True)

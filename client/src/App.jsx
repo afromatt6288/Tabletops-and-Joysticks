@@ -10,7 +10,7 @@ import Login from "./components/Login";
 import UserList from "./components/UserList";
 import UserDetail from "./components/UserDetail";
 import UserProfile from "./components/UserProfile";
-import MessageBox from "./components/MessageBox";
+// import MessageBox from "./components/MessageBox";
 import TBD from "./components/TBD";
 
 function App() {
@@ -181,7 +181,7 @@ function App() {
                 {currentUser ? 
                     <div>
                         <button onClick={togglePop} >PROFILE</button>
-                        {seen ? <UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} users={users} messages={currentUserMessages} edit={edit} onSendMessage={handleSendMessage} onDeleteMessage={handleDeleteMessage} onEditMessage={handleEditMessage}/> : null}                        
+                        {seen ? <UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} users={users} messages={messages} onSendMessage={handleSendMessage} onDeleteMessage={handleDeleteMessage} onEditMessage={handleEditMessage}/> : null}                        
                     </div>
                 : 
                     <div>

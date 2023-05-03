@@ -9,38 +9,39 @@ function MessageNew({ user, currentUser, onSendMessage }) {
 // Setup Functions //
 /////////////////////
 
-    const history = useHistory()
+  const history = useHistory()
 
-    // This is what implements Tailwind... so DON'T delete it. 
-    useEffect(() => {
-        initTE({ Datepicker, Input, Select, Ripple });
-    }, []);
+  // This is what implements Tailwind... so DON'T delete it. 
+  useEffect(() => {
+    initTE({ Datepicker, Input, Select, Ripple });
+  }, []);
   
   function handleSendMessage(e) {
     e.preventDefault()
     history.push(`/`)
     const formData = {
-        sender_user_id: currentUser.id,
-        receiver_user_id: user.id,
-        message_text: messageText
+      sender_user_id: currentUser.id,
+      receiver_user_id: user.id,
+      message_text: messageText
     }
     fetch("api/messages", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
     })
-        .then(r => {
-            if (r.ok) {
-                r.json()
-                .then(data => {
-                    onSendMessage(data)
-                    setMessageText("")
-                    history.push(`/users/${id}`)
-            })}
-    })
-}
+      .then(r => {
+          if (r.ok) {
+            r.json()
+            .then(data => {
+              onSendMessage(data)
+              setMessageText("")
+              history.push(`/users/${id}`)
+          })
+          }
+      })
+  }
   
   return (
     <form className="new-message" onSubmit={handleSendMessage}>

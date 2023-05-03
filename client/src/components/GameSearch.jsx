@@ -8,12 +8,12 @@ function GameSearch({search, onSearchChange, sortBy, onSortChange, onHandleTypeF
 // Setup Functions //
 /////////////////////
 
-    const history = useHistory()
+  const history = useHistory()
 
-    // This is what implements Tailwind... so DON'T delete it. 
-    useEffect(() => {
-        initTE({ Datepicker, Input, Select, Ripple });
-    }, []);
+  // This is what implements Tailwind... so DON'T delete it. 
+  useEffect(() => {
+    initTE({ Datepicker, Input, Select, Ripple });
+  }, []);
 
   function handleSortChange(e){
     onSortChange(e.target.value)

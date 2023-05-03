@@ -34,16 +34,16 @@ function UserNew({onNewUser, toggle}) {
         e.preventDefault()
         if (password == passwordConfirmation) {
             const formData = {
-                    username: username,
-                    password: password,
-                    password_confirmation: passwordConfirmation,
-                    email: email,
-                    address: address,
-                    avatar_url: avatar_url,
-                    stars: stars,
-                    travel_distance: travel_distance,
-                    is_active: is_active,
-                    is_admin: is_admin
+                username: username,
+                password: password,
+                password_confirmation: passwordConfirmation,
+                email: email,
+                address: address,
+                avatar_url: avatar_url,
+                stars: stars,
+                travel_distance: travel_distance,
+                is_active: is_active,
+                is_admin: is_admin
             }
             fetch("api/signup", {
                 method: "POST",
@@ -61,10 +61,10 @@ function UserNew({onNewUser, toggle}) {
                     })}
                 toggle()
                 })
-            } else {
-                setInvalidPassword(e=>setInvalidPassword(!invalidPassword))
-            }
+        } else {
+            setInvalidPassword(e=>setInvalidPassword(!invalidPassword))
         }
+    }
 
     return (
         <section id="signup-form">

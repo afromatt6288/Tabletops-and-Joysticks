@@ -5,7 +5,7 @@ import MessageBox from "./MessageBox"
 import GameList from "./GameList"
 import AddGameByNameId from "./AddGameByNameId"
 
-function UserProfile({currentUser, onUserDelete, onLogoutClick, onEditProfile}) {
+function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick, onEditProfile, onSendMessage, onDeleteMessage, onEditMessage}) {
     const {id, username, email, address, avatar_url, stars, travel_distance, is_active, is_admin} = currentUser    
     const [edit, setEdit] = useState(false)
     const [newAvatar, setNewAvatar] = useState(`${avatar_url}`)
@@ -13,13 +13,17 @@ function UserProfile({currentUser, onUserDelete, onLogoutClick, onEditProfile}) 
     const [newAddress, setNewAddress] = useState(`${address}`)
     const [newTravel, setNewTravel] = useState(`${travel_distance}`)
     const [currentUserGames, setCurrentUserGames] = useState(currentUser.inventories.map((inv)=>inv.game))
-    const [currentUserMessages, setCurrentUserMessages] = useState(currentUser.messages.map((mes)=>mes))
+    const [currentUserSentMessages, setCurrentUserSentMessages] = useState(currentUser.sent_messages.map((mes)=>mes))
+    const [currentUserReceivedMessages, setCurrentUserReceivedMessages] = useState(currentUser.received_messages.map((mes)=>mes))
     
 /////////////////////
 // Setup Functions //
 /////////////////////
 
     const history = useHistory()
+
+    console.log(currentUserSentMessages)
+    console.log(currentUserReceivedMessages)
 
     // This is what implements Tailwind... so DON'T delete it. 
     useEffect(() => {
@@ -58,8 +62,9 @@ function UserProfile({currentUser, onUserDelete, onLogoutClick, onEditProfile}) 
                         setNewTravel(parseInt(newTravel))
                         history.push(`/users/${id}`)
                         history.push(`/`)
-                })}
-        })
+                    })
+                }
+            })
     }
 
     function handleUserDelete() {
@@ -110,7 +115,7 @@ function UserProfile({currentUser, onUserDelete, onLogoutClick, onEditProfile}) 
             {edit ? <label> | Delete Account 👉 <button type="submit" onClick={handleUserDelete}>🗑 </button></label> : null}
             <br/>
             <label>YOUR MESSAGES:</label>
-            <MessageBox currentUser={currentUser} messages={currentUserMessages} edit={edit} onCurrentUserMessages={setCurrentUserMessages} onSendMessage={onSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage}/>
+            <MessageBox users={users} currentUser={currentUser} currentUserSentMessages={currentUserSentMessages} onCurrentUserSentMessages={setCurrentUserSentMessages} currentUserReceivedMessages={currentUserReceivedMessages} onCurrentUserReceivedMessages={setCurrentUserReceivedMessages} onSendMessage={onSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage}/>
             <br/>
             <label>YOUR GAMES:<span>{edit ? <AddGameByNameId currentUser={currentUser} onAddGameToProfile={handleAddGameToProfile}/> : null}</span></label>
             <GameList currentUser={currentUser} games={currentUserGames} edit={edit} onCurrentUserGames={setCurrentUserGames}/>

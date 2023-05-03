@@ -8,12 +8,12 @@ function MessageSearch({ search, onSearchChange }) {
 // Setup Functions //
 /////////////////////
 
-    const history = useHistory()
+  const history = useHistory()
 
-    // This is what implements Tailwind... so DON'T delete it. 
-    useEffect(() => {
-        initTE({ Datepicker, Input, Select, Ripple });
-    }, []);
+  // This is what implements Tailwind... so DON'T delete it. 
+  useEffect(() => {
+    initTE({ Datepicker, Input, Select, Ripple });
+  }, []);
 
   return (
     <nav>

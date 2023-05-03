@@ -9,17 +9,17 @@ function EditMessage({ id, message_text, onEditedMessage }) {
 // Setup Functions //
 /////////////////////
 
-    const history = useHistory()
+  const history = useHistory()
 
-    // This is what implements Tailwind... so DON'T delete it. 
-    useEffect(() => {
-        initTE({ Datepicker, Input, Select, Ripple });
-    }, []);
+  // This is what implements Tailwind... so DON'T delete it. 
+  useEffect(() => {
+    initTE({ Datepicker, Input, Select, Ripple });
+  }, []);
 
   function handleEditMessage(e) {
     e.preventDefault();    
     const formData = {
-        message_text: messageText
+      message_text: messageText
     }
     fetch(`/messages/${id}`, {
       method: "PATCH",
@@ -30,11 +30,11 @@ function EditMessage({ id, message_text, onEditedMessage }) {
     })
       .then(r  => {
         if (r.ok) {
-            r.json()
-            .then(message => {
-              onEditedMessage(message)
-                history.push(`/users/${id}`)
-                history.push(`/`)
+          r.json()
+          .then(message => {
+            onEditedMessage(message)
+              history.push(`/users/${id}`)
+              history.push(`/`)
         })}
       })
   }         

@@ -50,10 +50,10 @@ function UserSearch({search, onSearchChange, sortBy, onSortChange, onHandleGameT
                         {types.map((type)=> <option key={type} value={type}>{type}</option>)}
                     </select>
                 </label>
-            <div>
-                <input type="text" name="search" placeholder="🔍 Search..." value={search} onChange={e=> onSearchChange(e.target.value)}/>
-                {/* <i>🔍</i> */}
-            </div>          
+                <div>
+                    <input type="text" name="search" placeholder="🔍 Search..." value={search} onChange={e=> onSearchChange(e.target.value)}/>
+                    {/* <i>🔍</i> */}
+                </div>          
             </div>
         </section>
     );
