@@ -25,7 +25,7 @@ function MessageBox(currentUser, messages, onSendMessage, onDeleteMessage, onEdi
   
   console.log(messages)
   
-  const displayedMessages = messages.filter(message => message.body.toLowerCase().includes(search.toLowerCase()))
+  const displayedMessages = messages.filter(message => message.message_text.toLowerCase().includes(search.toLowerCase()))
   
   return (
     <main>

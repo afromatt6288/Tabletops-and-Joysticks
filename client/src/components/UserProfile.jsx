@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
+import MessageBox from "./MessageBox"
 import GameList from "./GameList"
 import AddGameByNameId from "./AddGameByNameId"
 
@@ -12,6 +13,7 @@ function UserProfile({currentUser, onUserDelete, onLogoutClick, onEditProfile}) 
     const [newAddress, setNewAddress] = useState(`${address}`)
     const [newTravel, setNewTravel] = useState(`${travel_distance}`)
     const [currentUserGames, setCurrentUserGames] = useState(currentUser.inventories.map((inv)=>inv.game))
+    const [currentUserMessages, setCurrentUserMessages] = useState(currentUser.messages.map((mes)=>mes))
     
 /////////////////////
 // Setup Functions //
@@ -106,6 +108,9 @@ function UserProfile({currentUser, onUserDelete, onLogoutClick, onEditProfile}) 
             </form>
             <button onClick={handleLogoutClick}><label>LOGOUT </label></button>
             {edit ? <label> | Delete Account 👉 <button type="submit" onClick={handleUserDelete}>🗑 </button></label> : null}
+            <br/>
+            <label>YOUR MESSAGES:</label>
+            <MessageBox currentUser={currentUser} messages={currentUserMessages} edit={edit} onCurrentUserMessages={setCurrentUserMessages} onSendMessage={onSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage}/>
             <br/>
             <label>YOUR GAMES:<span>{edit ? <AddGameByNameId currentUser={currentUser} onAddGameToProfile={handleAddGameToProfile}/> : null}</span></label>
             <GameList currentUser={currentUser} games={currentUserGames} edit={edit} onCurrentUserGames={setCurrentUserGames}/>

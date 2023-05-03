@@ -181,7 +181,7 @@ function App() {
                 {currentUser ? 
                     <div>
                         <button onClick={togglePop} >PROFILE</button>
-                        {seen ? <UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile}/> : null}                        
+                        {seen ? <UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} users={users} messages={currentUserMessages} edit={edit} onSendMessage={handleSendMessage} onDeleteMessage={handleDeleteMessage} onEditMessage={handleEditMessage}/> : null}                        
                     </div>
                 : 
                     <div>
@@ -196,7 +196,7 @@ function App() {
                         <Home currentUser={currentUser}/>
                     </Route>
                     {/* <Route exact path="/messages">
-                        <Message currentUser={currentUser}/>
+                        <MessageBox currentUser={currentUser}/>
                     </Route> */}
                     <Route exact path="/users">
                         <UserList currentUser={currentUser} users={users} games={games}/>
