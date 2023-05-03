@@ -31,13 +31,21 @@ function GameSearch({search, onSearchChange, sortBy, onSortChange, onHandleTypeF
           Alphabetical | 
         <input
           type="radio"
+          value="ID"
+          name="sort"
+          checked={sortBy === "ID"}
+          onChange={handleSortChange}
+        />
+        ID |  
+        <input
+          type="radio"
           value="Maximum Number of Players"
           name="sort"
           checked={sortBy === "Maximum Number of Players"}
           onChange={handleSortChange}
         />
-        Maximum Number of Players
-       | </label>
+        Max Number of Players | 
+      </label>
       <label>
         <strong>Filter by Type:</strong>
         <select onChange={handleTypeFilter} value={filterByType}>

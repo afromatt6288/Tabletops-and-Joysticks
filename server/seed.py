@@ -238,7 +238,7 @@ with app.app_context():
         "Digital", "DreamCast", "GameBoy", "GameBoy Advance", "GameCube", "Genesis", "Mac", 
         "Mobile", "NES", "Nintendo 3DS", "Nintendo 64", "Nintendo DS", "Nintendo Switch", "PC", 
         "PS Vita", "PlayStation", "PlayStation 2", "PlayStation 3", "PlayStation 4", 
-        "PlayStation 5", "PSP", "Table Top", "Wii", "Wii U", "XBox", "XBox 360", 
+        "PlayStation 5", "PSP", "Wii", "Wii U", "XBox", "XBox 360", 
         "XBox One", "XBox Series X/S", "Other"
         ]
     platforms2=["Tabletop", "Digital", "Mobile", "Other"]    

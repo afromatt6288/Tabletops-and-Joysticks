@@ -14,6 +14,8 @@ function GameList({games}) {
     const sortedGames = [...games].sort((game1, game2) => {
         if (sortBy === "Alphabetical") {
             return game1.title.localeCompare(game2.title)
+        } else if (sortBy === "ID") {
+            return game1.id - game2.id;
         } else if (sortBy === "Maximum Number of Players") {
             return game2.player_num_max - game1.player_num_max;
         // } else if (sortBy === "Distance") {
