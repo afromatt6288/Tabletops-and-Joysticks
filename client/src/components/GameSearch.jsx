@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useHistory, Link } from "react-router-dom";
+import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 
 function GameSearch({search, onSearchChange, sortBy, onSortChange, onHandleTypeFilter, onHandleGenreFilter, onHandlePlatformFilter,filterByType, filterByGenre, filterByPlatform, types, genres, platforms}) {
   
+/////////////////////
+// Setup Functions //
+/////////////////////
+
+    const history = useHistory()
+
+    // This is what implements Tailwind... so DON'T delete it. 
+    useEffect(() => {
+        initTE({ Datepicker, Input, Select, Ripple });
+    }, []);
+
   function handleSortChange(e){
     onSortChange(e.target.value)
   }

@@ -1,7 +1,20 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useHistory, Link } from "react-router-dom";
+import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 
 function NavBar({admin}) {
+
+/////////////////////
+// Setup Functions //
+/////////////////////
+
+    const history = useHistory()
+
+    // This is what implements Tailwind... so DON'T delete it. 
+    useEffect(() => {
+        initTE({ Datepicker, Input, Select, Ripple });
+    }, []);
+
     return (
         <section>
         <nav>

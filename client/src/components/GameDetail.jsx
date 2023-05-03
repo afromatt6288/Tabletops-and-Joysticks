@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
-import { Datepicker, Input, initTE } from "tw-elements";
+import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import { Card } from "semantic-ui-react"
 
 function GameDetail({admin, onGameDelete}) {
-    const [game, setGame] = useState(null);
-    const { id } = useParams()
+    const [game, setGame] = useState(null);    
+    
+/////////////////////
+// Setup Functions //
+/////////////////////
+
     const history = useHistory()
+    const { id } = useParams()
 
     // This is what implements Tailwind... so DON'T delete it. 
     useEffect(() => {
-      initTE({ Datepicker, Input });
+        initTE({ Datepicker, Input, Select, Ripple });
     }, []);
 
     useEffect(() => {

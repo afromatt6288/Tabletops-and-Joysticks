@@ -1,22 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
-import { Datepicker, Input, initTE } from "tw-elements";
+import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import GameList from "./GameList"
-import { Card } from "semantic-ui-react";
 
 function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
     const [message_text, setMessage_text] = useState("")
     const [user, setUser] = useState(null);
-    const { id } = useParams()
-    const history = useHistory()
     
+/////////////////////
+// Setup Functions //
+/////////////////////
+    
+    const history = useHistory()
+    const { id } = useParams()
+
     console.log(user, currentUser, message_text)
 
     // This is what implements Tailwind... so DON'T delete it. 
     useEffect(() => {
-        initTE({ Datepicker, Input });
+        initTE({ Datepicker, Input, Select, Ripple });
     }, []);
-
+    
     useEffect(() => {
         fetch(`/api/users/${id}`)
         .then(r => r.json())
@@ -31,31 +35,6 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
     
     // Add the users games to each user
     const allGames = user.inventories.map((inv)=>inv.game)
-
-    function handleSendMessage(e) {
-        e.preventDefault()
-        history.push(`/`)
-        const formData = {
-            sender_user_id: currentUser.id,
-            receiver_user_id: user.id,
-            message_text: message_text
-        }
-        fetch("api/messages", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
-        })
-            .then(r => {
-                if (r.ok) {
-                    r.json()
-                    .then(data => {
-                        onSendMessage(data)
-                        history.push(`/users/${id}`)
-                })}
-        })
-    }
 
     function handleUserDelete() {
         history.push(`/`)
@@ -91,32 +70,17 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
             <h2>Games:</h2>
                 <div className="user-game-list">
                     <GameList games={allGames}/>
-                    {/* <Card.Group className="cards" itemsPerRow={2}>
-                        {allGames && allGames.map((game) => (
-                            <div key={game.id}>
-                                <h4>{game.title} | #{game.id}</h4>
-                                <Link to={`/games/${game.id}`}>
-                                    <img className="img-thumb" src={game.image} alt={game.title} />
-                                </Link>
-                                <h4>{game.type}</h4>
-                            </div>
-                        ))}
-                    </Card.Group>   */}
                 </div>
-            {admin ? (
-            <div>
-                <button>
-                    <span role="img" aria-label="edit">
-                        ✏️
-                    </span>
-                </button>
-                <button onClick={handleUserDelete}>
-                    <span role="img" aria-label="delete">
-                        🗑
-                    </span>
-                </button>
-            </div>
-            ) : null}
+            {admin ? 
+                <div>
+                    <button>
+                        <span role="img" aria-label="edit"> ✏️ </span>
+                    </button>
+                    <button onClick={handleUserDelete}>
+                        <span role="img" aria-label="delete"> 🗑 </span>
+                    </button>
+                </div>
+            : null}
         </div>
     )
 }

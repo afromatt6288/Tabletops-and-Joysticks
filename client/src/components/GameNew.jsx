@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { Datepicker, Input, Select, initTE } from "tw-elements";
+import { useParams, useHistory, Link } from "react-router-dom";
+import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 
 function GameNew({onGameAdd, games}) {
     const [title, setTitle] = useState("");
@@ -12,11 +12,15 @@ function GameNew({onGameAdd, games}) {
     const [image_url, setImage_url] = useState("https://thumbs.dreamstime.com/b/new-content-text-quote-notepad-concept-background-new-content-text-quote-notepad-concept-background-217366624.jpg");
     const [description, setDescription] = useState("");
     
-    const history = useHistory();
+/////////////////////
+// Setup Functions //
+/////////////////////
+
+    const history = useHistory()
 
     // This is what implements Tailwind... so DON'T delete it. 
     useEffect(() => {
-        initTE({ Datepicker, Input, Select });
+        initTE({ Datepicker, Input, Select, Ripple });
     }, []);
 
     const typesList = [

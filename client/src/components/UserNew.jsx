@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { Datepicker, Input, initTE } from "tw-elements";
+import { useParams, useHistory, Link } from "react-router-dom";
+import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 
 function UserNew({onNewUser, toggle}) {
     const [username, setUsername] = useState("");
@@ -17,11 +17,15 @@ function UserNew({onNewUser, toggle}) {
     const [is_admin, setIs_admin] = useState(false);
     const [invalidPassword, setInvalidPassword] = useState(false)
 
-    const history = useHistory();
+/////////////////////
+// Setup Functions //
+/////////////////////
+
+    const history = useHistory()
 
     // This is what implements Tailwind... so DON'T delete it. 
     useEffect(() => {
-        initTE({ Datepicker, Input });
+        initTE({ Datepicker, Input, Select, Ripple });
     }, []);
 
     console.log(`${username} ${password} ${email} ${address} ${avatar_url} ${stars} ${travel_distance} ${is_active} ${is_admin}`)

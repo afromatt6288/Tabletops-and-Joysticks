@@ -10,20 +10,26 @@ import Login from "./components/Login";
 import UserList from "./components/UserList";
 import UserDetail from "./components/UserDetail";
 import UserProfile from "./components/UserProfile";
+import MessageBox from "./components/MessageBox";
 import TBD from "./components/TBD";
-// import { MessageList } from "semantic-ui-react";
 
 function App() {
     const [currentUser, setCurrentUser] = useState("")
     const [seen, setSeen] = useState(false)
     const [admin, setAdmin] = useState(false)
-    const [isDarkMode, setIsDarkMode] = useState(false)
-
-    const history = useHistory();
+    // const [isDarkMode, setIsDarkMode] = useState(false)
 
 /////////////////////
 // Setup Functions //
 /////////////////////
+
+    const history = useHistory()
+
+    // This is what implements Tailwind... so DON'T delete it. 
+    useEffect(() => {
+        initTE({ Datepicker, Input, Select, Ripple });
+    }, []);
+
 
     // forces any refreshing of the app to bring the user back to the home page instead of logging them out. 
     useEffect(() => {
@@ -31,12 +37,7 @@ function App() {
       }, [history]);
     
     const [count, setCount] = useState(0)
-
-    // This is what implements Tailwind... so DON'T delete it. 
-    useEffect(() => {
-      initTE({ Datepicker, Input, Ripple, Select,});
-    }, []);
-        
+       
     // Check users cookies to keep them logged in
     useEffect(() => {
         fetch("api/check_session")
@@ -71,7 +72,7 @@ function App() {
             })
     }, [])
 
-    // Handle User Add & Delete
+    // Handle User Add, Delete, & Edit
     function handleAddUser(addUser) {
         const updatedUsers = [...users, addUser]
         setUsers(updatedUsers);
@@ -81,7 +82,6 @@ function App() {
         const updatedUsers = users.filter(user => user.id !== id)
         setUsers(updatedUsers)   
         console.log(users)
-        // setUsers(users =>users.filter(user => user.id !== id))
     }
 
     function handleEditProfile(currentUser){
@@ -138,9 +138,26 @@ function App() {
             })
     }, [])
 
+    // Handle Message Send, Delete, & Edit
     function handleSendMessage(addMessage){
         const updatedMessages = [...messages, addMessage]
         setMessages(updatedMessages)
+    }
+
+    function handleDeleteMessage(id) {
+        const updatedMessages = messages.filter(message => message.id !== id)
+        setMessages(updatedMessages)
+    }
+    
+    function handleEditMessage(editedMessage) {
+        const editedMessages = messages.map(message => {
+            if (message.id === editedMessage.id) {
+                return editedMessage
+            } else {
+                return message
+            }
+        })
+        setMessages(editedMessages)
     }
 
 //////////
@@ -185,7 +202,7 @@ function App() {
                         <UserList currentUser={currentUser} users={users} games={games}/>
                     </Route>
                     <Route exact path="/users/:id">
-                        <UserDetail admin={admin} currentUser={currentUser} users={users} games={games} onUserDelete={handleUserDelete} onSendMessage={handleSendMessage}/>
+                        <UserDetail admin={admin} currentUser={currentUser} users={users} games={games} onUserDelete={handleUserDelete}/>
                     </Route>
                     {admin ? 
                     <Route exact path="/tbd">

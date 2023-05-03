@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useHistory, Link } from "react-router-dom";
+import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import UserItem from "./UserItem";
 import UserSearch from "./UserSearch";
 import { Card } from "semantic-ui-react";
@@ -7,6 +9,17 @@ function UserList({currentUser, users, games}) {
     const [search, setSearch] = useState("")
     const [sortBy, setSortBy] = useState("Alphabetical")
     const [filterByGameType, setFilterByGameType] = useState("All")
+
+/////////////////////
+// Setup Functions //
+/////////////////////
+
+    const history = useHistory()
+
+    // This is what implements Tailwind... so DON'T delete it. 
+    useEffect(() => {
+        initTE({ Datepicker, Input, Select, Ripple });
+    }, []);
 
     // handle my User sort
     const notCurrentUsers = users.filter(user => user.id !== currentUser.id)

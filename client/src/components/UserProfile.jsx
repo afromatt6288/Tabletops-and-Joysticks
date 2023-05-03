@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, Link } from "react-router-dom";
-import { Card } from "semantic-ui-react";
+import { useParams, useHistory, Link } from "react-router-dom";
+import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import GameList from "./GameList"
-import AddGameById from "./AddGameById"
+import AddGameByNameId from "./AddGameByNameId"
 
-function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick, onEditProfile}) {
+function UserProfile({currentUser, onUserDelete, onLogoutClick, onEditProfile}) {
     const {id, username, email, address, avatar_url, stars, travel_distance, is_active, is_admin} = currentUser    
     const [edit, setEdit] = useState(false)
     const [newAvatar, setNewAvatar] = useState(`${avatar_url}`)
@@ -13,7 +13,16 @@ function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick,
     const [newTravel, setNewTravel] = useState(`${travel_distance}`)
     const [currentUserGames, setCurrentUserGames] = useState(currentUser.inventories.map((inv)=>inv.game))
     
+/////////////////////
+// Setup Functions //
+/////////////////////
+
     const history = useHistory()
+
+    // This is what implements Tailwind... so DON'T delete it. 
+    useEffect(() => {
+        initTE({ Datepicker, Input, Select, Ripple });
+    }, []);
 
     function handleAddGameToProfile(inv){
         const updatedGames = [... currentUserGames, inv.game]
@@ -51,16 +60,6 @@ function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick,
         })
     }
 
-    // function handleRemoveGameFromProfile(gameToRemove){
-    //     const invToDelete = currentUser.inventories.find(inventory => inventory.game_id === gameToRemove.id)
-    //     fetch(`api/inventories/${parseInt(invToDelete.id)}`, {
-    //         method: "DELETE"
-    //     })
-    //         const updatedGames = currentUserGames.filter(game => game.id !== gameToRemove.id)
-    //         setCurrentUserGames(updatedGames);
-    //         history.push(`/`)
-    // }
-
     function handleUserDelete() {
         fetch(`api/users/${id}`, {
           method: "DELETE"
@@ -80,8 +79,7 @@ function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick,
             <button onClick={() => setEdit(!edit)}>✏️</button>
                 <span role="img" aria-label="edit">
                      {edit ? <button type="submit" onClick={handleEditProfile}> | Submit Changes</button> : null}
-                </span>
-                     
+                </span> 
             <header>
                 <div>
                     <span>
@@ -109,21 +107,8 @@ function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick,
             <button onClick={handleLogoutClick}><label>LOGOUT </label></button>
             {edit ? <label> | Delete Account 👉 <button type="submit" onClick={handleUserDelete}>🗑 </button></label> : null}
             <br/>
-            <label>YOUR GAMES:<span>{edit ? <AddGameById currentUser={currentUser} onAddGameToProfile={handleAddGameToProfile}/> : null}</span></label>
-                <div>
-                    <GameList currentUser={currentUser} games={currentUserGames} edit={edit} onCurrentUserGames={setCurrentUserGames}/>
-                    {/* <Card.Group className="cards" itemsPerRow={2}>
-                        {currentUserGames.map((game) => (
-                            <div key={game.id}>
-                                <h4>{game.title} | #{game.id}<span>{edit ? <button onClick={() => handleRemoveGameFromProfile(game)}> | Remove  🗑</button> : null}</span></h4>
-                                <Link to={`/games/${game.id}`}>
-                                    <img className="img-thumb" src={game.image} alt={game.title} />
-                                </Link>
-                                <h4>{game.type}</h4>
-                            </div>
-                        ))}
-                    </Card.Group>   */}
-                </div>
+            <label>YOUR GAMES:<span>{edit ? <AddGameByNameId currentUser={currentUser} onAddGameToProfile={handleAddGameToProfile}/> : null}</span></label>
+            <GameList currentUser={currentUser} games={currentUserGames} edit={edit} onCurrentUserGames={setCurrentUserGames}/>
         </div>
     )
 }

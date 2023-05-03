@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useHistory, Link } from "react-router-dom";
+import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import GameItem from "./GameItem";
 import GameSearch from "./GameSearch";
 import { Card } from "semantic-ui-react";
@@ -9,6 +11,17 @@ function GameList({games, edit, currentUser, onCurrentUserGames}) {
     const [filterByType, setFilterByType] = useState("All")
     const [filterByGenre, setFilterByGenre] = useState("All")
     const [filterByPlatform, setFilterByPlatform] = useState("All")
+
+/////////////////////
+// Setup Functions //
+/////////////////////
+
+    const history = useHistory()
+
+    // This is what implements Tailwind... so DON'T delete it. 
+    useEffect(() => {
+        initTE({ Datepicker, Input, Select, Ripple });
+    }, []);
 
     // handle my Game sort
     const sortedGames = [...games].sort((game1, game2) => {
@@ -47,18 +60,13 @@ function GameList({games, edit, currentUser, onCurrentUserGames}) {
         
     return (
         <section id="games">
-            <h2>T&J Games</h2>
+            <GameSearch search={search} onSearchChange={setSearch} sortBy={sortBy} onSortChange={setSortBy} filterByType={filterByType} filterByGenre={filterByGenre} filterByPlatform={filterByPlatform} onHandleTypeFilter={setFilterByType} onHandleGenreFilter={setFilterByGenre} onHandlePlatformFilter={setFilterByPlatform} types={uniqueTypes} genres={uniqueGenres} platforms={uniquePlatforms}/>
             <div>
-                <GameSearch search={search} onSearchChange={setSearch} sortBy={sortBy} onSortChange={setSortBy} filterByType={filterByType} filterByGenre={filterByGenre} filterByPlatform={filterByPlatform} onHandleTypeFilter={setFilterByType} onHandleGenreFilter={setFilterByGenre} onHandlePlatformFilter={setFilterByPlatform} types={uniqueTypes} genres={uniqueGenres} platforms={uniquePlatforms}/>
-            </div>
-            <div>
-                <div>
-                    <Card.Group itemsPerRow={6}>
-                        {displayedGames.map((game)=> (
-                        <GameItem key={game.id} game={game} edit={edit} currentUser={currentUser} onCurrentUserGames={onCurrentUserGames} games={games}/>
-                        ))}
-                    </Card.Group>
-                </div>
+                <Card.Group itemsPerRow={6}>
+                    {displayedGames.map((game)=> (
+                    <GameItem key={game.id} game={game} edit={edit} currentUser={currentUser} onCurrentUserGames={onCurrentUserGames} games={games}/>
+                    ))}
+                </Card.Group>
             </div>
         </section>
     );
