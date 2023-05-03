@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { Card } from "semantic-ui-react";
+import GameList from "./GameList"
 import AddGameById from "./AddGameById"
 
-function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick, onEditProfile, onRemoveGameFromProfile}) {
+function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick, onEditProfile}) {
     const {id, username, email, address, avatar_url, stars, travel_distance, is_active, is_admin} = currentUser    
     const [edit, setEdit] = useState(false)
     const [newAvatar, setNewAvatar] = useState(`${avatar_url}`)
@@ -50,15 +51,15 @@ function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick,
         })
     }
 
-    function handleRemoveGameFromProfile(gameToRemove){
-        const invToDelete = currentUser.inventories.find(inventory => inventory.game_id === gameToRemove.id)
-        fetch(`api/inventories/${parseInt(invToDelete.id)}`, {
-            method: "DELETE"
-        })
-            const updatedGames = currentUserGames.filter(game => game.id !== gameToRemove.id)
-            setCurrentUserGames(updatedGames);
-            history.push(`/`)
-    }
+    // function handleRemoveGameFromProfile(gameToRemove){
+    //     const invToDelete = currentUser.inventories.find(inventory => inventory.game_id === gameToRemove.id)
+    //     fetch(`api/inventories/${parseInt(invToDelete.id)}`, {
+    //         method: "DELETE"
+    //     })
+    //         const updatedGames = currentUserGames.filter(game => game.id !== gameToRemove.id)
+    //         setCurrentUserGames(updatedGames);
+    //         history.push(`/`)
+    // }
 
     function handleUserDelete() {
         fetch(`api/users/${id}`, {
@@ -110,7 +111,8 @@ function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick,
             <br/>
             <label>YOUR GAMES:<span>{edit ? <AddGameById currentUser={currentUser} onAddGameToProfile={handleAddGameToProfile}/> : null}</span></label>
                 <div>
-                    <Card.Group className="cards" itemsPerRow={2}>
+                    <GameList currentUser={currentUser} games={currentUserGames} edit={edit} onCurrentUserGames={setCurrentUserGames}/>
+                    {/* <Card.Group className="cards" itemsPerRow={2}>
                         {currentUserGames.map((game) => (
                             <div key={game.id}>
                                 <h4>{game.title} | #{game.id}<span>{edit ? <button onClick={() => handleRemoveGameFromProfile(game)}> | Remove  🗑</button> : null}</span></h4>
@@ -120,7 +122,7 @@ function UserProfile({currentUser, setCurrentUser,  onUserDelete, onLogoutClick,
                                 <h4>{game.type}</h4>
                             </div>
                         ))}
-                    </Card.Group>  
+                    </Card.Group>   */}
                 </div>
         </div>
     )

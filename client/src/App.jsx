@@ -198,7 +198,7 @@ function App() {
                         <GameDetail admin={admin} onGameDelete={handleGameDelete}/>
                     </Route>
                     <Route exact path="/games">
-                        <GameList games={games} users={users}/>
+                        <GameList currentUser={currentUser} games={games} users={users}/>
                     </Route>
                     <Route path="*">
                         <h1>404 not found</h1>

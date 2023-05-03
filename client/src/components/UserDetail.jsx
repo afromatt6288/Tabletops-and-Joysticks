@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, initTE } from "tw-elements";
+import GameList from "./GameList"
 import { Card } from "semantic-ui-react";
 
 function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
@@ -89,7 +90,8 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
             </form>
             <h2>Games:</h2>
                 <div className="user-game-list">
-                    <Card.Group className="cards" itemsPerRow={2}>
+                    <GameList games={allGames}/>
+                    {/* <Card.Group className="cards" itemsPerRow={2}>
                         {allGames && allGames.map((game) => (
                             <div key={game.id}>
                                 <h4>{game.title} | #{game.id}</h4>
@@ -99,7 +101,7 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
                                 <h4>{game.type}</h4>
                             </div>
                         ))}
-                    </Card.Group>  
+                    </Card.Group>   */}
                 </div>
             {admin ? (
             <div>

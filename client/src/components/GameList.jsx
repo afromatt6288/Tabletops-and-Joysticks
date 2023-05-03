@@ -3,7 +3,7 @@ import GameItem from "./GameItem";
 import GameSearch from "./GameSearch";
 import { Card } from "semantic-ui-react";
 
-function GameList({games}) {
+function GameList({games, edit, currentUser, onCurrentUserGames}) {
     const [search, setSearch] = useState("")
     const [sortBy, setSortBy] = useState("Alphabetical")
     const [filterByType, setFilterByType] = useState("All")
@@ -55,7 +55,7 @@ function GameList({games}) {
                 <div>
                     <Card.Group itemsPerRow={6}>
                         {displayedGames.map((game)=> (
-                        <GameItem key={game.id} game={game}/>
+                        <GameItem key={game.id} game={game} edit={edit} currentUser={currentUser} onCurrentUserGames={onCurrentUserGames} games={games}/>
                         ))}
                     </Card.Group>
                 </div>
