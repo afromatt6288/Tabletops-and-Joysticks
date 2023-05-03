@@ -5,9 +5,8 @@ import MessageEdit from "./MessageEdit"
 
 function Message({ users, user, message, currentUser, onDeleteMessage, onUpdateMessage }) {
   const [isEditing, setIsEditing] = useState(false)
-  
   const { id, sender_user_id, receiver_user_id, message_text, created_at } = message
-  
+ 
 /////////////////////
 // Setup Functions //
 /////////////////////
@@ -31,13 +30,24 @@ function Message({ users, user, message, currentUser, onDeleteMessage, onUpdateM
     onUpdateMessage(updatedMessage)
   }
 
+const date = new Date(created_at);
+const formattedDate = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "2-digit",
+  year: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  hour12: true
+}).format(date);
+
   return (
     <li>
-      <span>{created_at}</span>
+      <span>{formattedDate}</span>
+      <br/>
       {sender_user_id == currentUser.id ?
-      <span>{currentUser.username} | {sender_user_id} | {user.username} | {receiver_user_id}</span> 
+      <span>From: {currentUser.username} (ID#{sender_user_id}) | To: {user.username} (ID#{receiver_user_id})</span> 
       :
-      <span>{user.username} | {sender_user_id} | {currentUser.username} | {receiver_user_id}</span>
+      <span>From: {user.username} (ID#{sender_user_id}) | To: {currentUser.username} (ID#{receiver_user_id})</span>
       }
       
       {isEditing ? <MessageEdit id={id} message_text={message_text} onUpdateMessage={handleUpdateMessage} /> : <p>{message_text}</p>}

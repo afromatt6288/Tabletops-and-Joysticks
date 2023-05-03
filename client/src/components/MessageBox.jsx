@@ -7,15 +7,13 @@ import MessageNew from "./MessageNew";
 
 function MessageBox({users, currentUser, onSendMessage, onDeleteMessage, onEditMessage, currentUserSentMessages, onCurrentUserSentMessages, currentUserReceivedMessages, onCurrentUserReceivedMessages}) {
   const [search, setSearch] = useState("")
+  const [selectedUser, setSelectedUser] = useState(null);
 
 /////////////////////
 // Setup Functions //
 /////////////////////
 
   const history = useHistory()
-
-  console.log(currentUserSentMessages)
-  console.log(currentUserReceivedMessages)
 
   // This is what implements Tailwind... so DON'T delete it. 
   useEffect(() => {
@@ -32,17 +30,47 @@ function MessageBox({users, currentUser, onSendMessage, onDeleteMessage, onEditM
     message_text: message.message_text,
     sender_user_id: message.sender_user_id,
     receiver_user_id: message.receiver_user_id,
-    created_At: message.created_At
+    created_at: message.created_at
   }));
 
   const userIds = new Set(filteredMessages.flatMap(message => [message.sender_user_id, message.receiver_user_id]));
   const filteredUsers = users.filter(user => userIds.has(user.id) && user.id !== currentUser.id);
-  
+  console.log(filteredUsers)
+
+  // const usersWithMessageHistory = filteredUsers.map((user) => {
+  //   const userMessages = filteredMessages.filter(message => message.sender_user_id === user.id || message.receiver_user_id === user.id);
+  //   console.log(userMessages)
+  //   return { ...user, messages: userMessages };
+  // });
+  // console.log(usersWithMessageHistory)
+
   return (
     <main>
-      <MessageSearch search={search} onSearchChange={setSearch} />
-      <MessageList users={filteredUsers} messages={filteredMessages} currentUser={currentUser} onDeleteMessage={onDeleteMessage} onEditMessage={handleEditMessage} />
-      <MessageNew currentUser={currentUser} onSendMessage={onSendMessage} />
+      {selectedUser ? 
+        <div>
+          <button onClick={() => setSelectedUser(null)}>Back</button>
+          {/* <MessageSearch search={search} onSearchChange={setSearch} /> */}
+          <MessageList user={[selectedUser]} messages={filteredMessages} currentUser={currentUser} onDeleteMessage={onDeleteMessage} onEditMessage={handleEditMessage} />
+        </div> 
+      : 
+        <>
+          {/* <MessageSearch search={search} onSearchChange={setSearch} /> */}
+          <ul>
+            {filteredUsers.map((user) => (
+              <li key={user.id}>
+                <button onClick={() => setSelectedUser(user)}>
+                  {user.username}
+                </button>
+              </li>
+            ))}
+          </ul>
+          {/* <MessageNew
+            currentUser={currentUser}
+            onSendMessage={onSendMessage}
+          /> */}
+        </>
+      }
+      {/* <MessageNew currentUser={currentUser} onSendMessage={onSendMessage} /> */}
     </main>
   );
 }

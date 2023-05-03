@@ -3,7 +3,7 @@ import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import Message from "./Message";
 
-function MessageList({ users, messages, currentUser, onDeleteMessage, onUpdateMessage }) {
+function MessageList({ users, user, messages, currentUser, onDeleteMessage, onUpdateMessage }) {
   
 /////////////////////
 // Setup Functions //
@@ -16,13 +16,15 @@ function MessageList({ users, messages, currentUser, onDeleteMessage, onUpdateMe
     initTE({ Datepicker, Input, Select, Ripple });
   }, []);
 
+  console.log(messages)
+  
   return (
     <div className="list">
       <ul>{messages.map(message => {
-        const user = users.find(user => user.id === message.sender_user_id || user.id === message.receiver_user_id);
-        return (
-          <Message key={message.id} users={users} message={message} user={user} currentUser={currentUser} onDeleteMessage={onDeleteMessage} onUpdateMessage={onUpdateMessage} />
-        );
+        // const user = users.find(user => user.id === message.sender_user_id || user.id === message.receiver_user_id);
+        // return (
+          <Message key={message.id} message={message} user={user} currentUser={currentUser} onDeleteMessage={onDeleteMessage} onUpdateMessage={onUpdateMessage} />
+        // );
       })}
       </ul>
     </div>
