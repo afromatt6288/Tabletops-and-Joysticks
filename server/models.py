@@ -29,8 +29,8 @@ from config import bcrypt,db
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_only = ('id', 'username', '_password_hash', 'email', 'address', 'avatar_url', 'stars', 'travel_distance', 'is_active', 'is_admin', 'inventories')
-    # serialize_rules = ('-inventory.user', '-chat_rooms.user', '-chat_messages.user', '-loaned_games.loaner', '-borrowed_games.borrower', '-swap.users', '-sent_messages.sender', '-received_messages.receiver', '-message.users', '-sent_review.review_sender', '-recieved_review.review_receiver', '-review.users', '-created_at', '-updated_at',)
+    serialize_only = ('id', 'username', '_password_hash', 'email', 'address', 'avatar_url', 'stars', 'travel_distance', 'is_active', 'is_admin', 'inventories', 'sent_messages', 'received_messages')
+    serialize_rules = ('-inventories.user', '-chat_rooms.user', '-chat_messages.user', '-loaned_games.loaner', '-borrowed_games.borrower', '-swap.users', '-sent_messages.sender', '-received_messages.receiver', '-message.users', '-sent_review.review_sender', '-recieved_review.review_receiver', '-review.users', '-created_at', '-updated_at',)
    
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
