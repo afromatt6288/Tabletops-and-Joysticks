@@ -195,7 +195,7 @@ function App() {
                         <UserList currentUser={currentUser} users={users} games={games}/>
                     </Route>
                     <Route exact path="/users/:id">
-                        <UserDetail admin={admin} currentUser={currentUser} users={users} games={games} onUserDelete={handleUserDelete}/>
+                        <UserDetail admin={admin} currentUser={currentUser} users={users} games={games} onUserDelete={handleUserDelete} onSendMessage={handleSendMessage}/>
                     </Route>
                     {admin ? 
                     <Route exact path="/tbd">

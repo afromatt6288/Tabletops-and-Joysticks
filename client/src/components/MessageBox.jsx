@@ -76,8 +76,8 @@ function MessageBox({users, currentUser, onSendMessage, onDeleteMessage, onEditM
       : 
         <>
           <MessageSearch search={search} onSearchChange={setSearch} />
-          <select value={sortType} onChange={(e) => setSortType(e.target.value)}
-          data-te-select-init
+          <select value={sortType} onChange={(e) => setSortType(e.target.value)} className="sorting-dropdown appearance-none border border-gray-400 py-2 px-3 rounded leading-tight focus:outline-none focus:border-blue-500"
+          // data-te-select-init
           >
             <option value="name">Name</option>
             <option value="id">ID</option>
