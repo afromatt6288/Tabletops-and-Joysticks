@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import Message from "./Message";
+import MessageNew from "./MessageNew";
 
-function MessageList({ users, user, messages, currentUser, onDeleteMessage, onUpdateMessage }) {
+function MessageList({ users, user, messages, currentUser, onSendMessage, onDeleteMessage, onUpdateMessage }) {
   
 /////////////////////
 // Setup Functions //
@@ -23,6 +24,7 @@ console.log(user)
             <Message key={message.id} message={message} user={user} currentUser={currentUser} onDeleteMessage={onDeleteMessage} onUpdateMessage={onUpdateMessage} />
       ))}
       </ul>
+      <MessageNew user={user} currentUser={currentUser} onSendMessage={onSendMessage} />
     </div>
   );
 }

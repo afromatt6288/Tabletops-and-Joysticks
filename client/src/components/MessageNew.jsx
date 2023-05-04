@@ -37,7 +37,7 @@ function MessageNew({ user, currentUser, onSendMessage }) {
             .then(data => {
               onSendMessage(data)
               setMessageText("")
-              history.push(`/users/${id}`)
+              // history.push(`/users/${id}`)
           })
           }
       })
