@@ -171,21 +171,48 @@ function App() {
 
     return (
         <>
-            <div>
-                <header> 
-                <h1 className="text-red-500" >Tabletops & Joysticks</h1>
+            {/* <!--Background Video--> */}
+            <video
+				className='absolute object-cover w-full h-full'
+				src='Purple Plexus - Good Loop.mp4'
+				muted
+				autoPlay
+				loop
+			/>
+            <div className='absolute inset-x-[5%] inset-y-[5%] text-center text-white md:block'>
+                <div
+                className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
+                    {/* <!--Logo--> */}
+                    <div className="text-center">
+                    <header>                 
+                        {currentUser ? null : 
+                            <div>                                
+                                {seen ? <Login toggle={togglePop} currentUser={currentUser} setCurrentUser={setCurrentUser} users={users} onAddUser={handleAddUser}/> : null}
+                            </div>
+                        }
+                    </header>
+                        <button onClick={togglePop}><img 
+                            className="mx-auto w-48"
+                            src="Tabletops & Joysticks Logo.png"
+                            alt="Tabletops & Joysticks Logo" /></button>
+                        <h4 className="mb-12 mt-1 pb-1 text-xl font-semibold text-red-500">
+                            Tabletops & Joysticks
+                        </h4>
+                <header>                 
                 {currentUser ? 
                     <div>
                         <button onClick={togglePop} >PROFILE</button>
                         {seen ? <UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} users={users} messages={messages} onSendMessage={handleSendMessage} onDeleteMessage={handleDeleteMessage} onEditMessage={handleEditMessage}/> : null}                        
                     </div>
                 : 
-                    <div>
-                        <button onClick={togglePop} >LOGIN</button>
-                        {seen ? <Login toggle={togglePop} currentUser={currentUser} setCurrentUser={setCurrentUser} users={users} onAddUser={handleAddUser}/> : null}
-                    </div>
+                    null
                 }
                 </header>
+                    </div>
+                </div>            
+            </div>
+            
+            <div>
                 {currentUser ? <NavBar admin={admin}/> : seen ? null : <h2>Please Log In</h2>}
                 {currentUser ? <Switch>
                     <Route exact path="/">
