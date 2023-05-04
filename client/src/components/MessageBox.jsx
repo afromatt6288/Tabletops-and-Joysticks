@@ -27,6 +27,7 @@ function MessageBox({users, currentUser, onSendMessage, onDeleteMessage, onEditM
   const filteredMessages = currentUserSentMessages.concat(currentUserReceivedMessages)
   .filter(message => message.message_text.toLowerCase().includes(search.toLowerCase()))
   .map(message => ({
+    id: message.id,
     message_text: message.message_text,
     sender_user_id: message.sender_user_id,
     receiver_user_id: message.receiver_user_id,
@@ -35,28 +36,29 @@ function MessageBox({users, currentUser, onSendMessage, onDeleteMessage, onEditM
 
   const userIds = new Set(filteredMessages.flatMap(message => [message.sender_user_id, message.receiver_user_id]));
   const filteredUsers = users.filter(user => userIds.has(user.id) && user.id !== currentUser.id);
-  console.log(filteredUsers)
-
-  // const usersWithMessageHistory = filteredUsers.map((user) => {
-  //   const userMessages = filteredMessages.filter(message => message.sender_user_id === user.id || message.receiver_user_id === user.id);
-  //   console.log(userMessages)
-  //   return { ...user, messages: userMessages };
-  // });
-  // console.log(usersWithMessageHistory)
-
+  
+  const usersWithMessageHistory = filteredUsers.map((user) => {
+    const userMessages = filteredMessages.filter(message => message.sender_user_id === user.id || message.receiver_user_id === user.id);
+    return { ...user, messages: userMessages };
+  });
+  
+  const selectedUserMessages = selectedUser ? 
+    selectedUser.messages.filter(message => message.message_text.toLowerCase().includes(search.toLowerCase()))
+  : [];
+  
   return (
     <main>
       {selectedUser ? 
         <div>
           <button onClick={() => setSelectedUser(null)}>Back</button>
-          {/* <MessageSearch search={search} onSearchChange={setSearch} /> */}
-          <MessageList user={[selectedUser]} messages={filteredMessages} currentUser={currentUser} onDeleteMessage={onDeleteMessage} onEditMessage={handleEditMessage} />
+          <MessageSearch search={search} onSearchChange={setSearch} />
+          <MessageList user={selectedUser} messages={selectedUserMessages} currentUser={currentUser} onDeleteMessage={onDeleteMessage} onEditMessage={handleEditMessage} />
         </div> 
       : 
         <>
-          {/* <MessageSearch search={search} onSearchChange={setSearch} /> */}
+          <MessageSearch search={search} onSearchChange={setSearch} />
           <ul>
-            {filteredUsers.map((user) => (
+            {usersWithMessageHistory.map((user) => (
               <li key={user.id}>
                 <button onClick={() => setSelectedUser(user)}>
                   {user.username}
@@ -64,13 +66,9 @@ function MessageBox({users, currentUser, onSendMessage, onDeleteMessage, onEditM
               </li>
             ))}
           </ul>
-          {/* <MessageNew
-            currentUser={currentUser}
-            onSendMessage={onSendMessage}
-          /> */}
+          <MessageNew currentUser={currentUser} onSendMessage={onSendMessage} />
         </>
       }
-      {/* <MessageNew currentUser={currentUser} onSendMessage={onSendMessage} /> */}
     </main>
   );
 }

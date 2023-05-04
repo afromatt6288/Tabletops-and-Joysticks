@@ -9,6 +9,7 @@ function MessageList({ users, user, messages, currentUser, onDeleteMessage, onUp
 // Setup Functions //
 /////////////////////
 
+console.log(user)
   const history = useHistory()
 
   // This is what implements Tailwind... so DON'T delete it. 
@@ -16,16 +17,11 @@ function MessageList({ users, user, messages, currentUser, onDeleteMessage, onUp
     initTE({ Datepicker, Input, Select, Ripple });
   }, []);
 
-  console.log(messages)
-  
   return (
     <div className="list">
-      <ul>{messages.map(message => {
-        // const user = users.find(user => user.id === message.sender_user_id || user.id === message.receiver_user_id);
-        // return (
-          <Message key={message.id} message={message} user={user} currentUser={currentUser} onDeleteMessage={onDeleteMessage} onUpdateMessage={onUpdateMessage} />
-        // );
-      })}
+      <ul>{messages.map(message => (
+            <Message key={message.id} message={message} user={user} currentUser={currentUser} onDeleteMessage={onDeleteMessage} onUpdateMessage={onUpdateMessage} />
+      ))}
       </ul>
     </div>
   );
