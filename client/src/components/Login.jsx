@@ -53,7 +53,7 @@ function Login ({currentUser, setCurrentUser, toggle, users, onAddUser}) {
     <div className="flex items-center justify-center h-screen w-full">
       <div className="absolute inset-x-[30%] bottom-5 top-5 text-center text-white md:block space-y-4 md:space-y-6 lg:space-y-8">
         <div className="g-6 flex h-full flex-wrap items-center justify-center text-purple-600 dark:text-neutral-200 mx-auto max-w-[40rem]">
-          <div className="block rounded-lg bg-white shadow-lg dark:bg-neutral-800 w-full md:w-auto">
+          <div className="block rounded-lg bg-gray-600 bg-opacity-70 shadow-lg dark:bg-neutral-800 w-full md:w-auto">
             <div>
               {/* <!-- Top Row container--> */}
                 <div className="md:mx-2 md:p-12">
@@ -100,7 +100,7 @@ function Login ({currentUser, setCurrentUser, toggle, users, onAddUser}) {
                       {/* <!--Submit button--> */}
                       <div className="mb-12 pb-1 pt-1 text-center">
                         <button type="submit" data-te-ripple-init data-te-ripple-color="light"
-                          style={{ background: "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)" }}
+                          style={{ background: "linear-gradient(to right, #5b3b8a, #4f6991, #306d72, #6a8f73, #c07d4b, #a8433c, #f0c867)" }}
                           className="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
                         > Log in
                         </button>
@@ -109,18 +109,18 @@ function Login ({currentUser, setCurrentUser, toggle, users, onAddUser}) {
                       <div className="flex items-center justify-between">
                         <p className="mb-0 mr-2">New User? 👉 </p>
                         <button onClick={e=>setNewUser(!newUser)} type="button" data-te-ripple-init data-te-ripple-color="light"
-                          className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+                          className="inline-block rounded border-2 border-purple-600 px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-purple-600 transition duration-150 ease-in-out hover:border-purple-800 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-purple-800 focus:border-purple-600 focus:text-purple-600 focus:outline-none focus:ring-0 active:border-purple-700 active:text-purple-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
                         > Sign up here!
                         </button>
                       </div>
                         {/* <!--Forgot password link--> */}
-                        <a href="#!">Forgot password?</a>
+                        <a href="#!" className="hover:text-purple-800" >Forgot password?</a>
                         <br/>
                         {invalidUser ? <small>Invalid User</small> : null}
               {/* <!-- Bottom Row container with background and description--> */}
               <div
                 className="items-center rounded-lg lg:w-full "
-                style={{ background: "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)", marginBottom: "-12vh"  }}
+                style={{ background: "linear-gradient(to right, #5b3b8a, #4f6991, #306d72, #6a8f73, #c07d4b, #a8433c, #f0c867)", marginBottom: "-12vh"  }}
               >
                 <div className="px-12 py-0 text-white ">
                   <h4 className="mb-6 text-xl font-semibold">

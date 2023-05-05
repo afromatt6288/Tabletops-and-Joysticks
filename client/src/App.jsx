@@ -172,13 +172,13 @@ function App() {
     return (
         <>
             {/* <!--Background Video--> */}
-            <video
+            {/* <video
 				className='absolute object-cover w-full h-full'
-				src='Purple Plexus - Good Loop.mp4'
+				src='Dark_Plexus_Background.mp4'
 				muted
 				autoPlay
 				loop
-			/>
+			/> */}
             <div className='absolute inset-x-[5%] inset-y-[5%] text-center text-white md:block'>
                 <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
                     {/* <!--Logo--> */}
