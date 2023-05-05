@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Switch, Route, useHistory  } from "react-router-dom";
-import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
+import { Datepicker, Input, Ripple, Select, Toast, Collapse, Dropdown, initTE } from "tw-elements";
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 import GameList from "./components/GameList";
@@ -26,7 +26,7 @@ function App() {
 
     // This is what implements Tailwind... so DON'T delete it. 
     useEffect(() => {
-        initTE({ Datepicker, Input, Select, Ripple });
+        initTE({ Datepicker, Input, Select, Ripple, Toast, Collapse, Dropdown });
     }, []);
 
     // forces any refreshing of the app to bring the user back to the home page instead of logging them out. 
@@ -180,8 +180,7 @@ function App() {
 				loop
 			/>
             <div className='absolute inset-x-[5%] inset-y-[5%] text-center text-white md:block'>
-                <div
-                className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
+                <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
                     {/* <!--Logo--> */}
                     <div className="text-center">
                     <header>                 
@@ -191,29 +190,32 @@ function App() {
                             </div>
                         }
                     </header>
-                        <button onClick={togglePop}><img 
-                            className="mx-auto w-48"
-                            src="Tabletops & Joysticks Logo.png"
-                            alt="Tabletops & Joysticks Logo" /></button>
-                        <h4 className="mb-12 mt-1 pb-1 text-xl font-semibold text-red-500">
+                    {seen ? null: <>
+                        <button onClick={togglePop}>
+                        {/* client/public/Tabletops & Joysticks Logo trans.png */}
+                            <img 
+                                className="w-32 sm:w-48 md:w-64 lg:w-80 xl:w-96 2xl:w-112"
+                                src="Tabletops & Joysticks Logo trans.png"
+                                alt="Tabletops & Joysticks Logo" />
+                        </button>
+                        <h4 className="mb-12 mt-1 pb-1 text-sm sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold text-red-500">
                             Tabletops & Joysticks
                         </h4>
+                    </>}
                 <header>                 
                 {currentUser ? 
                     <div>
                         <button onClick={togglePop} >PROFILE</button>
                         {seen ? <UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} users={users} messages={messages} onSendMessage={handleSendMessage} onDeleteMessage={handleDeleteMessage} onEditMessage={handleEditMessage}/> : null}                        
                     </div>
-                : 
-                    null
-                }
+                : null }
                 </header>
                     </div>
                 </div>            
             </div>
             
             <div>
-                {currentUser ? <NavBar admin={admin}/> : seen ? null : <h2>Please Log In</h2>}
+                {currentUser ? <NavBar admin={admin}/> :  null }
                 {currentUser ? <Switch>
                     <Route exact path="/">
                         <Home currentUser={currentUser}/>
