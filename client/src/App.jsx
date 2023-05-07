@@ -17,6 +17,7 @@ function App() {
     const [currentUser, setCurrentUser] = useState("")
     const [seen, setSeen] = useState(false)
     const [admin, setAdmin] = useState(false)
+    const [theme, setTheme] = useState("")
     // const [isDarkMode, setIsDarkMode] = useState(false)
 
 /////////////////////
@@ -56,12 +57,28 @@ function App() {
     }, [currentUser]);
 
     // Sets Themes when User Changes them
+    // Update the theme state variable when currentUser's theme changes in the database
+    useEffect(() => {
+        if (currentUser) {
+        fetch(`api/users/${currentUser.id}`)
+            .then(response => response.json())
+            .then(userData => {
+            console.log('Fetched userData:', userData)
+            setTheme(userData.theme);
+            })
+            .catch(error => {
+            console.error(error);
+            });
+        }
+    }, [currentUser]);
+
     const colorBackgroundVideos = {
-        purple: "Purple Plexus - Good Loop.mp4",
-        orange: "/images/red-background.jpg",
-        green: "/images/green-background.jpg",
-        blue: "/images/blue-background.jpg",
-        multi: ""
+        "purple": "/videos/Purple Plexus - Good Loop.mp4",
+        "orange": "/videos/Orange Plexus - Good Loop.mp4",
+        "green": "/videos/Green Plexus - Good Loop.mp4",
+        "blue": "/videos/Blue Plexus - Good Loop - but slow.mp4",
+        "multi": "/videos/MultiColor Plexus - Good Loop.mp4",
+        "default": "/videos/Blue Plexus - Good Loop - but slow.mp4"
       };
 
 ////////// 
@@ -183,12 +200,14 @@ function App() {
         <>
             {/* <!--Background Video--> */}
             <video
-				className='absolute object-cover w-full h-full z-[-1]'
-				src='Purple Plexus - Good Loop.mp4'
-				muted
-				autoPlay
-				loop
-			/>
+                key={theme} 
+                className='absolute object-cover w-full h-full z-[-1]'
+                src={colorBackgroundVideos[theme] || colorBackgroundVideos.default}
+                muted
+                autoPlay
+                loop
+            />
+            {console.log('Current theme:', theme)} 
             <div className='absolute inset-x-[5%] inset-y-[5%] text-center text-white md:block'>
                 <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
                     {/* <!--Logo, Login, or Profile--> */}
