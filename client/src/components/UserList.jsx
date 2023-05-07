@@ -51,7 +51,7 @@ function UserList({currentUser, users, games}) {
     const displayedUsers = filteredUsers.filter(user => user.username.toLowerCase().includes(search.toLowerCase()))
         
     return (
-        <section id="users">
+        <section id="users" className="text-white">
             <h2>T & J Users</h2>
             <div>
                 <UserSearch search={search} onSearchChange={setSearch} sortBy={sortBy} onSortChange={setSortBy} filterByGameType={filterByGameType} onHandleGameTypeFilter={setFilterByGameType} types={uniqueTypes}/>

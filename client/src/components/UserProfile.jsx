@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useHistory, Link } from "react-router-dom";
+import { useParams, useHistory, Link, Route, Switch } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import MessageBox from "./MessageBox"
 import GameList from "./GameList"
@@ -91,17 +91,17 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
     return (
         <div className="text-white">
             <header className="text-white flex justify-center">
-                <label >Edit Account: </label>
+                <label>Edit Account: </label>
                 <button className="mx-4" onClick={() => setEdit(!edit)}> ✏️</button>
                 {edit ? (
-                    <span role="img" aria-label="edit" className="flex items-center">                            
-                            <select className="w-40 mr-1" value={newTheme} onChange={(e) => setNewTheme(e.target.value)} 
-                            data-te-select-init
-                            >
-                                {themeList.map((newTheme)=> <option value={newTheme}>{newTheme}</option>)}
-                            </select>
-                        <label data-te-select-label-ref className="mr-1 text-white">Theme: </label>                        
-                        <button type="submit" className=" mx-4 px-1 py-1 bg-blue-500 text-white rounded" onClick={handleEditProfile}> Submit Changes</button> 
+                    <span role="img" aria-label="edit" className="flex items-center">
+                        <select className="w-24 mr-1" value={newTheme} onChange={(e) => setNewTheme(e.target.value)}
+                        data-te-select-init
+                        >
+                            {themeList.map((newTheme) => <option value={newTheme}>{newTheme}</option>)}
+                        </select>
+                        <label data-te-select-label-ref className="mr-1 w-24 text-white">Theme: </label>
+                        <button type="submit" className="mx-4 px-1 py-1 bg-purple-500 text-white rounded" onClick={handleEditProfile}>Submit Changes</button>
                     </span>
                     )
                 : null}
@@ -126,7 +126,7 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
                             <div>
                                 <div className="my-4"></div>
                                 <div className="flex">
-                                {username} | #{id} {is_admin ? " | Moderator" : null }
+                                    {username} | #{id} {is_admin ? " | Moderator" : null }
                                 </div>
                                 <div className="flex">
                                 <h3>Peer Rating: {stars} Stars </h3>
@@ -139,12 +139,12 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
                                         <label className="mr-2">Travel Distance:</label>
                                         <div className="relative mb-3" data-te-input-wrapper-init>
                                             <input type="number" onChange={e => setNewTravel(e.target.value)} value={newTravel}
-                                            className="peer block min-h-[auto] w-16 rounded border-0 bg-transparent px-3  leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                                            className="peer block min-h-[auto] w-24 rounded border-0 bg-transparent px-3 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                                             />
                                         </div>
                                         <span>Miles ✏️</span>
                                     </div>
-                                :   <div className="flex"><label>Travel Distance: {travel_distance} Miles</label></div>}
+                                :   <div className="flex"><h3>Travel Distance: {travel_distance} Miles</h3></div>}
                                 {edit? 
                                     <div className="flex">
                                         <label className="mr-2">Email: </label>
@@ -155,7 +155,7 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
                                         </div>
                                         <span> ✏️</span>
                                     </div>
-                                :   <div className="flex"><label> Email: {email} </label></div>}
+                                :   <div className="flex"><h3> Email: {email} </h3></div>}
                                 {edit? 
                                     <div className="flex">
                                         <label className="mr-2">Address: </label>
@@ -166,22 +166,27 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
                                         </div>
                                         <span> ✏️</span>
                                     </div>
-                                :   <div className="flex"><label> Address: {address} </label></div>}
+                                :   <div className="flex"><h3> Address: {address} </h3></div>}
                             </div>
                         </div>
                     </div>
                 </div>
             </header>
            
-            <button onClick={handleLogoutClick}><label>LOGOUT </label></button>
+            <button className="mx-4 px-4 py-1 bg-purple-500 text-white rounded" onClick={handleLogoutClick}>LOGOUT </button>
             {edit ? <label> | Delete Account 👉 <button type="submit" onClick={handleUserDelete}>🗑 </button></label> : null}
-            <br/>
-            <label>YOUR MESSAGES:</label>
-            <MessageBox users={users} currentUser={currentUser} currentUserSentMessages={currentUserSentMessages} onCurrentUserSentMessages={setCurrentUserSentMessages} currentUserReceivedMessages={currentUserReceivedMessages} onCurrentUserReceivedMessages={setCurrentUserReceivedMessages} onSendMessage={onSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage}/>
-            <br/>
+            <div className="my-4"></div>
+            <div className="flex">
+                <div className="flex flex-col overflow-y-auto w-2/3 h-[calc(100vh-440px)]">
+                    <label>YOUR GAMES:<span>{edit ? <AddGameByNameId currentUser={currentUser} onAddGameToProfile={handleAddGameToProfile}/> : null}</span></label>
+                    <GameList currentUser={currentUser} games={currentUserGames} edit={edit} onCurrentUserGames={setCurrentUserGames}/>
+                </div>
+                <div className="flex flex-col overflow-y-auto w-1/3 h-[calc(100vh-440px)]">
+                    <label>YOUR MESSAGES:</label>
+                    <MessageBox users={users} currentUser={currentUser} currentUserSentMessages={currentUserSentMessages} onCurrentUserSentMessages={setCurrentUserSentMessages} currentUserReceivedMessages={currentUserReceivedMessages} onCurrentUserReceivedMessages={setCurrentUserReceivedMessages} onSendMessage={onSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage}/>
+                </div>
+            </div>
             {/* <Link to={`/swaps`}>Swap History</Link> */}
-            <label>YOUR GAMES:<span>{edit ? <AddGameByNameId currentUser={currentUser} onAddGameToProfile={handleAddGameToProfile}/> : null}</span></label>
-            <GameList currentUser={currentUser} games={currentUserGames} edit={edit} onCurrentUserGames={setCurrentUserGames}/>
         </div>
     )
 }

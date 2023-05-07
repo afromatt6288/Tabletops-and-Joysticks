@@ -29,16 +29,10 @@ function GameItem({ game, edit, currentUser, onCurrentUserGames, games}) {
     }
 
     return (
-        <div>
+        <div className="relative h-full border-2 rounded-lg border-purple-500">
             <h4>{title} | #{id}<span>{edit ? <button onClick={() => handleRemoveGameFromProfile(game)}> | Remove  🗑</button> : null}</span></h4>
-            <span>
-                <label>Type: <span>{type}</span> | </label>
-                <label>Platforms: <span>{platforms}</span> | </label>
-                <label>Genres: <span>{genres}</span> | </label>
-                <span>{player_num_min} to {player_num_max} Players</span>
-            </span>
             <Link to={`/games/${id}`}>
-                <img src={image_url} alt={`${title} Image`} />
+                <img src={image_url} alt={`${title} Image`} className="h-40 w-40 object-cover"/>
             </Link>
         </div>
     );

@@ -49,45 +49,63 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
     }    
 
     return (
-        <div>
-            <header>
-                <img src={avatar_url} alt={`${username} Avatar`} />
-                <span> Username: {username} | ID: #{id} {is_admin ? " | Moderator" : null } 
-                | <button onClick={() => setMessage(message => !message)}>Message</button>
-                </span>
+        <div className='text-white'>
+            <header className="flex justify-center">
+                {admin ? 
+                    <div>
+                        <button>
+                            <span role="img" aria-label="edit"> ✏️ </span>
+                        </button>
+                        <button onClick={handleUserDelete}>
+                            <span role="img" aria-label="delete"> 🗑 </span>
+                        </button>
+                    </div>
+                : null}
+                <div className="flex">
+                    <div className="mr-8">
+                        <img src={avatar_url} alt={`${username} Avatar`} className="h-40 w-40 object-cover rounded-full"/>
+                    </div>                
+                    <div className="flex-grow">
+                        <div className=" mb-2">
+                            <div>
+                                <div className="my-4"></div>
+                                <div className="flex">
+                                    {username} | #{id} {is_admin ? " | Moderator" : null }
+                                </div>
+                                <div className="flex">
+                                    <h3>Peer Rating: {stars} Stars </h3>
+                                </div>
+                                <div className="flex">
+                                    <h3>Status: {is_active ? "Online" : "Offline"}</h3>
+                                </div>
+                                <div className="flex">
+                                    <h3>Travel Distance: {travel_distance} Miles</h3>
+                                </div>
+                                <div className="flex">
+                                    <h3> Email: {email} </h3>
+                                </div>
+                                <div className="flex">
+                                    <h3> Address: {address} </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </header>
-            <h3>Peer Rating: {stars} Stars</h3>
-            <h3>Travel Distance: {travel_distance} Miles</h3>
-            <h3>Status: {is_active ? "Online":"Offline"}</h3>
-            <h3>Email: {email}</h3>
-            <h3>Address: {address}</h3>
-            {message ?
-            <MessageNew user={user} currentUser={currentUser} onSendMessage={onSendMessage}/>
-            // <form onSubmit={handleSendMessage}>
-            //     <div className="relative mb-3" data-te-input-wrapper-init>
-            //         <textarea rows="4" id="send_messageFormControlInput1" value={message_text} onChange={e => setMessage_text(e.target.value)}
-            //         className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"/>
-            //         <label htmlFor="send_messageFormControlInput1"
-            //         className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-            //         >Send a Message</label>
-            //     </div>
-            //     <button type="submit">Send</button>   
-            // </form>
-            : null}
-            <h2>Games:</h2>
-                <div className="user-game-list">
+            <div className="flex">
+                <div className="flex flex-col overflow-y-auto w-4/5 h-[calc(100vh-280px)]">
+                    <label className="relative flex justify-center"> {username}'s Games':</label>
                     <GameList games={allGames}/>
                 </div>
-            {admin ? 
-                <div>
-                    <button>
-                        <span role="img" aria-label="edit"> ✏️ </span>
-                    </button>
-                    <button onClick={handleUserDelete}>
-                        <span role="img" aria-label="delete"> 🗑 </span>
-                    </button>
+                <div className="flex flex-col overflow-y-auto w-1/5 h-[calc(100vh-280px)]">
+                    <div className="relative flex justify-center">
+                        <button onClick={() => setMessage(message => !message)} className="mx-4 px-1 py-1 bg-purple-500 text-white rounded">Message Amy?</button>            
+                    </div>
+                    {message ?
+                        <MessageNew user={user} currentUser={currentUser} onSendMessage={onSendMessage}/>
+                    : null} 
                 </div>
-            : null}
+            </div>
         </div>
     )
 }

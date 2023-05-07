@@ -32,7 +32,7 @@ function GameSearch({search, onSearchChange, sortBy, onSortChange, onHandleTypeF
   }
 
   return (
-    <div>
+    <div className="relative h-full border-2 rounded-lg border-purple-500">
       <label>Sort By:          
         <input
           type="radio"

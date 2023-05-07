@@ -76,10 +76,30 @@ function AddGameByNameId({currentUser, onAddGameToProfile}){
     return (
     <div>
         <form onSubmit={e=>{handleParseGameTitleSubmit(e)}}>
-            <input type="number" placeholder="Game ID" value={gameId} onChange={e=>{setGameId(e.target.value)}}></input>
-            <br/>
-            <input type="name" placeholder="Game Title" value={gameTitle} onChange={e=>{setGameTitle(e.target.value)}}></input>
-            <button type="submit">Submit</button>
+        <div className="flex items-center justify-center">
+            {/* <!--Game Title input--> */}
+            <div className="relative mb-4" data-te-input-wrapper-init>
+                <input type="text" value={gameTitle} onChange={e => setGameTitle(e.target.value)} 
+                    className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.10rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                />
+                <label 
+                    className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.10rem] leading-[1.6] text-purple-400 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+                    >Game Title
+                </label>
+            </div>
+            {/* <!--Game Id input--> */}
+            <div className="relative mb-4" data-te-input-wrapper-init>
+                <input type="number" value={gameId} onChange={e => setGameId(e.target.value)} 
+                    className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.10rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                />
+                <label 
+                    className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.10rem] leading-[1.6] text-purple-400 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+                    >Game Id
+                </label>
+            </div>
+            <button type="submit" 
+            className="mx-4 px-6 py-1 bg-purple-500 text-white rounded">Add Game</button>
+            </div>
         </form>
     </div>
     )

@@ -40,52 +40,53 @@ function GameDetail({admin, onGameDelete}) {
         history.push(`/games`)       
     }
 
-    return (<div>
-        <section>
-            <header>
+    return (
+        <div className="text-white">
+            <section>
+                <header>
+                    <div>
+                        <span>{title} | #{id}</span>
+                    </div>
+                </header>
                 <div>
-                    <span>{title} | #{id}</span>
-                </div>
-            </header>
-            <div>
-                <span>
-                    <label>Type: <span>{type}</span> | </label>
-                    <label>Platforms: <span>{platforms}</span> | </label>
-                    <label>Genres: <span>{genres}</span> | </label>
-                    <span>{player_num_min} to {player_num_max} Players</span>
-                </span>
-                <div>
-                    <img src={image_url} alt={title}/>
-                </div>
-                <p>Description: {description}</p>
-                <h2>Users:</h2>
-                <div>
-                    <Card.Group className="cards" itemsPerRow={2}>
-                        {allusers && allusers.map((user, index) => (
-                            <div key={String(user.id)+"ind"+String(index)}>
-                                <Link to={`/users/${user.id}`}>
-                                    <h4>{user.username} | #{user.id}</h4>
-                                </Link>
-                            </div>
-                        ))}
-                    </Card.Group>  
-                </div>               
-            </div>
-            {admin ? (
-            <div>
-                <button>
-                    <span role="img" aria-label="edit">
-                        ✏️
+                    <span>
+                        <label>Type: <span>{type}</span> | </label>
+                        <label>Platforms: <span>{platforms}</span> | </label>
+                        <label>Genres: <span>{genres}</span> | </label>
+                        <span>{player_num_min} to {player_num_max} Players</span>
                     </span>
-                </button>
-                <button onClick={handleDeleteClick}>
-                    <span role="img" aria-label="delete">
-                        🗑
-                    </span>
-                </button>
-            </div>
-            ) : null}
-        </section>
+                    <div>
+                        <img src={image_url} alt={title}/>
+                    </div>
+                    <p>Description: {description}</p>
+                    <h2>Users:</h2>
+                    <div>
+                        <Card.Group className="cards" itemsPerRow={2}>
+                            {allusers && allusers.map((user, index) => (
+                                <div key={String(user.id)+"ind"+String(index)}>
+                                    <Link to={`/users/${user.id}`}>
+                                        <h4>{user.username} | #{user.id}</h4>
+                                    </Link>
+                                </div>
+                            ))}
+                        </Card.Group>  
+                    </div>               
+                </div>
+                {admin ? (
+                <div>
+                    <button>
+                        <span role="img" aria-label="edit">
+                            ✏️
+                        </span>
+                    </button>
+                    <button onClick={handleDeleteClick}>
+                        <span role="img" aria-label="delete">
+                            🗑
+                        </span>
+                    </button>
+                </div>
+                ) : null}
+            </section>
         </div>
     );
 }

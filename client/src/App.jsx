@@ -183,7 +183,7 @@ function App() {
         <>
             {/* <!--Background Video--> */}
             <video
-				className='absolute object-cover w-full h-full'
+				className='absolute object-cover w-full h-full z-[-1]'
 				src='Purple Plexus - Good Loop.mp4'
 				muted
 				autoPlay
@@ -237,13 +237,16 @@ function App() {
                         <UserPasswordReset/>
                     </Route>
                 </Switch>
-                {currentUser ? <NavBar admin={admin}/> :  null }
-                {currentUser ? <Switch>
+                {currentUser ? seen ? null : <NavBar admin={admin}/> :  null }
+                {currentUser ? seen ? null : <Switch>
                     <Route exact path="/">
                         <Home currentUser={currentUser}/>
                     </Route>
                     <Route exact path="/users">
                         <UserList currentUser={currentUser} users={users} games={games}/>
+                    </Route>
+                    <Route exact path="/users/profile">
+                        <UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} users={users} messages={messages} onSendMessage={handleSendMessage} onDeleteMessage={handleDeleteMessage} onEditMessage={handleEditMessage}/>
                     </Route>
                     <Route exact path="/users/:id">
                         <UserDetail admin={admin} currentUser={currentUser} users={users} games={games} onUserDelete={handleUserDelete} onSendMessage={handleSendMessage}/>
