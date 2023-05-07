@@ -10,6 +10,7 @@ import Login from "./components/Login";
 import UserList from "./components/UserList";
 import UserDetail from "./components/UserDetail";
 import UserProfile from "./components/UserProfile";
+import UserPasswordReset from "./components/UserPasswordReset";
 import TBD from "./components/TBD";
 
 function App() {
@@ -172,13 +173,13 @@ function App() {
     return (
         <>
             {/* <!--Background Video--> */}
-            {/* <video
+            <video
 				className='absolute object-cover w-full h-full'
-				src='Dark_Plexus_Background.mp4'
+				src='Purple Plexus - Good Loop.mp4'
 				muted
 				autoPlay
 				loop
-			/> */}
+			/>
             <div className='absolute inset-x-[5%] inset-y-[5%] text-center text-white md:block'>
                 <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
                     {/* <!--Logo--> */}
@@ -186,35 +187,41 @@ function App() {
                     <header>                 
                         {currentUser ? null : 
                             <div>                                
-                                {seen ? <Login toggle={togglePop} currentUser={currentUser} setCurrentUser={setCurrentUser} users={users} onAddUser={handleAddUser}/> : null}
+                                {seen ? <Login toggle={togglePop} currentUser={currentUser} setCurrentUser={setCurrentUser} users={users} onAddUser={handleAddUser}/> 
+                                : 
+                                <>
+                                    <button onClick={togglePop}>
+                                        <img 
+                                            className="w-32 sm:w-48 md:w-64 lg:w-80 xl:w-96 2xl:w-112"
+                                            src="Tabletops & Joysticks Logo trans.png"
+                                            alt="Tabletops & Joysticks Logo" />
+                                    </button>
+                                    <h4 className="mb-12 mt-1 pb-1 text-sm sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold text-purple-600">
+                                        Tabletops & Joysticks
+                                    </h4>
+                                </>
+                                }
                             </div>
                         }
                     </header>
-                    {seen ? null: <>
-                        <button onClick={togglePop}>
-                        {/* client/public/Tabletops & Joysticks Logo trans.png */}
-                            <img 
-                                className="w-32 sm:w-48 md:w-64 lg:w-80 xl:w-96 2xl:w-112"
-                                src="Tabletops & Joysticks Logo trans.png"
-                                alt="Tabletops & Joysticks Logo" />
-                        </button>
-                        <h4 className="mb-12 mt-1 pb-1 text-sm sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold text-red-500">
-                            Tabletops & Joysticks
-                        </h4>
-                    </>}
-                <header>                 
-                {currentUser ? 
-                    <div>
-                        <button onClick={togglePop} >PROFILE</button>
-                        {seen ? <UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} users={users} messages={messages} onSendMessage={handleSendMessage} onDeleteMessage={handleDeleteMessage} onEditMessage={handleEditMessage}/> : null}                        
-                    </div>
-                : null }
-                </header>
+                    <header>                 
+                    {currentUser ? 
+                        <div>
+                            <button onClick={togglePop} >PROFILE</button>
+                            {seen ? <UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} users={users} messages={messages} onSendMessage={handleSendMessage} onDeleteMessage={handleDeleteMessage} onEditMessage={handleEditMessage}/> : null}                        
+                        </div>
+                    : null }
+                    </header>
                     </div>
                 </div>            
             </div>
             
             <div>
+                <Switch>
+                    <Route exact path="/reset-password">
+                        <UserPasswordReset/>
+                    </Route>
+                </Switch>
                 {currentUser ? <NavBar admin={admin}/> :  null }
                 {currentUser ? <Switch>
                     <Route exact path="/">
