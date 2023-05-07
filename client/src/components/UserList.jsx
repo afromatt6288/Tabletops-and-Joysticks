@@ -33,7 +33,7 @@ function UserList({currentUser, users, games}) {
         }
         return console.log('error on sort')
     })
-
+    console.log(games)
     // handle my Type filter    
     const types = games.map((game)=> game.type)
     const allTypes = types.flat(1)

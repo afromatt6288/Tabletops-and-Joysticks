@@ -259,7 +259,7 @@ function App() {
                         <GameNew currentUser={currentUser} key={games.id} games={games} onGameAdd={handleGameAdd}/>
                     </Route>
                     <Route exact path="/games/:id">
-                        <GameDetail admin={admin} onGameDelete={handleGameDelete}/>
+                        <GameDetail admin={admin} currentUser={currentUser} onGameDelete={handleGameDelete}/>
                     </Route>
                     <Route exact path="/games">
                         <GameList currentUser={currentUser} games={games} users={users}/>
