@@ -45,64 +45,84 @@ function GameDetail({admin, onGameDelete, currentUser}) {
     return (
         <div className="text-white">
             <header className="flex justify-center">
-                {admin ? (
-                <div className="relative flex justify-center">
-                    <button>
-                        <span role="img" aria-label="edit">
-                            ✏️
-                        </span>
-                    </button>
-                    <button onClick={handleDeleteClick}>
-                        <span role="img" aria-label="delete">
-                            🗑
-                        </span>
-                    </button>
-                </div>
-                ) : null}
-                <div>
-                    <span>{title} | #{id}</span>
-                </div>
-            </header>
-                <div className="flex justify-center">
-                    <span>
-                        <label>Type: <span>{type}</span> | </label>
-                        <label>Platforms: <span>{platforms}</span></label>
-                        </span>
-                </div>
-                <div className="flex justify-center">
-                    <span>
-                        <label>Genres: <span>{genres}</span> | </label>
-                        <span>{player_num_min} to {player_num_max} Players</span>
-                    </span>
-                </div>
-                <div className="flex justify-center">
-                    <div>
-                        <img src={image_url} alt={title}/>
+                {admin ? 
+                    <div className="relative flex justify-center">
+                        <button>
+                            <span role="img" aria-label="edit">
+                                ✏️
+                            </span>
+                        </button>
+                        <button onClick={handleDeleteClick}>
+                            <span role="img" aria-label="delete">
+                                🗑
+                            </span>
+                        </button>
+                    </div>
+                 : null}        
+                <div className="flex">
+                    <div className="mr-8">
+                        <img src={image_url} alt={`${title} Image`} className="h-40 w-40 object-cover"/>
+                    </div> 
+                    <div className="flex-grow">
+                        <div className=" mb-2">
+                            <div>
+                                <div className="flex mt-4">
+                                    {title} | #{id}
+                                </div>
+                                <div className="flex">
+                                    <h3>Type: {type} </h3>
+                                </div>
+                                <div className="flex">
+                                    <h3>Platforms: {platforms} </h3>
+                                </div>
+                                <div className="flex">
+                                    <h3>Genres: {genres} </h3>
+                                </div>
+                                <div className="flex">
+                                    <h3>{player_num_min} to {player_num_max} Players</h3>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div className="flex justify-center">
-                    <p className="w-1/2">Description: {description}</p>
-                </div>
-                <div className="flex justify-center">
-                    <div className="flex flex-col overflow-y-auto w-4/5 h-[calc(100vh-280px)]">
-                    <label className="relative flex justify-center"> {title}'s Users':</label>
+            </header>
+            <div className="flex justify-center">
+                <p className="w-3/4">Description: {description}</p>
+            </div>
+            <label className="relative flex justify-center my-4"> {title}'s Users':</label>
+            <div className="flex justify-center my-4">
+                <div className="flex flex-col overflow-y-auto w-4/5 h-[calc(100vh-370px)]">
                     <UserList users={allUsers} currentUser={currentUser} games={gamesArray}/>
                 </div>
-                    {/* <div>
-                        <Card.Group className="cards" itemsPerRow={2}>
-                            {allUsers && allUsers.map((user, index) => (
-                                <div key={String(user.id)+"ind"+String(index)}>
-                                    <Link to={`/users/${user.id}`}>
-                                        <h4>{user.username} | #{user.id}</h4>
-                                    </Link>
-                                </div>
-                            ))}
-                        </Card.Group>  
-                    </div>                */}
-                </div>
-                
+            </div>                
         </div>
     );
 }
 
 export default GameDetail;
+
+
+              
+
+
+//                         </div>
+//                     </div>
+//                 </div>
+//             </div>
+//         </header>
+//         <div className="flex">
+//             <div className="flex flex-col overflow-y-auto w-4/5 h-[calc(100vh-280px)]">
+//                 <label className="relative flex justify-center"> {username}'s Games':</label>
+//                 <GameList games={allGames}/>
+//             </div>
+//             <div className="flex flex-col overflow-y-auto w-1/5 h-[calc(100vh-280px)]">
+//                 <div className="relative flex justify-center">
+//                     <button onClick={() => setMessage(message => !message)} className="mx-4 px-1 py-1 bg-purple-500 text-white rounded">Message {username}?</button>            
+//                 </div>
+//                 {message ?
+//                     <MessageNew user={user} currentUser={currentUser} onSendMessage={onSendMessage}/>
+//                 : null} 
+//             </div>
+//         </div>
+//     </div>
+// )
