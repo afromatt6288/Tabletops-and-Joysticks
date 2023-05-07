@@ -74,16 +74,18 @@ function MessageBox({users, currentUser, onSendMessage, onDeleteMessage, onEditM
           <MessageList user={selectedUser} messages={selectedUserMessages} currentUser={currentUser} onSendMessage={onSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={handleEditMessage} />
         </div> 
       : 
-        <>
+        <div>
+          <div className="flex justify-center">
+            <div className="relative mb-3 w-3/4" >
+              <select data-te-select-init value={sortType} onChange={(e) => setSortType(e.target.value)} className="sorting-dropdown appearance-none border border-gray-400 py-2 px-3 rounded leading-tight focus:outline-none focus:border-blue-500">
+                <option value="name">Name</option>
+                <option value="id">ID</option>
+                <option value="recent">Recent Message</option>
+              </select>
+              <label data-te-select-label-ref className="text-purple-400">Sort By</label>
+            </div>
+          </div>
           <MessageSearch search={search} onSearchChange={setSearch} />
-          <select value={sortType} onChange={(e) => setSortType(e.target.value)} className="sorting-dropdown appearance-none border border-gray-400 py-2 px-3 rounded leading-tight focus:outline-none focus:border-blue-500"
-          // data-te-select-init
-          >
-            <option value="name">Name</option>
-            <option value="id">ID</option>
-            <option value="recent">Recent Message</option>
-          </select>
-          <label data-te-select-label-ref>Sort By</label>
           <ul>
             {usersWithMessageHistory.map((user) => (
               <li key={user.id}>
@@ -93,8 +95,7 @@ function MessageBox({users, currentUser, onSendMessage, onDeleteMessage, onEditM
               </li>
             ))}
           </ul>
-          {/* <MessageNew currentUser={currentUser} onSendMessage={onSendMessage} /> */}
-        </>
+        </div>
       }
     </main>
   );

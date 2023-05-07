@@ -18,6 +18,8 @@ console.log(user)
     initTE({ Datepicker, Input, Select, Ripple });
   }, []);
 
+  messages.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
   return (
     <div className="list">
       <ul>{messages.map(message => (

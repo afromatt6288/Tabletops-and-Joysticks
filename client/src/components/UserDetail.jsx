@@ -105,16 +105,6 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
                     : null} 
                 </div>
             </div>
-            {/* <div className="relative flex justify-center">
-                <button onClick={() => setMessage(message => !message)} className="mx-4 px-1 py-1 bg-purple-500 text-white rounded">Message</button>            
-            </div>
-            {message ?
-                <MessageNew user={user} currentUser={currentUser} onSendMessage={onSendMessage}/>
-            : null}
-            <h2>{username}'s Games:</h2>
-                <div className="flex flex-col overflow-y-auto w-2/3 h-[calc(100vh-410px)]">
-                    <GameList games={allGames}/>
-                </div> */}
         </div>
     )
 }

@@ -76,7 +76,7 @@ function App() {
             .then(data => {
                 setUsers(data)
             })
-    }, [])
+    }, [10])
 
     // Handle User Add, Delete, & Edit
     function handleAddUser(addUser) {
