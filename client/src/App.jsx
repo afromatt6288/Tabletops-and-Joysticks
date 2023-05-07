@@ -55,6 +55,15 @@ function App() {
       }
     }, [currentUser]);
 
+    // Sets Themes when User Changes them
+    const colorBackgroundVideos = {
+        purple: "Purple Plexus - Good Loop.mp4",
+        orange: "/images/red-background.jpg",
+        green: "/images/green-background.jpg",
+        blue: "/images/blue-background.jpg",
+        multi: ""
+      };
+
 ////////// 
 // USER //
 //////////
@@ -182,36 +191,42 @@ function App() {
 			/>
             <div className='absolute inset-x-[5%] inset-y-[5%] text-center text-white md:block'>
                 <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
-                    {/* <!--Logo--> */}
+                    {/* <!--Logo, Login, or Profile--> */}
                     <div className="text-center">
-                    <header>                 
-                        {currentUser ? null : 
-                            <div>                                
-                                {seen ? <Login toggle={togglePop} currentUser={currentUser} setCurrentUser={setCurrentUser} users={users} onAddUser={handleAddUser}/> 
-                                : 
-                                <>
-                                    <button onClick={togglePop}>
+                        <header>                 
+                            {/* <!--Profile--> */}
+                            {currentUser ? 
+                                <div className="fixed top-0 right-0 mt-4 mr-4 text-center">
+                                    <button onClick={togglePop} className="bg-transparent border-0">
                                         <img 
-                                            className="w-32 sm:w-48 md:w-64 lg:w-80 xl:w-96 2xl:w-112"
+                                            className="w-12 sm:w-16 md:w-20 lg:w-28 xl:w-36 2xl:w-44"
                                             src="Tabletops & Joysticks Logo trans.png"
                                             alt="Tabletops & Joysticks Logo" />
                                     </button>
-                                    <h4 className="mb-12 mt-1 pb-1 text-sm sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold text-purple-600">
-                                        Tabletops & Joysticks
-                                    </h4>
-                                </>
-                                }
-                            </div>
-                        }
-                    </header>
-                    <header>                 
-                    {currentUser ? 
-                        <div>
-                            <button onClick={togglePop} >PROFILE</button>
-                            {seen ? <UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} users={users} messages={messages} onSendMessage={handleSendMessage} onDeleteMessage={handleDeleteMessage} onEditMessage={handleEditMessage}/> : null}                        
-                        </div>
-                    : null }
-                    </header>
+                                    <p className="mx-auto text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl mt-2 text-white">{currentUser.username}</p>
+                                    {seen ? <UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} users={users} messages={messages} onSendMessage={handleSendMessage} onDeleteMessage={handleDeleteMessage} onEditMessage={handleEditMessage}/> : null}                        
+                                </div>
+                            : 
+                                <div> 
+                                    {/* <!--Login--> */}                               
+                                    {seen ? <Login toggle={togglePop} currentUser={currentUser} setCurrentUser={setCurrentUser} users={users} onAddUser={handleAddUser}/> 
+                                    : 
+                                    <>
+                                        {/* <!--Logo--> */}
+                                        <button onClick={togglePop}>
+                                            <img 
+                                                className="w-32 sm:w-48 md:w-64 lg:w-80 xl:w-96 2xl:w-112"
+                                                src="Tabletops & Joysticks Logo trans.png"
+                                                alt="Tabletops & Joysticks Logo" />
+                                        </button>
+                                        <h4 className="mb-12 mt-1 pb-1 text-sm sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold text-purple-600">
+                                            Tabletops & Joysticks
+                                        </h4>
+                                    </>
+                                    }
+                                </div>
+                            }
+                        </header>
                     </div>
                 </div>            
             </div>

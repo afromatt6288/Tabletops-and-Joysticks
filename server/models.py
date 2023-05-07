@@ -41,6 +41,7 @@ class User(db.Model, SerializerMixin):
     # avatar_blob = db.Column(db.Blob)
     stars = db.Column(db.Integer)
     travel_distance = db.Column(db.Integer)
+    theme = db.Column(db.String)
     is_active = db.Column(db.Boolean)
     is_admin = db.Column(db.Boolean)
 

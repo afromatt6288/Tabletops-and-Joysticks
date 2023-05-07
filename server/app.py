@@ -49,12 +49,15 @@ class Signup(Resource):
         email = data['email']
         address = data['address']
         avatar_url = data['avatar_url']
+        travel_distance= data['travel_distance']
+        stars = data['stars']
+        theme = data['theme']
         # avatar_blob = data['avatar_blob']
         if username and password:
             try:
                 new_user = User(username=username, email=email, address=address, avatar_url=avatar_url, 
                     # avatar_blob=avatar_blob, 
-                    stars=3, travel_distance=5, is_active = False, is_admin = False)
+                    stars=stars, travel_distance=travel_distance, theme=theme, is_active = False, is_admin = False)
                 new_user.password_hash = password
                 db.session.add(new_user)
                 db.session.commit()
@@ -125,8 +128,9 @@ class Users(Resource):
                 address=data['address'], 
                 avatar_url = data['avatar_url'],
                 # avatar_blob = data['avatar_blob'],
-                stars=3,
-                travel_distance=5,
+                travel_distance= data['travel_distance'],
+                stars = data['stars'],
+                theme = data['theme'],
                 is_active = False,
                 is_admin = False,
                 ) 

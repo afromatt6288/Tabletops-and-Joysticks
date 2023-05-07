@@ -11,8 +11,9 @@ function UserNew({onNewUser, toggle}) {
     const [email, setEmail] = useState("");
     const [address, setAddress] = useState("");
     const [avatarUrl, setAvatarUrl] = useState("https://cdn-icons-png.flaticon.com/512/8053/8053029.png");
-    const [stars, setStars] = useState("Unrated");
+    const [stars, setStars] = useState(0);
     const [travelDistance, setTravelDistance] = useState(5);
+    const [theme, setTheme] = useState("purple")
     const [is_active, setIs_active] = useState(false);
     const [is_admin, setIs_admin] = useState(false);
     const [invalidPassword, setInvalidPassword] = useState(false)
@@ -27,6 +28,8 @@ function UserNew({onNewUser, toggle}) {
     useEffect(() => {
         initTE({ Datepicker, Input, Select, Ripple });
     }, []);
+
+    const themeList = ["purple", "orange", "blue", "green", "multi"]
 
     console.log(`${username} ${password} ${email} ${address} ${avatarUrl} ${stars} ${travelDistance} ${is_active} ${is_admin}`)
     
@@ -70,15 +73,24 @@ function UserNew({onNewUser, toggle}) {
         <section id="signup-form">
             <form onSubmit={handleSubmit}>
                 <p className="mb-4">Welcome New User! |  Create Account Below!</p>
-                {/* <!--Username input--> */}
-                <div className="relative mb-4" data-te-input-wrapper-init>
-                    <input value={username} onChange={e => setUsername(e.target.value)} type="text"
-                        className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                    />
-                    <label 
-                        className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-purple-400 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                        >Username
-                    </label>
+                <div className="flex justify-between">
+                    {/* <!--Username input--> */}
+                    <div className="relative mb-4" data-te-input-wrapper-init style={{ flex: "7" }}>
+                        <input value={username} onChange={e => setUsername(e.target.value)} type="text"
+                            className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                        />
+                        <label 
+                            className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-purple-400 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+                            >Username
+                        </label>
+                    </div>
+                    {/* <!--Theme input--> */}
+                    <div className="relative mb-3" style={{ flex: "3" }}>
+                        <select value={theme} onChange={(e) => setTheme(e.target.value)} data-te-select-init>
+                            {themeList.map((theme)=> <option value={theme}>{theme}</option>)}
+                        </select>
+                        <label data-te-select-label-ref className= "text-purple-400" >Theme</label>
+                    </div>
                 </div>
                 <div className="flex justify-between">
                     {/* <!--Password input--> */}
