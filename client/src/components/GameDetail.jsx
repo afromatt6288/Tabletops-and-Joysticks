@@ -42,12 +42,25 @@ function GameDetail({admin, onGameDelete}) {
 
     return (
         <div className="text-white">
-            <section>
-                <header>
-                    <div>
-                        <span>{title} | #{id}</span>
-                    </div>
-                </header>
+            <header className="flex justify-center">
+                {admin ? (
+                <div className="relative flex justify-center">
+                    <button>
+                        <span role="img" aria-label="edit">
+                            ✏️
+                        </span>
+                    </button>
+                    <button onClick={handleDeleteClick}>
+                        <span role="img" aria-label="delete">
+                            🗑
+                        </span>
+                    </button>
+                </div>
+                ) : null}
+                <div>
+                    <span>{title} | #{id}</span>
+                </div>
+            </header>
                 <div>
                     <span>
                         <label>Type: <span>{type}</span> | </label>
@@ -72,21 +85,7 @@ function GameDetail({admin, onGameDelete}) {
                         </Card.Group>  
                     </div>               
                 </div>
-                {admin ? (
-                <div>
-                    <button>
-                        <span role="img" aria-label="edit">
-                            ✏️
-                        </span>
-                    </button>
-                    <button onClick={handleDeleteClick}>
-                        <span role="img" aria-label="delete">
-                            🗑
-                        </span>
-                    </button>
-                </div>
-                ) : null}
-            </section>
+                
         </div>
     );
 }

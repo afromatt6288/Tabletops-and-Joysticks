@@ -196,7 +196,7 @@ function App() {
                         <header>                 
                             {/* <!--Profile--> */}
                             {currentUser ? 
-                                <div className="fixed top-0 right-0 mt-4 mr-4 text-center">
+                                <div className="fixed top-0 right-0 mt-4 mr-4 text-center z-10">
                                     <button onClick={togglePop} className="bg-transparent border-0">
                                         <img 
                                             className="w-12 sm:w-16 md:w-20 lg:w-28 xl:w-36 2xl:w-44"
@@ -256,7 +256,7 @@ function App() {
                         <TBD/>
                     </Route> : null }
                     <Route exact path="/games/new">
-                        <GameNew key={games.id} games={games} onGameAdd={handleGameAdd}/>
+                        <GameNew currentUser={currentUser} key={games.id} games={games} onGameAdd={handleGameAdd}/>
                     </Route>
                     <Route exact path="/games/:id">
                         <GameDetail admin={admin} onGameDelete={handleGameDelete}/>

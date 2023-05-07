@@ -17,7 +17,7 @@ function UserItem({user}) {
     }, []);
 
     return (
-        <div>
+        <div className="relative h-full border-2 rounded-lg border-purple-500">
             <Link to={`/users/${id}`}>
                 <img src={avatar_url} alt={`${username} Avatar`}/>
             </Link>

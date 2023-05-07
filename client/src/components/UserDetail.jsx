@@ -52,7 +52,7 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
         <div className='text-white'>
             <header className="flex justify-center">
                 {admin ? 
-                    <div>
+                    <div className="relative flex justify-center">
                         <button>
                             <span role="img" aria-label="edit"> ✏️ </span>
                         </button>
@@ -68,8 +68,7 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
                     <div className="flex-grow">
                         <div className=" mb-2">
                             <div>
-                                <div className="my-4"></div>
-                                <div className="flex">
+                                <div className="flex mt-4">
                                     {username} | #{id} {is_admin ? " | Moderator" : null }
                                 </div>
                                 <div className="flex">
@@ -99,13 +98,23 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
                 </div>
                 <div className="flex flex-col overflow-y-auto w-1/5 h-[calc(100vh-280px)]">
                     <div className="relative flex justify-center">
-                        <button onClick={() => setMessage(message => !message)} className="mx-4 px-1 py-1 bg-purple-500 text-white rounded">Message Amy?</button>            
+                        <button onClick={() => setMessage(message => !message)} className="mx-4 px-1 py-1 bg-purple-500 text-white rounded">Message {username}?</button>            
                     </div>
                     {message ?
                         <MessageNew user={user} currentUser={currentUser} onSendMessage={onSendMessage}/>
                     : null} 
                 </div>
             </div>
+            {/* <div className="relative flex justify-center">
+                <button onClick={() => setMessage(message => !message)} className="mx-4 px-1 py-1 bg-purple-500 text-white rounded">Message</button>            
+            </div>
+            {message ?
+                <MessageNew user={user} currentUser={currentUser} onSendMessage={onSendMessage}/>
+            : null}
+            <h2>{username}'s Games:</h2>
+                <div className="flex flex-col overflow-y-auto w-2/3 h-[calc(100vh-410px)]">
+                    <GameList games={allGames}/>
+                </div> */}
         </div>
     )
 }

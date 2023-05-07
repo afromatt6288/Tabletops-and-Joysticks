@@ -124,8 +124,7 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
                     <div className="flex-grow">
                         <div className=" mb-2">
                             <div>
-                                <div className="my-4"></div>
-                                <div className="flex">
+                                <div className="flex mt-4">
                                     {username} | #{id} {is_admin ? " | Moderator" : null }
                                 </div>
                                 <div className="flex">
@@ -171,12 +170,10 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
                         </div>
                     </div>
                 </div>
-            </header>
-           
+            </header>           
             <button className="mx-4 px-4 py-1 bg-purple-500 text-white rounded" onClick={handleLogoutClick}>LOGOUT </button>
             {edit ? <label> | Delete Account 👉 <button type="submit" onClick={handleUserDelete}>🗑 </button></label> : null}
-            <div className="my-4"></div>
-            <div className="flex">
+            <div className="flex my-4">
                 <div className="flex flex-col overflow-y-auto w-2/3 h-[calc(100vh-440px)]">
                     <label>YOUR GAMES:<span>{edit ? <AddGameByNameId currentUser={currentUser} onAddGameToProfile={handleAddGameToProfile}/> : null}</span></label>
                     <GameList currentUser={currentUser} games={currentUserGames} edit={edit} onCurrentUserGames={setCurrentUserGames}/>
