@@ -23,13 +23,42 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
 
     const history = useHistory()
 
-    console.log(currentUserSentMessages)
-    console.log(currentUserReceivedMessages)
-
     // This is what implements Tailwind... so DON'T delete it. 
     useEffect(() => {
         initTE({ Datepicker, Input, Select, Ripple });
     }, []);
+
+    // This is to fetch the messages from the db. 
+    // It was supposed to also update the state, but is not successful on just sent Messages, hence the next useEffect.
+    // But it should help in grabbing incoming messages. 
+    useEffect(() => {
+        if (currentUser) {
+        fetch(`api/users/${currentUser.id}`)
+            .then(response => response.json())
+            .then(userData => {
+            console.log(`UserProfile 39`, userData)
+            setCurrentUserReceivedMessages(userData.received_messages);
+            setCurrentUserSentMessages(userData.sent_messages)
+            })
+            .catch(error => {
+            console.error(error);
+            });
+        }
+    }, [currentUser]);
+
+    // This useEffect hook updates the state of the messages when they are fetched from the database above.
+    // Again, not useful for outgoing messages, but useful for the incoming.
+    useEffect(() => {
+        setCurrentUserSentMessages(currentUser.sent_messages.map((mes)=>mes))
+        setCurrentUserReceivedMessages(currentUser.received_messages.map((mes)=>mes))
+    }, [currentUser.sent_messages, currentUser.received_messages])
+
+    // And now we will handle the sent message, and put it into state... 
+    // This is for outgoing messages to render... It gets closer each time. 
+    function handleSendMessage(newMessage) {
+        setCurrentUserSentMessages(currentUserSentMessages => [...currentUserSentMessages, newMessage]);
+        onSendMessage(newMessage)
+    }
 
     const themeList = ["purple", "orange", "blue", "green", "multi"]
 
@@ -69,10 +98,6 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
                     })
                 }
             })
-    }
-
-    function handleThemeChange(newTheme){
-        setNewTheme(newTheme)
     }
 
     function handleUserDelete() {
@@ -180,7 +205,7 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
                 </div>
                 <div className="flex flex-col overflow-y-auto w-1/3 h-[calc(100vh-440px)]">
                     <label>YOUR MESSAGES:</label>
-                    <MessageBox users={users} currentUser={currentUser} currentUserSentMessages={currentUserSentMessages} onCurrentUserSentMessages={setCurrentUserSentMessages} currentUserReceivedMessages={currentUserReceivedMessages} onCurrentUserReceivedMessages={setCurrentUserReceivedMessages} onSendMessage={onSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage}/>
+                    <MessageBox users={users} currentUser={currentUser} currentUserSentMessages={currentUserSentMessages} onCurrentUserSentMessages={setCurrentUserSentMessages} currentUserReceivedMessages={currentUserReceivedMessages} onCurrentUserReceivedMessages={setCurrentUserReceivedMessages} onSendMessage={handleSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage}/>
                 </div>
             </div>
             {/* <Link to={`/swaps`}>Swap History</Link> */}

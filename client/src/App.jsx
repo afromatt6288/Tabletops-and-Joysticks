@@ -63,7 +63,6 @@ function App() {
         fetch(`api/users/${currentUser.id}`)
             .then(response => response.json())
             .then(userData => {
-            console.log('Fetched userData:', userData)
             setTheme(userData.theme);
             })
             .catch(error => {
@@ -104,11 +103,9 @@ function App() {
     function handleUserDelete(id) {
         const updatedUsers = users.filter(user => user.id !== id)
         setUsers(updatedUsers)   
-        console.log(users)
     }
 
     function handleEditProfile(currentUser){
-        console.log(currentUser)
         setCurrentUser(currentUser)
     }
 
@@ -207,7 +204,6 @@ function App() {
                 autoPlay
                 loop
             />
-            {console.log('Current theme:', theme)} 
             <div className='absolute inset-x-[5%] inset-y-[5%] text-center text-white md:block'>
                 <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
                     {/* <!--Logo, Login, or Profile--> */}
@@ -249,7 +245,6 @@ function App() {
                     </div>
                 </div>            
             </div>
-            
             <div>
                 <Switch>
                     <Route exact path="/reset-password">

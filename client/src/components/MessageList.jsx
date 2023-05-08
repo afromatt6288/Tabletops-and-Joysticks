@@ -10,7 +10,6 @@ function MessageList({ users, user, messages, currentUser, onSendMessage, onDele
 // Setup Functions //
 /////////////////////
 
-console.log(user)
   const history = useHistory()
 
   // This is what implements Tailwind... so DON'T delete it. 

@@ -10,8 +10,6 @@ function Message({ users, user, message, currentUser, onDeleteMessage, onUpdateM
 /////////////////////
 // Setup Functions //
 /////////////////////
-console.log(message)
-console.log(user)
 
   const history = useHistory()
 
