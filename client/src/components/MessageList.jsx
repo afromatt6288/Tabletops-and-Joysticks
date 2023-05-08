@@ -4,7 +4,7 @@ import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import Message from "./Message";
 import MessageNew from "./MessageNew";
 
-function MessageList({ users, user, messages, currentUser, onSendMessage, onDeleteMessage, onUpdateMessage }) {
+function MessageList({ users, user, messages, currentUser, onSendMessage, onDeleteMessage, onEditMessage }) {
   
 /////////////////////
 // Setup Functions //
@@ -22,7 +22,7 @@ function MessageList({ users, user, messages, currentUser, onSendMessage, onDele
   return (
     <div className="list">
       <ul>{messages.map(message => (
-            <Message key={message.id} message={message} user={user} currentUser={currentUser} onDeleteMessage={onDeleteMessage} onUpdateMessage={onUpdateMessage} />
+            <Message key={message.id} message={message} user={user} currentUser={currentUser} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage} />
       ))}
       </ul>
       <MessageNew user={user} currentUser={currentUser} onSendMessage={onSendMessage} />

@@ -3,7 +3,7 @@ import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import MessageEdit from "./MessageEdit"
 
-function Message({ users, user, message, currentUser, onDeleteMessage, onUpdateMessage }) {
+function Message({ users, user, message, currentUser, onDeleteMessage, onEditMessage }) {
   const [isEditing, setIsEditing] = useState(false)
   const { id, sender_user_id, receiver_user_id, message_text, created_at } = message
  
@@ -25,9 +25,9 @@ function Message({ users, user, message, currentUser, onDeleteMessage, onUpdateM
     onDeleteMessage(id)
   }
   
-  function handleUpdateMessage(updatedMessage) {
+  function handleEditMessage(updatedMessage) {
     setIsEditing(false)
-    onUpdateMessage(updatedMessage)
+    onEditMessage(updatedMessage)
   }
 
 const date = new Date(created_at);
@@ -50,7 +50,7 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
       <span>From: {user.username} (ID#{sender_user_id}) | To: {currentUser.username} (ID#{receiver_user_id})</span>
       }
       
-      {isEditing ? <MessageEdit id={id} message_text={message_text} onUpdateMessage={handleUpdateMessage} /> : <p>{message_text}</p>}
+      {isEditing ? <MessageEdit id={id} message_text={message_text} onEditMessage={handleEditMessage} /> : <p>{message_text}</p>}
       {currentUser ? 
         <div>
           <button onClick={() => setIsEditing(isEditing => !isEditing)}>
