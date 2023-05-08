@@ -13,8 +13,8 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
     const [newAddress, setNewAddress] = useState(`${address}`)
     const [newTravel, setNewTravel] = useState(`${travel_distance}`)
     const [currentUserGames, setCurrentUserGames] = useState(currentUser.inventories.map((inv)=>inv.game))
-    const [currentUserSentMessages, setCurrentUserSentMessages] = useState(currentUser.sent_messages.map((mes)=>mes))
-    const [currentUserReceivedMessages, setCurrentUserReceivedMessages] = useState(currentUser.received_messages.map((mes)=>mes))
+    // const [currentUserSentMessages, setCurrentUserSentMessages] = useState(currentUser.sent_messages.map((mes)=>mes))
+    // const [currentUserReceivedMessages, setCurrentUserReceivedMessages] = useState(currentUser.received_messages.map((mes)=>mes))
     const [newTheme, setNewTheme] = useState("purple")
     
 /////////////////////
@@ -27,44 +27,6 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
     useEffect(() => {
         initTE({ Datepicker, Input, Select, Ripple });
     }, []);
-
-    // Kept having to fetch, so figured I'd just write it once, and call it when I need it.
-    function fetchMessages(){
-        fetch(`api/users/${currentUser.id}`)
-            .then(response => response.json())
-            .then(userData => {
-            setCurrentUserReceivedMessages(userData.received_messages);
-            setCurrentUserSentMessages(userData.sent_messages)
-            })
-            .catch(error => {
-            console.error(error);
-        });
-    }
-
-    // This is to fetch the messages from the db every 5 seconds.
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-          if (currentUser) {
-            fetchMessages()
-            console.log('stuff')
-          }
-        }, 5000);
-      
-        return () => clearInterval(intervalId);
-      }, [currentUser]);
-
-    // And now we will handle the sent message, and put it into state... 
-    // This is for outgoing messages to render... It gets closer each time. 
-    function handleSendMessage(newMessage) {
-        fetchMessages()
-        onSendMessage(newMessage)
-    }
-
-    // This is for Edited outgoing messages to render... It gets closer each time. 
-    function handleEditMessage(editedMessage) {
-        fetchMessages()
-        onEditMessage(editedMessage)
-    }
 
     const themeList = ["purple", "orange", "blue", "green", "multi"]
 
@@ -211,7 +173,7 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
                 </div>
                 <div className="flex flex-col overflow-y-auto w-1/3 h-[calc(100vh-440px)]">
                     <label>YOUR MESSAGES:</label>
-                    <MessageBox users={users} currentUser={currentUser} currentUserSentMessages={currentUserSentMessages} onCurrentUserSentMessages={setCurrentUserSentMessages} currentUserReceivedMessages={currentUserReceivedMessages} onCurrentUserReceivedMessages={setCurrentUserReceivedMessages} onSendMessage={handleSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={handleEditMessage}/>
+                    <MessageBox users={users} currentUser={currentUser} onSendMessage={onSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage}/>
                 </div>
             </div>
             {/* <Link to={`/swaps`}>Swap History</Link> */}

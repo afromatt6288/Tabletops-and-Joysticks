@@ -3,10 +3,11 @@ import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import MessageSearch from "./MessageSearch";
 import MessageList from "./MessageList";
-// import MessageNew from "./MessageNew";
 
-function MessageBox({users, currentUser, onSendMessage, onDeleteMessage, onEditMessage, currentUserSentMessages, onCurrentUserSentMessages, currentUserReceivedMessages, onCurrentUserReceivedMessages}) {
+function MessageBox({users, currentUser, onSendMessage, onDeleteMessage, onEditMessage}) {
   const [search, setSearch] = useState("")
+  const [currentUserSentMessages, setCurrentUserSentMessages] = useState(currentUser.sent_messages.map((mes)=>mes))
+  const [currentUserReceivedMessages, setCurrentUserReceivedMessages] = useState(currentUser.received_messages.map((mes)=>mes))
   const [selectedUser, setSelectedUser] = useState(null);
   const [sortType, setSortType] = useState("name");
 
@@ -20,10 +21,44 @@ function MessageBox({users, currentUser, onSendMessage, onDeleteMessage, onEditM
   useEffect(() => {
     initTE({ Datepicker, Input, Select, Ripple });
   }, []); 
+
+  // Kept having to fetch, so figured I'd just write it once, and call it when I need it.
+  function fetchMessages(){
+    fetch(`api/users/${currentUser.id}`)
+        .then(response => response.json())
+        .then(userData => {
+        setCurrentUserReceivedMessages(userData.received_messages);
+        setCurrentUserSentMessages(userData.sent_messages)
+        })
+        .catch(error => {
+        console.error(error);
+    });
+}
+
+// This is to fetch the messages from the db every 5 seconds.
+useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (currentUser) {
+        fetchMessages()
+        console.log('stuff')
+      }
+    }, 5000);
   
-  function handleEditMessage(editedMessage) {
+    return () => clearInterval(intervalId);
+  }, [currentUser]);
+
+// And now we will handle the sent message, and put it into state... 
+// This is for outgoing messages to render... It gets closer each time. 
+function handleSendMessage(newMessage) {
+    fetchMessages()
+    onSendMessage(newMessage)
+}
+
+// This is for Edited outgoing messages to render... It gets closer each time. 
+function handleEditMessage(editedMessage) {
+    fetchMessages()
     onEditMessage(editedMessage)
-  }
+}
 
   function sortUsers(usersToSort) {
     return usersToSort.sort((a, b) => {
@@ -71,7 +106,7 @@ function MessageBox({users, currentUser, onSendMessage, onDeleteMessage, onEditM
         <div>
           <button onClick={() => setSelectedUser(null)}>Back</button>
           <MessageSearch search={search} onSearchChange={setSearch} />
-          <MessageList user={selectedUser} messages={selectedUserMessages} currentUser={currentUser} onSendMessage={onSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={handleEditMessage} />
+          <MessageList user={selectedUser} messages={selectedUserMessages} currentUser={currentUser} onSendMessage={handleSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={handleEditMessage} />
         </div> 
       : 
         <div>
