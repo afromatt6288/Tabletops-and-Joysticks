@@ -28,6 +28,7 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
         initTE({ Datepicker, Input, Select, Ripple });
     }, []);
 
+    // Kept having to fetch, so figured I'd just write it once, and call it when I need it.
     function fetchMessages(){
         fetch(`api/users/${currentUser.id}`)
             .then(response => response.json())
@@ -39,34 +40,29 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
             console.error(error);
         });
     }
-    // This is to fetch the messages from the db. 
-    // It was supposed to also update the state, but is not successful on just sent Messages, hence the next useEffect.
-    // But it should help in grabbing incoming messages. 
-    useEffect(() => {
-        if (currentUser) {
-        fetchMessages()
-        }
-    }, [currentUser]);
 
-    // This useEffect hook updates the state of the messages when they are fetched from the database above.
-    // Again, not useful for outgoing messages, but useful for the incoming.
+    // This is to fetch the messages from the db every 5 seconds.
     useEffect(() => {
-        setCurrentUserSentMessages(currentUser.sent_messages.map((mes)=>mes))
-        setCurrentUserReceivedMessages(currentUser.received_messages.map((mes)=>mes))
-    }, [currentUser.sent_messages, currentUser.received_messages])
+        const intervalId = setInterval(() => {
+          if (currentUser) {
+            fetchMessages()
+            console.log('stuff')
+          }
+        }, 5000);
+      
+        return () => clearInterval(intervalId);
+      }, [currentUser]);
 
     // And now we will handle the sent message, and put it into state... 
     // This is for outgoing messages to render... It gets closer each time. 
     function handleSendMessage(newMessage) {
         fetchMessages()
-        // setCurrentUserSentMessages(currentUserSentMessages => [...currentUserSentMessages, newMessage]);
         onSendMessage(newMessage)
     }
 
     // This is for Edited outgoing messages to render... It gets closer each time. 
     function handleEditMessage(editedMessage) {
         fetchMessages()
-        // setCurrentUserSentMessages(currentUserSentMessages => [...currentUserSentMessages, editedMessage]);
         onEditMessage(editedMessage)
     }
 
