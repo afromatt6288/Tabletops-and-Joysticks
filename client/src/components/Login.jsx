@@ -3,7 +3,7 @@ import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import UserNew from "./UserNew";
 
-function Login ({currentUser, setCurrentUser, toggle, users, onAddUser}) {
+function Login ({currentUser, setCurrentUser, toggle, theme, users, onAddUser}) {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [isPasswordSecure, setIsPasswordSecure] = useState(true)
@@ -13,7 +13,7 @@ function Login ({currentUser, setCurrentUser, toggle, users, onAddUser}) {
 /////////////////////
 // Setup Functions //
 /////////////////////
-
+// purple
   const history = useHistory()
 
   // This is what implements Tailwind... so DON'T delete it. 
@@ -53,7 +53,7 @@ function Login ({currentUser, setCurrentUser, toggle, users, onAddUser}) {
     <div className="flex items-center justify-center h-screen w-full">
       <div className="absolute inset-x-[30%] bottom-5 top-5 text-center text-white md:block space-y-4 md:space-y-6 lg:space-y-8">
         <div className="g-6 flex h-full flex-wrap items-center justify-center text-linear-gradient(to right, #d70ad3, #d00dd6, #c910d9, #bc14da, #b019db, #a41edc, #9823dd, #8c28de, #7f32df, #6b3fd9, #5346d9, #3d50d6, #2b59d1 dark:text-neutral-200 mx-auto max-w-[40rem]">
-          <div className="block rounded-lg bg-gray-600 bg-opacity-70 shadow-lg dark:bg-neutral-800 w-full md:w-auto">
+          <div className="text-[var(--color-theme-text)!important] border-[var(--color-theme-border)!important] border-4 block rounded-lg bg-gray-600 bg-opacity-70 shadow-lg dark:bg-neutral-800 w-full md:w-auto">
             <div>
               {/* <!-- Top Row container--> */}
                 <div className="md:mx-2 md:p-12">
@@ -78,7 +78,7 @@ function Login ({currentUser, setCurrentUser, toggle, users, onAddUser}) {
                           className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                         />
                         <label 
-                          className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-purple-400 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+                          className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
                           >Username
                         </label>
                       </div>
@@ -89,7 +89,7 @@ function Login ({currentUser, setCurrentUser, toggle, users, onAddUser}) {
                           />
                           <button type="button" onClick={(e)=>setIsPasswordSecure(!isPasswordSecure)}> {isPasswordSecure ? "🙈" : "🙉"}</button>
                         <label
-                          className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-purple-400 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+                          className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
                           >Password
                         </label>
                       </div>
@@ -98,18 +98,18 @@ function Login ({currentUser, setCurrentUser, toggle, users, onAddUser}) {
                       <div className="mb-12 pb-1 pt-1 text-center">
                         <button type="submit" data-te-ripple-init data-te-ripple-color="light"
                           style={{ background: "linear-gradient(to right, #d70ad3, #d00dd6, #c910d9, #bc14da, #b019db, #a41edc, #9823dd, #8c28de, #7f32df, #6b3fd9, #5346d9, #3d50d6, #2b59d1)" }}
-                          className="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
+                          className="text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
                         > Log in
                         </button>
                         {/* <!--Register button--> */}
                         <div>
                           <button onClick={e=>setNewUser(!newUser)} type="button" data-te-ripple-init data-te-ripple-color="light"
-                            className="inline-block rounded border-2 border-purple-400 px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-purple-400 transition duration-150 ease-in-out hover:border-purple-800 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-purple-800 focus:border-purple-600 focus:text-purple-600 focus:outline-none focus:ring-0 active:border-purple-700 active:text-purple-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+                            className="border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] inline-block rounded border-2 px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out hover:bg-neutral-500 hover:bg-opacity-10 focus:outline-none focus:ring-0 hover:text-[var(--color-theme-hover-text)!important] dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
                           > New User? Sign up here!
                           </button>
                         </div>
                           {/* <!--Forgot password link--> */}
-                          <Link className="hover:text-purple-800" to="/reset-password">Forgot your password?</Link>
+                          <Link className="hover:text-[var(--color-theme-hover-text)!important]" to="/reset-password">Forgot your password?</Link>
                           <br/>
                         {/* <!-- Bottom Row container with background and description--> */}
                         <div

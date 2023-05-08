@@ -44,9 +44,10 @@ function UserNew({onNewUser, toggle}) {
                 address: address,
                 avatar_url: avatarUrl,
                 stars: stars,
-                travelDistance: travelDistance,
+                travel_distance: travelDistance,
                 is_active: is_active,
-                is_admin: is_admin
+                is_admin: is_admin,
+                theme: theme
             }
             fetch("api/signup", {
                 method: "POST",

@@ -17,7 +17,7 @@ function App() {
     const [currentUser, setCurrentUser] = useState("")
     const [seen, setSeen] = useState(false)
     const [admin, setAdmin] = useState(false)
-    const [theme, setTheme] = useState("")
+    const [theme, setTheme] = useState("blue")
     // const [isDarkMode, setIsDarkMode] = useState(false)
 
 /////////////////////
@@ -192,13 +192,13 @@ function App() {
 ////////////
 // RETURN //
 ////////////
-
+console.log(theme)
     return (
-        <>
+        <div data-theme={theme}>
             {/* <!--Background Video--> */}
             <video
                 key={theme} 
-                className='absolute object-cover w-full h-full z-[-1]'
+                className='fixed object-cover w-full h-full z-[-1]'
                 src={colorBackgroundVideos[theme] || colorBackgroundVideos.default}
                 muted
                 autoPlay
@@ -224,7 +224,7 @@ function App() {
                             : 
                                 <div> 
                                     {/* <!--Login--> */}                               
-                                    {seen ? <Login toggle={togglePop} currentUser={currentUser} setCurrentUser={setCurrentUser} users={users} onAddUser={handleAddUser}/> 
+                                    {seen ? <Login toggle={togglePop} theme={theme} currentUser={currentUser} setCurrentUser={setCurrentUser} users={users} onAddUser={handleAddUser}/> 
                                     : 
                                     <>
                                         {/* <!--Logo--> */}
@@ -234,7 +234,7 @@ function App() {
                                                 src="Tabletops & Joysticks Logo trans.png"
                                                 alt="Tabletops & Joysticks Logo" />
                                         </button>
-                                        <h4 className="mb-12 mt-1 pb-1 text-sm sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold text-purple-600">
+                                        <h4 className="text-[var(--color-theme-text)] border-[var(--color-theme-border)]  mb-12 mt-1 pb-1 text-sm sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold">
                                             Tabletops & Joysticks
                                         </h4>
                                     </>
@@ -276,7 +276,7 @@ function App() {
                         <GameDetail admin={admin} currentUser={currentUser} onGameDelete={handleGameDelete}/>
                     </Route>
                     <Route exact path="/games">
-                        <GameList currentUser={currentUser} games={games} users={users}/>
+                        <GameList currentUser={currentUser} theme={theme} games={games} users={users}/>
                     </Route>
                     <Route path="*">
                         <h1>404 not found</h1>
@@ -284,7 +284,7 @@ function App() {
                 </Switch> : null
                 }
             </div>
-        </>
+        </div>
     );
 }
 

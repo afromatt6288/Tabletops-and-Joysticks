@@ -1,3 +1,63 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --color-theme-text: var(--color-blue-text);
+    --color-theme-border: var(--color-blue-border);
+    --color-theme-hover-text: var(--color-blue-hover-text);
+    --color-theme-hover-border: var(--color-blue-hover-border);
+    --color-theme-active-text: var(--color-blue-active-text);
+    --color-theme-active-border: var(--color-blue-active-border);
+    --color-theme-shadow: var(--color-blue-shadow);
+  }
+
+  [data-theme="purple"] {
+    --color-theme-text: #6b46c1;
+    --color-theme-border: #6b46c1;
+    --color-theme-hover-text: #7c3aed;
+    --color-theme-hover-border: #7c3aed;
+    --color-theme-active-text: #9333ea;
+    --color-theme-active-border: #9333ea;
+    --color-theme-shadow: 0 4px 6px rgba(123, 58, 237, 0.1);
+  }
+  
+  [data-theme="orange"] {
+    --color-theme-text: #f59e0b;
+    --color-theme-border: #f59e0b;
+    --color-theme-hover-text: #f87121;
+    --color-theme-hover-border: #f87121;
+    --color-theme-active-text: #fb923c;
+    --color-theme-active-border: #fb923c;
+    --color-theme-shadow: 0 4px 6px rgba(251, 146, 60, 0.1);
+  }
+  
+  [data-theme="green"] {
+    --color-theme-text: #22c55e;
+    --color-theme-border: #22c55e;
+    --color-theme-hover-text: #10b981;
+    --color-theme-hover-border: #10b981;
+    --color-theme-active-text: #34d399;
+    --color-theme-active-border: #34d399;
+    --color-theme-shadow: 0 4px 6px rgba(52, 211, 153, 0.1);
+  }
+  
+  [data-theme="blue"] {
+    --color-theme-text: #3b82f6;
+    --color-theme-border: #3b82f6;
+    --color-theme-hover-text: #2563eb;
+    --color-theme-hover-border: #2563eb;
+    --color-theme-active-text: #3c6df0;
+    --color-theme-active-border: #3c6df0;
+    --color-theme-shadow: 0 4px 6px rgba(60, 109, 240, 0.1);
+  }
+  
+  [data-theme="rainbow"] {
+    --color-theme-text: #ee4266;
+    --color-theme-border: #ee4266;
+    --color-theme-hover-text: #5dade2;
+    --color-theme-hover-border: #5dade2;
+    --color-theme-active-text: #32cd32;
+    --color-theme-active-border: #32cd32;
+    --color-theme-shadow: 0 4px 6px rgba(238, 66, 102, 0.1), 0 4px 6px rgba(93, 173, 226, 0.1), 0 4px 6px rgba(50, 205, 50, 0.1);
+  }

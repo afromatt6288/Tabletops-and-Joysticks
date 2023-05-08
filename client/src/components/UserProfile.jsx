@@ -5,7 +5,7 @@ import MessageBox from "./MessageBox"
 import GameList from "./GameList"
 import AddGameByNameId from "./AddGameByNameId"
 
-function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick, onEditProfile, onSendMessage, onDeleteMessage, onEditMessage}) {
+function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogoutClick, onEditProfile, onSendMessage, onDeleteMessage, onEditMessage}) {
     const {id, username, email, address, avatar_url, stars, travel_distance, is_active, is_admin} = currentUser    
     const [edit, setEdit] = useState(false)
     const [newAvatar, setNewAvatar] = useState(`${avatar_url}`)
@@ -13,9 +13,7 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
     const [newAddress, setNewAddress] = useState(`${address}`)
     const [newTravel, setNewTravel] = useState(`${travel_distance}`)
     const [currentUserGames, setCurrentUserGames] = useState(currentUser.inventories.map((inv)=>inv.game))
-    // const [currentUserSentMessages, setCurrentUserSentMessages] = useState(currentUser.sent_messages.map((mes)=>mes))
-    // const [currentUserReceivedMessages, setCurrentUserReceivedMessages] = useState(currentUser.received_messages.map((mes)=>mes))
-    const [newTheme, setNewTheme] = useState("purple")
+    const [newTheme, setNewTheme] = useState("")
     
 /////////////////////
 // Setup Functions //
@@ -28,7 +26,7 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
         initTE({ Datepicker, Input, Select, Ripple });
     }, []);
 
-    const themeList = ["purple", "orange", "blue", "green", "multi"]
+    const themeList = [ "", "purple", "orange", "blue", "green", "multi",]
 
     function handleAddGameToProfile(inv){
         const updatedGames = [... currentUserGames, inv.game]
@@ -94,7 +92,7 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
                             {themeList.map((newTheme) => <option value={newTheme}>{newTheme}</option>)}
                         </select>
                         <label data-te-select-label-ref className="mr-1 w-24 text-white">Theme: </label>
-                        <button type="submit" className="mx-4 px-1 py-1 bg-purple-500 text-white rounded" onClick={handleEditProfile}>Submit Changes</button>
+                        <button type="submit" className={`mx-4 px-1 py-1 bg-${theme}-500 text-white rounded`} onClick={handleEditProfile}>Submit Changes</button>
                     </span>
                     )
                 : null}
@@ -102,13 +100,13 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
             <header className="flex justify-center">
                 <div className="flex">
                     <div className="mr-8">
-                        <img src={avatar_url} alt={`${username} Avatar`} className="h-40 w-40 object-cover rounded-full"/>
+                        <img src={avatar_url} alt={`${username} Avatar`} className={`h-40 w-40 object-cover border-2 border-${theme} rounded-full`}/>
                         {edit? 
                             <span className="flex">
                                 <div className="relative mb-3" data-te-input-wrapper-init>
                                     <input type="url" value={newAvatar} onChange={e => setNewAvatar(e.target.value)}
                                         className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"/>
-                                    <label className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-purple-400 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+                                    <label className={`pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-${theme}-400 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}
                                     >Avatar URL</label>
                                 </div> ✏️
                             </span> 
@@ -164,7 +162,7 @@ function UserProfile({users, currentUser, messages, onUserDelete, onLogoutClick,
                     </div>
                 </div>
             </header>           
-            <button className="mx-4 px-4 py-1 bg-purple-500 text-white rounded" onClick={handleLogoutClick}>LOGOUT </button>
+            <button className={`mx-4 px-4 py-1 bg-${theme}-500 text-white rounded`} onClick={handleLogoutClick}>LOGOUT </button>
             {edit ? <label> | Delete Account 👉 <button type="submit" onClick={handleUserDelete}>🗑 </button></label> : null}
             <div className="flex my-4">
                 <div className="flex flex-col overflow-y-auto w-2/3 h-[calc(100vh-440px)]">

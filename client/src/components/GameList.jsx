@@ -4,7 +4,7 @@ import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import GameItem from "./GameItem";
 import GameSearch from "./GameSearch";
 
-function GameList({games, edit, currentUser, onCurrentUserGames}) {
+function GameList({theme, games, edit, currentUser, onCurrentUserGames}) {
     const [search, setSearch] = useState("")
     const [sortBy, setSortBy] = useState("Alphabetical")
     const [filterByType, setFilterByType] = useState("All")
@@ -58,7 +58,7 @@ function GameList({games, edit, currentUser, onCurrentUserGames}) {
     const displayedGames = filteredByPlatformGames.filter(game => game.title.toLowerCase().includes(search.toLowerCase()))
         
     return (
-        <div className="border-2 border-purple-500 rounded-lg text-white">
+        <div className={`border-2 border-${theme}-500 rounded-lg text-white`}>
             <div >
                 <GameSearch search={search} onSearchChange={setSearch} sortBy={sortBy} onSortChange={setSortBy} filterByType={filterByType} filterByGenre={filterByGenre} filterByPlatform={filterByPlatform} onHandleTypeFilter={setFilterByType} onHandleGenreFilter={setFilterByGenre} onHandlePlatformFilter={setFilterByPlatform} types={uniqueTypes} genres={uniqueGenres} platforms={uniquePlatforms}/>
             </div>
