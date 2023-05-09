@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 
-function UserPasswordReset() {
+function UserPasswordReset(theme) {
   const [email, setEmail] = useState("");
 
 /////////////////////

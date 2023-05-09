@@ -248,32 +248,32 @@ console.log(theme)
             <div>
                 <Switch>
                     <Route exact path="/reset-password">
-                        <UserPasswordReset/>
+                        <UserPasswordReset theme={theme}/>
                     </Route>
                 </Switch>
-                {currentUser ? seen ? null : <NavBar admin={admin}/> :  null }
+                {currentUser ? seen ? null : <NavBar admin={admin} theme={theme}/> :  null }
                 {currentUser ? seen ? null : <Switch>
                     <Route exact path="/">
-                        <Home currentUser={currentUser}/>
+                        <Home currentUser={currentUser} theme={theme}/>
                     </Route>
                     <Route exact path="/users">
-                        <UserList currentUser={currentUser} users={users} games={games}/>
+                        <UserList currentUser={currentUser} users={users} games={games} theme={theme}/>
                     </Route>
                     <Route exact path="/users/profile">
-                        <UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} users={users} messages={messages} onSendMessage={handleSendMessage} onDeleteMessage={handleDeleteMessage} onEditMessage={handleEditMessage}/>
+                        <UserProfile key={currentUser.id} theme={theme} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} users={users} messages={messages} onSendMessage={handleSendMessage} onDeleteMessage={handleDeleteMessage} onEditMessage={handleEditMessage}/>
                     </Route>
                     <Route exact path="/users/:id">
-                        <UserDetail admin={admin} currentUser={currentUser} users={users} games={games} onUserDelete={handleUserDelete} onSendMessage={handleSendMessage}/>
+                        <UserDetail admin={admin} theme={theme} currentUser={currentUser} users={users} games={games} onUserDelete={handleUserDelete} onSendMessage={handleSendMessage}/>
                     </Route>
                     {admin ? 
                     <Route exact path="/tbd">
-                        <TBD/>
+                        <TBD theme={theme}/>
                     </Route> : null }
                     <Route exact path="/games/new">
-                        <GameNew currentUser={currentUser} key={games.id} games={games} onGameAdd={handleGameAdd}/>
+                        <GameNew currentUser={currentUser} theme={theme} key={games.id} games={games} onGameAdd={handleGameAdd}/>
                     </Route>
                     <Route exact path="/games/:id">
-                        <GameDetail admin={admin} currentUser={currentUser} onGameDelete={handleGameDelete}/>
+                        <GameDetail admin={admin} theme={theme} currentUser={currentUser} onGameDelete={handleGameDelete}/>
                     </Route>
                     <Route exact path="/games">
                         <GameList currentUser={currentUser} theme={theme} games={games} users={users}/>

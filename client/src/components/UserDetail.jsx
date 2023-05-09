@@ -4,7 +4,7 @@ import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import GameList from "./GameList"
 import MessageNew from "./MessageNew";
 
-function UserDetail({admin, currentUser, onSendMessage, onUserDelete}) {
+function UserDetail({admin, currentUser, onSendMessage, onUserDelete, theme}) {
     // const [message_text, setMessage_text] = useState("")
     const [user, setUser] = useState(null);
     const [message, setMessage] = useState(false)

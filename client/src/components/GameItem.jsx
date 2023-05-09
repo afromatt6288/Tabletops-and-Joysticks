@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 
-function GameItem({ game, edit, currentUser, onCurrentUserGames, games}) {
+function GameItem({ game, edit, currentUser, onCurrentUserGames, games, theme}) {
     const { id, title, image_url, type, genres, platforms, player_num_min, player_num_max, image_blob, description} = game
 
 /////////////////////

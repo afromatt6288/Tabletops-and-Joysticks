@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 
-function EditMessage({ id, message_text, onEditMessage }) {
+function EditMessage({ id, message_text, onEditMessage, theme }) {
   const [messageText, setMessageText] = useState(message_text);
 
 /////////////////////

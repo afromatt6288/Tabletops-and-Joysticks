@@ -3,7 +3,7 @@ import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import MessageEdit from "./MessageEdit"
 
-function Message({ users, user, message, currentUser, onDeleteMessage, onEditMessage }) {
+function Message({ users, user, message, currentUser, onDeleteMessage, onEditMessage, theme }) {
   const [isEditing, setIsEditing] = useState(false)
   const { id, sender_user_id, receiver_user_id, message_text, created_at } = message
  

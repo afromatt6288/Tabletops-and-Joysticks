@@ -4,7 +4,7 @@ import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import Message from "./Message";
 import MessageNew from "./MessageNew";
 
-function MessageList({ users, user, messages, currentUser, onSendMessage, onDeleteMessage, onEditMessage }) {
+function MessageList({ users, user, messages, currentUser, onSendMessage, onDeleteMessage, onEditMessage, theme }) {
   
 /////////////////////
 // Setup Functions //

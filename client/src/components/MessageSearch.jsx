@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 
-function MessageSearch({ search, onSearchChange }) {
+function MessageSearch({ search, onSearchChange, theme }) {
 
 /////////////////////
 // Setup Functions //

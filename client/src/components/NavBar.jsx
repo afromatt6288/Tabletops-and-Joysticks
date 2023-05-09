@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory, NavLink } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, Tab, initTE } from "tw-elements";
 
-function NavBar({admin}) {
+function NavBar({admin, theme}) {
 
 /////////////////////
 // Setup Functions //

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 
-function GameNew({onGameAdd, games, currentUser}) {
+function GameNew({onGameAdd, games, currentUser, theme}) {
     const [title, setTitle] = useState("");
     const [type, setType] = useState("")
     const [genres, setGenres] = useState(null)

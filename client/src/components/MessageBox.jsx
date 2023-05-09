@@ -4,7 +4,7 @@ import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import MessageSearch from "./MessageSearch";
 import MessageList from "./MessageList";
 
-function MessageBox({users, currentUser, onSendMessage, onDeleteMessage, onEditMessage}) {
+function MessageBox({users, currentUser, onSendMessage, onDeleteMessage, onEditMessage, theme}) {
   const [search, setSearch] = useState("")
   const [currentUserSentMessages, setCurrentUserSentMessages] = useState(currentUser.sent_messages.map((mes)=>mes))
   const [currentUserReceivedMessages, setCurrentUserReceivedMessages] = useState(currentUser.received_messages.map((mes)=>mes))

@@ -4,7 +4,7 @@ import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import UserList from "./UserList";
 import { Card } from "semantic-ui-react"
 
-function GameDetail({admin, onGameDelete, currentUser}) {
+function GameDetail({admin, onGameDelete, currentUser, theme}) {
     const [game, setGame] = useState(null);    
     
 /////////////////////

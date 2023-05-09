@@ -3,7 +3,7 @@ import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 
 function UserItem({user}) {
-    const {id, username, email, address, avatar_url, stars, travel_distance, is_active, is_admin} = user
+    const {id, username, email, address, avatar_url, stars, travel_distance, is_active, is_admin, theme} = user
 
 /////////////////////
 // Setup Functions //

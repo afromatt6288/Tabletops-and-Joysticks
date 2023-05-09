@@ -99,7 +99,7 @@ function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogou
                             >Theme: 
                         </label>
                         <button type="submit" onClick={handleEditProfile} className={`bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active mx-4 px-1 py-1 rounded`} >
-                            <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important]'}`}
+                            <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] font-extrabold'}`}
                                 >Submit Changes
                             </span>
                         </button>
@@ -192,24 +192,37 @@ function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogou
                 </div>
             </header>           
             <button onClick={handleLogoutClick} className={`bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active mx-4 px-1 py-1 rounded`} >
-                <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important]'}`}
+                <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] font-extrabold'}`}
                     >LOGOUT 
                 </span>
             </button>
             {edit ? 
-                <label className={`bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active mx-4 px-1 py-1 rounded`}> 
-                    <button type="submit" onClick={handleUserDelete}>
-                        <span className="text-white"> 🗑 </span> Delete Account <span className="text-white"> 🗑 </span> 
-                    </button>
-                </label>
+                <button onClick={handleUserDelete} className={`bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active mx-4 px-1 py-1 rounded`}> 
+                    <span className="text-white"> 🗑 </span> 
+                    <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] font-extrabold'}`}
+                        >Delete Account
+                    </span> 
+                    <span className="text-white"> 🗑 </span> 
+                </button>
+
              : null}
             <div className="flex my-4">
                 <div className="flex flex-col overflow-y-auto w-2/3 h-[calc(100vh-440px)]">
-                    <label>YOUR GAMES:<span>{edit ? <AddGameByNameId currentUser={currentUser} onAddGameToProfile={handleAddGameToProfile}/> : null}</span></label>
-                    <GameList currentUser={currentUser} games={currentUserGames} edit={edit} onCurrentUserGames={setCurrentUserGames}/>
+                    <label className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] ' } mb-2 font-extrabold border-b-4`}
+                        >YOUR GAMES:
+                    </label>
+                        <span>
+                            {edit ? 
+                                <AddGameByNameId currentUser={currentUser} onAddGameToProfile={handleAddGameToProfile} theme={theme}/> 
+                            : null}
+                        </span>
+                    
+                    <GameList theme={theme} currentUser={currentUser} games={currentUserGames} edit={edit} onCurrentUserGames={setCurrentUserGames}/>
                 </div>
                 <div className="flex flex-col overflow-y-auto w-1/3 h-[calc(100vh-440px)]">
-                    <label>YOUR MESSAGES:</label>
+                    <label className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active ' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' } mb-2 font-extrabold border-b-4`}
+                        >YOUR MESSAGES:
+                    </label>
                     <MessageBox users={users} currentUser={currentUser} onSendMessage={onSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage}/>
                 </div>
             </div>

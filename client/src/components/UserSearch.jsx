@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 
-function UserSearch({search, onSearchChange, sortBy, onSortChange, onHandleGameTypeFilter, filterByGameType, types}) {
+function UserSearch({search, onSearchChange, sortBy, onSortChange, onHandleGameTypeFilter, filterByGameType, types, theme}) {
 
 /////////////////////
 // Setup Functions //
