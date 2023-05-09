@@ -218,26 +218,31 @@ console.log(theme)
                                             src="Tabletops & Joysticks Logo trans.png"
                                             alt="Tabletops & Joysticks Logo" />
                                     </button>
-                                    <p className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'} mx-auto text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl mt-2`}>{currentUser.username}</p>
-                                    {seen ? <UserProfile key={currentUser.id} theme={theme} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} users={users} messages={messages} onSendMessage={handleSendMessage} onDeleteMessage={handleDeleteMessage} onEditMessage={handleEditMessage}/> : null}                        
+                                    <p className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'} mx-auto text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl mt-1 mb-1`}
+                                        >{currentUser.username}
+                                    </p>
+                                    {seen ? 
+                                        <UserProfile key={currentUser.id} theme={theme} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} users={users} messages={messages} onSendMessage={handleSendMessage} onDeleteMessage={handleDeleteMessage} onEditMessage={handleEditMessage}/> 
+                                    : null}                        
                                 </div>
                             : 
                                 <div> 
                                     {/* <!--Login--> */}                               
-                                    {seen ? <Login toggle={togglePop} theme={theme} currentUser={currentUser} setCurrentUser={setCurrentUser} users={users} onAddUser={handleAddUser}/> 
+                                    {seen ? 
+                                        <Login toggle={togglePop} theme={theme} currentUser={currentUser} setCurrentUser={setCurrentUser} users={users} onAddUser={handleAddUser}/> 
                                     : 
-                                    <>
-                                        {/* <!--Logo--> */}
-                                        <button onClick={togglePop}>
-                                            <img 
-                                                className="w-32 sm:w-48 md:w-64 lg:w-80 xl:w-96 2xl:w-112"
-                                                src="Tabletops & Joysticks Logo trans.png"
-                                                alt="Tabletops & Joysticks Logo" />
-                                        </button>
-                                        <h4 className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'} mb-12 mt-1 pb-1 text-sm sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold`}>
-                                            Tabletops & Joysticks
-                                        </h4>
-                                    </>
+                                        <>
+                                            {/* <!--Logo--> */}
+                                            <button onClick={togglePop}>
+                                                <img 
+                                                    className="w-32 sm:w-48 md:w-64 lg:w-80 xl:w-96 2xl:w-112"
+                                                    src="Tabletops & Joysticks Logo trans.png"
+                                                    alt="Tabletops & Joysticks Logo" />
+                                            </button>
+                                            <h4 className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'} mb-12 mt-1 pb-1 text-sm sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold`}>
+                                                Tabletops & Joysticks
+                                            </h4>
+                                        </>
                                     }
                                 </div>
                             }
