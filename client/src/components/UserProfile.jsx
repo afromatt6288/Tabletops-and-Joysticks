@@ -227,9 +227,8 @@ function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogou
                     </label>
                     <MessageBox users={users} currentUser={currentUser} onSendMessage={onSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage}/>
                 </div>
-            
-            {/* <Link to={`/swaps`}>Swap History</Link> */}
-        </div>
+                {/* <Link to={`/swaps`}>Swap History</Link> */}
+            </div>
         </div>
     )
 }
