@@ -18,7 +18,10 @@ module.exports = {
           'multi-gradient': 'linear-gradient(to right, red, yellow, green, blue)',
           'multi-gradient-hover': 'linear-gradient(to right, orange, purple, cyan)',
           'multi-gradient-active': 'linear-gradient(to right, magenta, lime, turquoise)',
-        }),
+          'theme-gradient': 'linear-gradient(to right, var(--color-theme-background-start), var(--color-theme-background-2), var(--color-theme-background-3), var(--color-theme-background-4), var(--color-theme-background-middle), var(--color-theme-background-6), var(--color-theme-background-7), var(--color-theme-background-8), var(--color-theme-background-end))',
+          'theme-gradient-hover': 'linear-gradient(to right, var(--color-theme-hover-background-start), var(--color-theme-hover-background-2), var(--color-theme-hover-background-3), var(--color-theme-hover-background-4), var(--color-theme-hover-background-middle), var(--color-theme-hover-background-6), var(--color-theme-hover-background-7), var(--color-theme-hover-background-8), var(--color-theme-hover-background-end))',
+          'theme-gradient-active': 'linear-gradient(to right, var(--color-theme-active-background-start), var(--color-theme-active-background-2), var(--color-theme-active-background-3), var(--color-theme-active-background-4), var(--color-theme-active-background-middle), var(--color-theme-active-background-6), var(--color-theme-active-background-7), var(--color-theme-active-background-8), var(--color-theme-active-background-end))',
+      }),
         borderColor: {
           'theme-text': 'var(--color-theme-text)',
           'theme-hover-text': 'var(--color-theme-hover-text)',
