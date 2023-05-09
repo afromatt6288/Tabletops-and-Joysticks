@@ -18,7 +18,7 @@ function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogou
 /////////////////////
 // Setup Functions //
 /////////////////////
-
+// ${theme}
     const history = useHistory()
 
     // This is what implements Tailwind... so DON'T delete it. 
@@ -26,7 +26,7 @@ function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogou
         initTE({ Datepicker, Input, Select, Ripple });
     }, []);
 
-    const themeList = [ "", "purple", "orange", "blue", "green", "multi",]
+    const themeList = [ "purple", "orange", "blue", "green", "multi",]
 
     function handleAddGameToProfile(inv){
         const updatedGames = [... currentUserGames, inv.game]
@@ -80,19 +80,19 @@ function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogou
     }
 
     return (
-        <div className="text-white">
-            <header className="text-white flex justify-center">
-                <label>Edit Account: </label>
+        <div className="text-[var(--color-theme-text)!important]">
+            <header className="flex justify-center">
+                <label className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'}`}>Edit Account: </label>
                 <button className="mx-4" onClick={() => setEdit(!edit)}> ✏️</button>
                 {edit ? (
                     <span role="img" aria-label="edit" className="flex items-center">
-                        <select className="w-24 mr-1" value={newTheme} onChange={(e) => setNewTheme(e.target.value)}
+                        <select className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'} w-24 mr-1`} value={newTheme} onChange={(e) => setNewTheme(e.target.value)}
                         data-te-select-init
                         >
-                            {themeList.map((newTheme) => <option value={newTheme}>{newTheme}</option>)}
+                            {themeList.map((newTheme) => <option key={newTheme} value={newTheme} className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'}`}>{newTheme}</option>)}
                         </select>
-                        <label data-te-select-label-ref className="mr-1 w-24 text-white">Theme: </label>
-                        <button type="submit" className={`mx-4 px-1 py-1 bg-${theme}-500 text-white rounded`} onClick={handleEditProfile}>Submit Changes</button>
+                        <label data-te-select-label-ref className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'} mr-1 w-24 `}>Theme: </label>
+                        <button type="submit" className={`bg-[var(--color-theme-background)!important] mx-4 px-1 py-1 rounded`} onClick={handleEditProfile}><label className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important]'}`}>Submit Changes</label></button>
                     </span>
                     )
                 : null}
@@ -100,7 +100,7 @@ function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogou
             <header className="flex justify-center">
                 <div className="flex">
                     <div className="mr-8">
-                        <img src={avatar_url} alt={`${username} Avatar`} className={`h-40 w-40 object-cover border-2 border-${theme} rounded-full`}/>
+                        <img src={avatar_url} alt={`${username} Avatar`} className={`border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] h-40 w-40 object-cover border-2 rounded-full`}/>
                         {edit? 
                             <span className="flex">
                                 <div className="relative mb-3" data-te-input-wrapper-init>

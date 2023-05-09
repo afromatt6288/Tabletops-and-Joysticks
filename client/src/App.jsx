@@ -218,8 +218,8 @@ console.log(theme)
                                             src="Tabletops & Joysticks Logo trans.png"
                                             alt="Tabletops & Joysticks Logo" />
                                     </button>
-                                    <p className="mx-auto text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl mt-2 text-white">{currentUser.username}</p>
-                                    {seen ? <UserProfile key={currentUser.id} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} users={users} messages={messages} onSendMessage={handleSendMessage} onDeleteMessage={handleDeleteMessage} onEditMessage={handleEditMessage}/> : null}                        
+                                    <p className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'} mx-auto text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl mt-2`}>{currentUser.username}</p>
+                                    {seen ? <UserProfile key={currentUser.id} theme={theme} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} users={users} messages={messages} onSendMessage={handleSendMessage} onDeleteMessage={handleDeleteMessage} onEditMessage={handleEditMessage}/> : null}                        
                                 </div>
                             : 
                                 <div> 
@@ -234,7 +234,7 @@ console.log(theme)
                                                 src="Tabletops & Joysticks Logo trans.png"
                                                 alt="Tabletops & Joysticks Logo" />
                                         </button>
-                                        <h4 className="text-[var(--color-theme-text)] border-[var(--color-theme-border)]  mb-12 mt-1 pb-1 text-sm sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold">
+                                        <h4 className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'} mb-12 mt-1 pb-1 text-sm sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold`}>
                                             Tabletops & Joysticks
                                         </h4>
                                     </>

@@ -26,7 +26,7 @@ function UserList({currentUser, users, games}) {
     const sortedUsers = [...notCurrentUsers].sort((user1, user2) => {
         if (sortBy === "Alphabetical") {
             return user1.username.localeCompare(user2.username)
-        } else if (sortBy === "ID Number") {
+        } else if (sortBy === "ID") {
             return user1.id - user2.id;
         // } else if (sortBy === "Distance") {
         //     return user1.travel_distance - user2.travel_distance;

@@ -17,7 +17,7 @@ function Home({currentUser}) {
 
     if (currentUser) {
         return (
-            <section id="home">
+            <section id="home" className="text-white">
                 <h1 >
                     Welcome, {currentUser.username}, to Tabletops & Joysticks</h1>
 
