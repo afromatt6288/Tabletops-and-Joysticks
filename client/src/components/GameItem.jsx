@@ -29,11 +29,13 @@ function GameItem({ game, edit, currentUser, onCurrentUserGames, games, theme}) 
     }
 
     return (
-        <div className="relative h-full border-2 rounded-lg border-purple-500">
-            <h4>{title} | #{id}<span>{edit ? <button onClick={() => handleRemoveGameFromProfile(game)}> | Remove  🗑</button> : null}</span></h4>
-            <Link to={`/games/${id}`}>
-                <img src={image_url} alt={`${title} Image`} className="h-40 w-40 object-cover"/>
-            </Link>
+        <div className="relative h-full text-[var(--color-theme-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] border-4 block rounded-lg bg-gray-600 bg-opacity-60 shadow-lg dark:bg-neutral-800 w-full md:w-auto">
+                <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' }`}>
+                <h4>{title} | #{id}<span>{edit ? <button onClick={() => handleRemoveGameFromProfile(game)}> | Remove  🗑</button> : null}</span></h4>
+                <Link to={`/games/${id}`}>
+                    <img src={image_url} alt={`${title} Image`} className="h-40 w-40 object-cover"/>
+                </Link>
+            </div>
         </div>
     );
 }

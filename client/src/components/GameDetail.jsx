@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import UserList from "./UserList";
-import { Card } from "semantic-ui-react"
 
 function GameDetail({admin, onGameDelete, currentUser, theme}) {
     const [game, setGame] = useState(null);    
@@ -43,86 +42,72 @@ function GameDetail({admin, onGameDelete, currentUser, theme}) {
     }
 
     return (
-        <div className="text-white">
-            <header className="flex justify-center">
-                {admin ? 
-                    <div className="relative flex justify-center">
-                        <button>
-                            <span role="img" aria-label="edit">
-                                ✏️
-                            </span>
-                        </button>
-                        <button onClick={handleDeleteClick}>
-                            <span role="img" aria-label="delete">
-                                🗑
-                            </span>
-                        </button>
-                    </div>
-                 : null}        
-                <div className="flex">
-                    <div className="mr-8">
-                        <img src={image_url} alt={`${title} Image`} className="h-40 w-40 object-cover"/>
-                    </div> 
-                    <div className="flex-grow">
-                        <div className=" mb-2">
-                            <div>
-                                <div className="flex mt-4">
-                                    {title} | #{id}
-                                </div>
-                                <div className="flex">
-                                    <h3>Type: {type} </h3>
-                                </div>
-                                <div className="flex">
-                                    <h3>Platforms: {platforms} </h3>
-                                </div>
-                                <div className="flex">
-                                    <h3>Genres: {genres} </h3>
-                                </div>
-                                <div className="flex">
-                                    <h3>{player_num_min} to {player_num_max} Players</h3>
+        <div className="text-[var(--color-theme-text)!important] border-[var(--color-theme-border)!important] hover:text-[var(--color-theme-hover-text)!important] hover:border-[var(--color-theme-hover-border)!important] w-screen">
+            <div className="flex flex-col justify-center items-center">
+                <div className="text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] border-4 block rounded-lg bg-gray-600 bg-opacity-70 shadow-lg dark:bg-neutral-800 w-[540px] h-[300px] flex-grow">
+                    <header className="flex justify-center">
+                        {admin ? 
+                            <div className="relative flex justify-center">
+                                <button>
+                                    <span role="img" aria-label="edit">
+                                        ✏️
+                                    </span>
+                                </button>
+                                <button onClick={handleDeleteClick}>
+                                    <span role="img" aria-label="delete">
+                                        🗑
+                                    </span>
+                                </button>
+                            </div>
+                        : null}        
+                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] ' } flex`}>
+                            <div className="mr-8">
+                                <img src={image_url} alt={`${title} Image`} className={`border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] mt-4 h-40 w-40 object-cover border-2 rounded-lg`}/>
+                            </div> 
+                            <div className="flex-grow">
+                                <div className=" mb-2">
+                                    <div>
+                                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] ' } flex mt-4`}> 
+                                            {title} | #{id}
+                                        </div>
+                                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] ' } flex`}>
+                                            <h3>Type: {type} </h3>
+                                        </div>
+                                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] ' } flex`}>
+                                            <h3>Platforms: {platforms} </h3>
+                                        </div>
+                                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] ' } flex`}>
+                                            <h3>Genres: {genres} </h3>
+                                        </div>
+                                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] ' } flex`}>
+                                            <h3>{player_num_min} to {player_num_max} Players</h3>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </header>
+                    <div className="flex justify-center">
+                        <p className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] ' } flex w-5/6`}
+                            >Description: {description}
+                        </p>
                     </div>
                 </div>
-            </header>
-            <div className="flex justify-center">
-                <p className="w-3/4">Description: {description}</p>
+                    <div className="flex my-5 justify-center text-center min-w-screen">
+                        <div className="flex flex-col w-screen ml-9 mr-9 pr-2 pl-2  ">
+                            <label className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] ' } mb-2 font-extrabold border-b-4`}
+                                > {title}'s Users':
+                            </label>
+                            <div className="flex justify-center">
+                                <div className="flex flex-col overflow-y-auto h-[calc(100vh-470px)] w-screen">
+                                    <UserList users={allUsers} currentUser={currentUser} games={gamesArray} theme={theme}/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                
             </div>
-            <label className="relative flex justify-center my-4"> {title}'s Users':</label>
-            <div className="flex justify-center my-4">
-                <div className="flex flex-col overflow-y-auto w-4/5 h-[calc(100vh-370px)]">
-                    <UserList users={allUsers} currentUser={currentUser} games={gamesArray}/>
-                </div>
-            </div>                
         </div>
     );
 }
 
 export default GameDetail;
-
-
-              
-
-
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </header>
-//         <div className="flex">
-//             <div className="flex flex-col overflow-y-auto w-4/5 h-[calc(100vh-280px)]">
-//                 <label className="relative flex justify-center"> {username}'s Games':</label>
-//                 <GameList games={allGames}/>
-//             </div>
-//             <div className="flex flex-col overflow-y-auto w-1/5 h-[calc(100vh-280px)]">
-//                 <div className="relative flex justify-center">
-//                     <button onClick={() => setMessage(message => !message)} className="mx-4 px-1 py-1 bg-purple-500 text-white rounded">Message {username}?</button>            
-//                 </div>
-//                 {message ?
-//                     <MessageNew user={user} currentUser={currentUser} onSendMessage={onSendMessage}/>
-//                 : null} 
-//             </div>
-//         </div>
-//     </div>
-// )

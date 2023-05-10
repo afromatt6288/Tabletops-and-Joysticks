@@ -53,7 +53,7 @@ function Login ({currentUser, setCurrentUser, toggle, theme, users, onAddUser}) 
     <div className="flex items-center justify-center h-screen w-full">
       <div className="absolute inset-x-[30%] bottom-5 top-5 text-center md:block space-y-4 md:space-y-6 lg:space-y-8">
         <div className="g-6 flex h-full flex-wrap items-center justify-center text-linear-gradient(to right, #d70ad3, #d00dd6, #c910d9, #bc14da, #b019db, #a41edc, #9823dd, #8c28de, #7f32df, #6b3fd9, #5346d9, #3d50d6, #2b59d1 dark:text-neutral-200 mx-auto max-w-[40rem]">
-          <div className="text-[var(--color-theme-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] border-4 block rounded-lg bg-gray-600 bg-opacity-70 shadow-lg dark:bg-neutral-800 w-full md:w-auto">
+          <div className="text-[var(--color-theme-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] border-4 block rounded-lg bg-gray-600 bg-opacity-60 shadow-lg dark:bg-neutral-800 w-full md:w-auto">
             <div>
               {/* <!-- Top Row container--> */}
                 <div className="md:mx-2 md:p-12">
