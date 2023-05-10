@@ -61,7 +61,7 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete, theme}) {
                         </button>
                     </div>
                 : null}
-                <div className="flex">
+                <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] ' } flex`}>
                     <div className="mr-8">
                         <img src={avatar_url} alt={`${username} Avatar`} className="h-40 w-40 object-cover rounded-full"/>
                     </div>                
