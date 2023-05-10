@@ -92,12 +92,13 @@ function App() {
             .then(data => {
                 setUsers(data)
             })
-    }, [10])
+    }, [])
 
     // Handle User Add, Delete, & Edit
     function handleAddUser(addUser) {
         const updatedUsers = [...users, addUser]
         setUsers(updatedUsers);
+        setCurrentUser(addUser)
     }
 
     function handleUserDelete(id) {

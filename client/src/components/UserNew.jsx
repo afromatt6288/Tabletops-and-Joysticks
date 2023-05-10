@@ -35,6 +35,7 @@ function UserNew({onNewUser, toggle, theme}) {
     
     function handleSubmit(e) {
         e.preventDefault()
+        history.push(`/`)
         if (password == passwordConfirmation) {
             const formData = {
                 username: username,

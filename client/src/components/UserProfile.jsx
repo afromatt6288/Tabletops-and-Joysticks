@@ -35,6 +35,7 @@ function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogou
     
     function handleEditProfile(e) {
         e.preventDefault()
+        history.push(`/`)
         const formData = {
             avatar_url: newAvatar,
             email: newEmail,
