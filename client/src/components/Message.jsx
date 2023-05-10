@@ -51,16 +51,16 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
       }
       
       {isEditing ? <MessageEdit id={id} theme={theme} message_text={message_text} onEditMessage={handleEditMessage} /> : <p>{message_text}</p>}
-      <div className="text-white">
+      <div className="">
         {currentUser ? 
-          <div className="text-white">
-            <button onClick={() => setIsEditing(isEditing => !isEditing)} className="text-white mr-2">
-              <span className="border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] text-white border-2 rounded-lg "
-              >Edit ✏️</span>
+          <div >
+            <button onClick={() => setIsEditing(isEditing => !isEditing)} className="mr-2">
+              <span className="border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] border-2 rounded-lg "
+              >Edit <span className="text-white">✏️</span></span>
             </button>
-            <button onClick={handleDeleteClick} className="text-white">
-              <span className="border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] text-white border-2 rounded-lg"
-              >Delete 🗑 </span>
+            <button onClick={handleDeleteClick} >
+              <span className="border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] border-2 rounded-lg"
+              >Delete <span className="text-white">🗑</span> </span>
             </button>
           </div>
           : null}
