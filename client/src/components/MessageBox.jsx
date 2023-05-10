@@ -101,26 +101,38 @@ function handleEditMessage(editedMessage) {
   : [];
   
   return (
-    <main>
+    <div className="text-[var(--color-theme-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] border-4 block rounded-lg bg-gray-600 bg-opacity-70 shadow-lg dark:bg-neutral-800 w-full md:w-auto">
       {selectedUser ? 
-        <div>
-          <button onClick={() => setSelectedUser(null)}>Back</button>
-          <MessageSearch search={search} onSearchChange={setSearch} />
-          <MessageList user={selectedUser} messages={selectedUserMessages} currentUser={currentUser} onSendMessage={handleSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={handleEditMessage} />
-        </div> 
+        <div className="mt-2">
+          <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]' } relative h-full border-2 rounded-lg`}>
+            <button onClick={() => setSelectedUser(null)}></button>
+            <button type="submit" onClick={() => setSelectedUser(null)} className={`bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active mt-2 mx-4 px-1 py-1 rounded`} >
+              <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] font-extrabold'}`}
+                >Back
+              </span>
+            </button>
+            <MessageSearch theme={theme} search={search} onSearchChange={setSearch} />
+          </div> 
+          <MessageList theme={theme} user={selectedUser} messages={selectedUserMessages} currentUser={currentUser} onSendMessage={handleSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={handleEditMessage} />
+        </div>
       : 
-        <div>
-          <div className="flex justify-center">
-            <div className="relative mb-3 w-3/4" >
-              <select data-te-select-init value={sortType} onChange={(e) => setSortType(e.target.value)} className="sorting-dropdown appearance-none border border-gray-400 py-2 px-3 rounded leading-tight focus:outline-none focus:border-blue-500">
-                <option value="name">Name</option>
-                <option value="id">ID</option>
-                <option value="recent">Recent Message</option>
-              </select>
-              <label data-te-select-label-ref className="text-purple-400">Sort By</label>
-            </div>
+        <div className="mt-3">
+          <div className="relative h-full border-2 rounded-lg border-purple-500">
+            <div className="flex justify-center mt-2">
+              <div className="relative mb-3 w-3/4" >
+                <select data-te-select-init value={sortType} onChange={(e) => setSortType(e.target.value)} 
+                  className="sorting-dropdown appearance-none border border-gray-400 py-2 px-3 rounded leading-tight focus:outline-none focus:border-blue-500">
+                  <option value="name">Name</option>
+                  <option value="id">ID</option>
+                  <option value="recent">Recent Message</option>
+                </select>
+                <label data-te-select-label-ref className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] ' }`}
+                  >Sort By
+                </label>
+              </div>
+            </div> 
+            <MessageSearch theme={theme} search={search} onSearchChange={setSearch} />
           </div>
-          <MessageSearch search={search} onSearchChange={setSearch} />
           <ul>
             {usersWithMessageHistory.map((user) => (
               <li key={user.id}>
@@ -132,7 +144,7 @@ function handleEditMessage(editedMessage) {
           </ul>
         </div>
       }
-    </main>
+    </div>
   );
 }
 

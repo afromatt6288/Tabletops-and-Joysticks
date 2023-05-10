@@ -80,7 +80,7 @@ function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogou
     }
 
     return (
-        <div className="text-[var(--color-theme-text)!important] border-[var(--color-theme-border)!important] hover:text-[var(--color-theme-hover-text)!important] hover:border-[var(--color-theme-hover-border)!important]">
+        <div className="text-[var(--color-theme-text)!important] border-[var(--color-theme-border)!important] hover:text-[var(--color-theme-hover-text)!important] hover:border-[var(--color-theme-hover-border)!important] w-screen">
             <div className="flex justify-center items-center">
                 <div className="text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] border-4 block rounded-lg bg-gray-600 bg-opacity-70 shadow-lg dark:bg-neutral-800 w-[540px] h-[300px]">
                     <header className="mt-2 flex justify-center">
@@ -209,8 +209,8 @@ function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogou
                     : null}
                 </div>  
             </div>
-            <div className="flex my-4">
-                <div className="flex flex-col overflow-y-auto w-2/3 h-[calc(100vh-440px)]">
+            <div className="flex my-4 justify-between min-w-screen ">
+                <div className="flex flex-col w-2/3 ml-7 h-[calc(100vh-450px)] md:h-[calc(100vh-475px)] lg:h-[calc(100vh-500px)] xl:h-[calc(100vh-525px)] 2xl:h-[calc(100vh-550px)] ">
                     <label className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] ' } mb-2 font-extrabold border-b-4`}
                         >YOUR GAMES:
                     </label>
@@ -218,14 +218,18 @@ function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogou
                         {edit ? 
                             <AddGameByNameId currentUser={currentUser} onAddGameToProfile={handleAddGameToProfile} theme={theme}/> 
                         : null}
-                    </span>                    
-                    <GameList theme={theme} currentUser={currentUser} games={currentUserGames} edit={edit} onCurrentUserGames={setCurrentUserGames}/>
+                    </span> 
+                    <div className="overflow-y-auto">                    
+                        <GameList theme={theme} currentUser={currentUser} games={currentUserGames} edit={edit} onCurrentUserGames={setCurrentUserGames}/>
+                    </div> 
                 </div>
-                <div className="flex flex-col overflow-y-auto w-1/3 h-[calc(100vh-440px)]">
+                <div className="flex flex-col w-1/3 h-[calc(100vh-450px)] md:h-[calc(100vh-475px)] lg:h-[calc(100vh-500px)] xl:h-[calc(100vh-525px)] 2xl:h-[calc(100vh-550px)]">
                     <label className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' } mb-2 font-extrabold border-b-4`}
                         >YOUR MESSAGES:
                     </label>
-                    <MessageBox users={users} currentUser={currentUser} onSendMessage={onSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage}/>
+                    <div className="overflow-y-auto">
+                        <MessageBox theme={theme} users={users} currentUser={currentUser} onSendMessage={onSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage}/>
+                    </div>
                 </div>
                 {/* <Link to={`/swaps`}>Swap History</Link> */}
             </div>

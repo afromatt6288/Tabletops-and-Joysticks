@@ -53,13 +53,13 @@ function UserList({currentUser, users, games, theme}) {
     return (
         <div className="border-2 border-purple-500 rounded-lg text-white">
             <div>
-                <UserSearch search={search} onSearchChange={setSearch} sortBy={sortBy} onSortChange={setSortBy} filterByGameType={filterByGameType} onHandleGameTypeFilter={setFilterByGameType} types={uniqueTypes}/>
+                <UserSearch theme={theme} search={search} onSearchChange={setSearch} sortBy={sortBy} onSortChange={setSortBy} filterByGameType={filterByGameType} onHandleGameTypeFilter={setFilterByGameType} types={uniqueTypes}/>
             </div>
             <section id="users" className="h-[calc(100vh-150px)] flex flex-col">
                 <div className="overflow-y-auto w-full h-full" style={{ padding: '1rem' }}>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-2">
                         {displayedUsers.map((user)=> (
-                            <UserItem key={user.id} user={user} />
+                            <UserItem theme={theme} key={user.id} user={user} />
                         ))}
                     </div>
                 </div>

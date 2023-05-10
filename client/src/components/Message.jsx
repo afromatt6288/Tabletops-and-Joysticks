@@ -41,7 +41,7 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
 }).format(date);
 
   return (
-    <li>
+    <li className="border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] mt-2 pb-2 border-b-4 ">
       <span>{formattedDate}</span>
       <br/>
       {sender_user_id == currentUser.id ?
@@ -50,17 +50,21 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
       <span>From: {user.username} (ID#{sender_user_id}) | To: {currentUser.username} (ID#{receiver_user_id})</span>
       }
       
-      {isEditing ? <MessageEdit id={id} message_text={message_text} onEditMessage={handleEditMessage} /> : <p>{message_text}</p>}
-      {currentUser ? 
-        <div>
-          <button onClick={() => setIsEditing(isEditing => !isEditing)}>
-            <span>✏️</span>
-          </button>
-          <button onClick={handleDeleteClick}>
-            <span> 🗑 </span>
-          </button>
-        </div>
-       : null}
+      {isEditing ? <MessageEdit id={id} theme={theme} message_text={message_text} onEditMessage={handleEditMessage} /> : <p>{message_text}</p>}
+      <div className="text-white">
+        {currentUser ? 
+          <div className="text-white">
+            <button onClick={() => setIsEditing(isEditing => !isEditing)} className="text-white mr-2">
+              <span className="border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] text-white border-2 rounded-lg "
+              >Edit ✏️</span>
+            </button>
+            <button onClick={handleDeleteClick} className="text-white">
+              <span className="border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] text-white border-2 rounded-lg"
+              >Delete 🗑 </span>
+            </button>
+          </div>
+          : null}
+      </div>
     </li>
   );
 }

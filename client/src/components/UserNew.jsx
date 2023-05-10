@@ -88,10 +88,12 @@ function UserNew({onNewUser, toggle, theme}) {
                     </div>
                     {/* <!--Theme input--> */}
                     <div className="relative mb-3" style={{ flex: "3" }}>
-                        <select value={initTheme} onChange={(e) => setInitTheme(e.target.value)} data-te-select-init className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active' }`}>
+                        <select value={initTheme} onChange={(e) => setInitTheme(e.target.value)} data-te-select-init className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] ' }`}>
                             {themeList.map((initTheme)=> <option value={initTheme} className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active' }`}>{initTheme}</option>)}
                         </select>
-                        <label data-te-select-label-ref className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] ' }`}>Theme</label>
+                        <label data-te-select-label-ref className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] ' }`}
+                            >Theme
+                            </label>
                     </div>
                 </div>
                 <div className="flex justify-between">
