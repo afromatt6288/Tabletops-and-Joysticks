@@ -20,7 +20,7 @@ function MessageList({ users, user, messages, currentUser, onSendMessage, onDele
   messages.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
   return (
-    <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active' } list`}>
+    <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] ' } list`}>
       <ul>{messages.map(message => (
             <Message theme={theme} key={message.id} message={message} user={user} currentUser={currentUser} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage} />
       ))}
