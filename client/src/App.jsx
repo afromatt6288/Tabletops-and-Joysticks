@@ -221,7 +221,7 @@ console.log(theme)
                                             src="Tabletops & Joysticks Logo trans.png"
                                             alt="Tabletops & Joysticks Logo" />
                                     </button>
-                                    <p className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'} mx-auto text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl mt-1 mb-1`}
+                                    <p className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important] hover:text-[var(--color-theme-hover-text)!important]'} mx-auto text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl mt-1 mb-1`}
                                         >{currentUser.username}
                                     </p>
                                     {seen ? 
@@ -242,7 +242,7 @@ console.log(theme)
                                                     src="Tabletops & Joysticks Logo trans.png"
                                                     alt="Tabletops & Joysticks Logo" />
                                             </button>
-                                            <h4 className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'} mb-12 mt-1 pb-1 text-sm sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold`}>
+                                            <h4 className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important] hover:text-[var(--color-theme-hover-text)!important]'} mb-12 mt-1 pb-1 text-sm sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold`}>
                                                 Tabletops & Joysticks
                                             </h4>
                                         </>
