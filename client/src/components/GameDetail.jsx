@@ -27,8 +27,10 @@ function GameDetail({admin, onGameDelete, currentUser, theme}) {
         }, [])
 
         if (!game) return <h2>Loading...</h2>
-    
-    const { title, image_url, type, genres, platforms, player_num_min, player_num_max, image_blob, description} = game    
+
+        
+        const { title, image_url, type, genres, platforms, player_num_min, player_num_max, image_blob, description} = game    
+        console.log(image_url)
     const allUsers = game.inventories.map((inv)=>inv.user)
     const gamesArray = Array.from(game)
     
@@ -61,8 +63,8 @@ function GameDetail({admin, onGameDelete, currentUser, theme}) {
                             </div>
                         : null}        
                         <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] ' } flex`}>
-                            <div className="mr-8">
-                                <img src={image_url} alt={`${title} Image`} className={`border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] mt-4 h-40 w-40 object-cover border-2 rounded-lg`}/>
+                            <div className={`border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] mt-4 h-40 w-40 border-2 rounded-lg mr-8`}>
+                                <img src={`/${image_url}`} alt={`${title} Image`} className="object-contain h-full w-full"/>
                             </div> 
                             <div className="flex-grow">
                                 <div className=" mb-2">

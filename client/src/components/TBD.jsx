@@ -15,12 +15,23 @@ function TBD({theme}) {
         initTE({ Datepicker, Input, Select, Ripple });
     }, []);
 
-    return (
+    return ( 
         <section id="tbd">
-            <div>
-                <h3>
-                    Something that only admin can access goes here...
-                </h3>
+            <div className="text-[var(--color-theme-text)!important] border-[var(--color-theme-border)!important] hover:text-[var(--color-theme-hover-text)!important] hover:border-[var(--color-theme-hover-border)!important] w-screen">
+                <div className="flex justify-center items-center">
+                    <div className="text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] border-4 block rounded-lg bg-gray-600 bg-opacity-70 shadow-lg dark:bg-neutral-800 w-[540px] h-[300px]">
+                        <header className="mt-2 flex justify-center">
+                            <label className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'}`}
+                                >TBD: 
+                            </label>
+                        </header>
+                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'} text-center`}>
+                            <h3>
+                                Something that only admin can access goes here...
+                            </h3>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     );

@@ -175,7 +175,7 @@ function UserNew({onNewUser, onAddUser, toggle, theme}) {
                         className={`bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"`}
                     > 
                     <span style={{ fontSize: 'max(1.2vw, 1em)'}}
-                        className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] ' }`}>
+                        className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-gradient-text)!important] hover:text-[var(--color-theme-hover-text)!important] ' }`}>
                     Create New Profile</span>
                     </button>
                     {/* <!--Returning User button--> */}
@@ -191,7 +191,7 @@ function UserNew({onNewUser, onAddUser, toggle, theme}) {
                         className="items-center rounded-lg lg:w-full "
                         style={{ background: "linear-gradient(to right, #d70ad3, #d00dd6, #c910d9, #bc14da, #b019db, #a41edc, #9823dd, #8c28de, #7f32df, #6b3fd9, #5346d9, #3d50d6, #2b59d1)", marginBottom: "-12vh"  }}
                     >
-                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active' } px-12 py-0 `}>
+                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-gradient-text)!important] hover:text-[var(--color-theme-hover-text)!important] bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active' } px-12 py-0 `}>
                             <h4 className="mb-6 text-xl font-semibold">
                                 Sharing the Games we Love, with a Community that Appreciates them!
                             </h4>

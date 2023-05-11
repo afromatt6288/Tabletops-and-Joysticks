@@ -249,8 +249,8 @@ class Game(db.Model, SerializerMixin):
     def validate_image_url(self, key, image_url):
         if not image_url:
             raise ValueError("Game must have an Image")
-        if 'https://' not in image_url:
-            raise ValueError("Image must be a URL link")
+        # if 'https://' not in image_url:
+        #     raise ValueError("Image must be a URL link")
         return image_url
     
     # @validates('image_blob')

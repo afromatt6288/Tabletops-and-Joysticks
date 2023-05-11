@@ -17,11 +17,13 @@ function UserItem({user, theme}) {
     }, []);
 
     return (
-        <div className="relative h-full text-[var(--color-theme-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] border-4 block rounded-lg bg-gray-600 bg-opacity-60 shadow-lg dark:bg-neutral-800 w-full md:w-auto">
-            <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' }`}>
-                <Link to={`/users/${id}`}>
-                    <img src={avatar_url} alt={`${username} Avatar`} className="h-40 w-40 object-cover"/>
-                </Link>
+        <div className="relative h-full text-[var(--color-theme-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] border-4 block rounded-lg bg-gray-600 bg-opacity-60 shadow-lg dark:bg-neutral-800 w-full md:w-auto min-w-170">
+            <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' } text-center`}>
+                <div className={`border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] mt-4 h-40 w-40 border-2 rounded-full overflow-hidden mx-auto`}>
+                    <Link to={`/users/${id}`}>
+                        <img src={avatar_url} alt={`${username} Avatar`} className="object-contain h-full w-full"/>
+                    </Link>
+                </div>
                 <p >{username} | #{id}</p>
                 <p>{stars} Stars</p>
                 <p>Status: {is_active ? "Online" : "Offline"}</p>

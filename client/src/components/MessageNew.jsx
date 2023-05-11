@@ -55,7 +55,7 @@ function MessageNew({ user, currentUser, onSendMessage, theme }) {
         </label>
       </div>
       <button type="submit" className={`bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active w-1/3 mb-3 px-3 py-0 rounded z-20 mx-auto `} >
-        <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] font-extrabold'}`}
+        <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-gradient-text)!important] hover:text-[var(--color-theme-hover-text)!important] font-extrabold'}`}
           >Send
         </span>
       </button>

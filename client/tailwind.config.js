@@ -7,6 +7,11 @@ module.exports = {
   ],
   theme: {
       extend: {
+        minWidth: {
+          '40': '40px',
+          '160': '160px',
+          '170': '170px',
+        },
         textColor: {
           'multi': 'transparent',
         },

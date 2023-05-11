@@ -26,7 +26,7 @@ function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogou
         initTE({ Datepicker, Input, Select, Ripple });
     }, []);
 
-    const themeList = [ "default-blue/black", "purple", "orange", "yellow", "blue", "green", "multi",]
+    const themeList = [ "default-blue/black", "purple", "orange", "yellow", "red", "blue", "green", "multi",]
 
     function handleAddGameToProfile(inv){
         const updatedGames = [... currentUserGames, inv.game]
@@ -102,7 +102,7 @@ function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogou
                                     >Theme: 
                                 </label>
                                 <button type="submit" onClick={handleEditProfile} className={`bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active mx-4 px-1 py-1 rounded`} >
-                                    <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] font-extrabold'}`}
+                                    <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-gradient-text)!important] hover:text-[var(--color-theme-hover-text)!important] font-extrabold'}`}
                                         >Submit Changes
                                     </span>
                                 </button>
@@ -112,8 +112,8 @@ function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogou
                     </header>
                     <header className="flex justify-center">
                         <div className="flex">
-                            <div className="mr-8">
-                                <img src={avatar_url} alt={`${username} Avatar`} className={`border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] h-40 w-40 object-cover border-2 rounded-full`}/>
+                            <div className={`border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] h-40 w-40 object-cover border-2 rounded-full mr-8 overflow-hidden `}>
+                                <img src={avatar_url} alt={`${username} Avatar`} className="object-contain h-full w-full" />
                                 {edit? 
                                     <span className="flex">
                                         <div className="relative mb-3" data-te-input-wrapper-init>
@@ -195,14 +195,14 @@ function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogou
                         </div>
                     </header>           
                     <button onClick={handleLogoutClick} className={`bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active mx-4 px-1 py-1 rounded`} >
-                        <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] font-extrabold'}`}
+                        <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-gradient-text)!important] hover:text-[var(--color-theme-hover-text)!important] font-extrabold'}`}
                             >LOGOUT 
                         </span>
                     </button>
                     {edit ? 
                         <button onClick={handleUserDelete} className={`bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active mx-4 px-1 py-1 rounded`}> 
                             <span className="text-white"> 🗑 </span> 
-                            <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] font-extrabold'}`}
+                            <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-gradient-text)!important] hover:text-[var(--color-theme-hover-text)!important] font-extrabold'}`}
                                 >Delete Account
                             </span> 
                             <span className="text-white"> 🗑 </span> 

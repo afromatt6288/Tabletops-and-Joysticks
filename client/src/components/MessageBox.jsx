@@ -106,7 +106,7 @@ function handleEditMessage(editedMessage) {
         <div className="">
           <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]' } border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] relative h-full border-2 rounded-lg`}>
             <button type="submit" onClick={() => setSelectedUser(null)} className={`bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active mt-2 mb-2 px-3 py-0 rounded`} >
-              <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] font-extrabold'}`}
+              <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-gradient-text)!important] hover:text-[var(--color-theme-hover-text)!important] font-extrabold'}`}
                 >Back
               </span>
             </button>

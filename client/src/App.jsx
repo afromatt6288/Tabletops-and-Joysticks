@@ -76,7 +76,8 @@ function App() {
         "orange": "/videos/Orange Plexus - Good Loop.mp4",
         "green": "/videos/Green Plexus - Good Loop.mp4",
         "blue": "/videos/Blue Plexus - Good Loop - but slow.mp4",
-        "yellow":"/videos/Yellow-Plexus-Loop.mp4",
+        "yellow":"/videos/Yellow Plexus - Good Loop.mp4",
+        "red":"/videos/Red Plexus - Good Loop.mp4",
         "multi": "/videos/MultiColor Plexus - Good Loop.mp4",
         "default": "/videos/Blue Plexus - Good Loop - but slow.mp4"
       };

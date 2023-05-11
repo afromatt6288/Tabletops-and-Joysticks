@@ -99,7 +99,7 @@ function AddGameByNameId({currentUser, onAddGameToProfile, theme}){
             </div>
                 <button type="submit" 
                     className={`bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active mx-4 rounded mb-2 px-6 py-1`} >
-                    <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] font-extrabold'}`}
+                    <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-gradient-text)!important] hover:text-[var(--color-theme-hover-text)!important] font-extrabold'}`}
                         >Add Game
                     </span>
                 </button>

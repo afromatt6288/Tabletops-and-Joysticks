@@ -129,7 +129,7 @@ function GameNew({onGameAdd, games, currentUser, theme}) {
                     {/* <!--Type input--> */}
                     <div className="relative mb-3" >
                         <select onChange={handleTypeFilter} data-te-select-init>
-                            {typesList.map((type)=> <option value={type}>{type}</option>)}
+                            {typesList.map((type)=> <option key={type} value={type}>{type}</option>)}
                         </select>
                         <label data-te-select-label-ref className="text-purple-400">Type</label>
                     </div>
@@ -137,13 +137,13 @@ function GameNew({onGameAdd, games, currentUser, theme}) {
                 <div className="flex justify-center">
                     <div className="relative mb-3" >
                         <select onChange={handleGenresFilter} data-te-select-init multiple>
-                            {genresList.map((genre)=> <option value={genre}>{genre}</option>)}
+                            {genresList.map((genre)=> <option key={genre} value={genre}>{genre}</option>)}
                         </select>
                         <label data-te-select-label-ref className="text-purple-400">Genres</label>
                     </div>
                     <div className="relative mb-3" >
                         <select onChange={handlePlatformsFilter} data-te-select-init multiple data-te-select-init-visible-options="3">
-                            {platformsList.map((platform)=> <option value={platform}>{platform}</option>)}
+                            {platformsList.map((platform)=> <option key={platform} value={platform}>{platform}</option>)}
                         </select>
                         <label data-te-select-label-ref className="text-purple-400">Platforms</label>
                     </div>
