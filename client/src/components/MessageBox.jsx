@@ -4,7 +4,7 @@ import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import MessageSearch from "./MessageSearch";
 import MessageList from "./MessageList";
 
-function MessageBox({users, currentUser, onSendMessage, onDeleteMessage, onEditMessage, theme}) {
+function MessageBox({users, currentUser, setCurrentUser, messages, onSendMessage, onDeleteMessage, onEditMessage, theme}) {
   const [search, setSearch] = useState("")
   const [currentUserSentMessages, setCurrentUserSentMessages] = useState(currentUser.sent_messages.map((mes)=>mes))
   const [currentUserReceivedMessages, setCurrentUserReceivedMessages] = useState(currentUser.received_messages.map((mes)=>mes))
@@ -23,40 +23,41 @@ function MessageBox({users, currentUser, onSendMessage, onDeleteMessage, onEditM
   }, []); 
 
   // Kept having to fetch, so figured I'd just write it once, and call it when I need it.
-  function fetchMessages(){
-    fetch(`api/users/${currentUser.id}`)
-        .then(response => response.json())
-        .then(userData => {
-        setCurrentUserReceivedMessages(userData.received_messages);
-        setCurrentUserSentMessages(userData.sent_messages)
-        })
-        .catch(error => {
-        console.error(error);
-    });
-}
+//   function fetchMessages(){
+//     fetch(`api/users/${currentUser.id}`)
+//         .then(response => response.json())
+//         .then(userData => {
+//         // setCurrentUserReceivedMessages(userData.received_messages);
+//         // setCurrentUserSentMessages(userData.sent_messages)
+//         setCurrentUser(userData)
+//         })
+//         .catch(error => {
+//         console.error(error);
+//     });
+// }
 
 // This is to fetch the messages from the db every 5 seconds.
-useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (currentUser) {
-        fetchMessages()
-        console.log('stuff')
-      }
-    }, 5000);
+// useEffect(() => {
+//     const intervalId = setInterval(() => {
+//       if (currentUser) {
+//         // fetchMessages()
+//         console.log('stuff')
+//       }
+//     }, 5000);
   
-    return () => clearInterval(intervalId);
-  }, [currentUser]);
+//     return () => clearInterval(intervalId);
+//   }, [currentUser]);
 
 // And now we will handle the sent message, and put it into state... 
 // This is for outgoing messages to render... It gets closer each time. 
 function handleSendMessage(newMessage) {
-    fetchMessages()
+    // fetchMessages()
     onSendMessage(newMessage)
 }
 
 // This is for Edited outgoing messages to render... It gets closer each time. 
 function handleEditMessage(editedMessage) {
-    fetchMessages()
+    // fetchMessages()
     onEditMessage(editedMessage)
 }
 
@@ -78,8 +79,11 @@ function handleEditMessage(editedMessage) {
     });
   }
 
-  const filteredMessages = currentUserSentMessages.concat(currentUserReceivedMessages)
-  .filter(message => message.message_text.toLowerCase().includes(search.toLowerCase()))
+  const filteredMessages = messages
+  .filter(message => 
+    (message.sender_user_id === currentUser.id || message.receiver_user_id === currentUser.id) &&
+    message.message_text.toLowerCase().includes(search.toLowerCase())
+  )
   .map(message => ({
     id: message.id,
     message_text: message.message_text,

@@ -159,12 +159,13 @@ function App() {
             .then(data => {
                 setMessages(data)
             })
-    }, [])
+    }, 5000)
 
     // Handle Message Send, Delete, & Edit
     function handleSendMessage(addMessage){
         const updatedMessages = [...messages, addMessage]
         setMessages(updatedMessages)
+        console.log(addMessage)
     }
 
     function handleDeleteMessage(id) {

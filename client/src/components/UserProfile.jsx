@@ -5,7 +5,7 @@ import MessageBox from "./MessageBox"
 import GameList from "./GameList"
 import AddGameByNameId from "./AddGameByNameId"
 
-function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogoutClick, onEditProfile, onSendMessage, onDeleteMessage, onEditMessage}) {
+function UserProfile({users, currentUser, setCurrentUser, messages, theme, onUserDelete, onLogoutClick, onEditProfile, onSendMessage, onDeleteMessage, onEditMessage}) {
     const {id, username, email, address, avatar_url, stars, travel_distance, is_active, is_admin} = currentUser    
     const [edit, setEdit] = useState(false)
     const [newAvatar, setNewAvatar] = useState(`${avatar_url}`)
@@ -220,7 +220,7 @@ function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogou
                             <AddGameByNameId currentUser={currentUser} onAddGameToProfile={handleAddGameToProfile} theme={theme}/> 
                         : null}
                     </span> 
-                    <div className="overflow-y-auto">                    
+                    <div className="overflow-y-auto justify-between">                    
                         <GameList theme={theme} currentUser={currentUser} games={currentUserGames} edit={edit} onCurrentUserGames={setCurrentUserGames}/>
                     </div> 
                 </div>
@@ -229,7 +229,7 @@ function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogou
                         >YOUR MESSAGES:
                     </label>
                     <div className="overflow-y-auto">
-                        <MessageBox theme={theme} users={users} currentUser={currentUser} onSendMessage={onSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage}/>
+                        <MessageBox theme={theme} users={users} currentUser={currentUser} setCurrentUser={setCurrentUser} messages={messages} onSendMessage={onSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage}/>
                     </div>
                 </div>
                 {/* <Link to={`/swaps`}>Swap History</Link> */}
