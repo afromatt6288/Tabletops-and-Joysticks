@@ -5,7 +5,7 @@ Tabletops and Joysticks is a web application built with Python (Flask), SQLite3,
 
 Users can create profiles and add games they own to their inventory, and other users can view their profiles and games. Users can message other users to propose game swaps. The Game Table includes columns for game title, type, genre, number of players, image URL, and description. Users can filter games by type, genre, number of players, and other criteria.
 
-As stretch goals, the application includes additional features such as filtering games by distance from the user, using Google Maps API to select a neutral exchange spot, incorporating user reviews, allowing users to set their willingness to travel for a swap, adding other types of games such as RPGs, creating chat rooms for users to find others to play games with, and sending email notifications when a user receives a game swap request.
+As stretch goals, the application will someday include additional features such as filtering games by distance from the user, using Google Maps API to select a neutral exchange spot, incorporating user reviews, allowing users to set their willingness to travel for a swap, adding other types of games such as RPGs, creating chat rooms for users to find others to play games with, and sending email notifications when a user receives a game swap request.
 
 
 ## Setup / Running the Project (on Windows)
@@ -60,43 +60,56 @@ from the server folder run:
 React:
 in a second terminal:
 from the client folder run:
-    npm run start
-    you will be taken to http://localhost:4000
-        if that doesn't load right away, your terminal will also show another option that works more consistantly. You can navigate to it manually. It will look something like this:
-            http://172.17.32.198:4000 
+    npm run dev
+    you will be taken to http://localhost:3000
+        if that doesn't load right away, try: 
+        npm run dev -- --host
+            your terminal will also show another option that works more consistantly. You can navigate to it manually. It will look something like this:
+            http://172.17.32.198:3000 
 
 And it begins!
 
 ### How to access the programs Functions:
-Login button 
-Create a Profile
-Log in
-Navigate the site through the Nav Bar
-Enjoy
+Click the Icon in the middle to go to the login screen.
+Create a Profile, or log in if you already have one. 
+Navigate the site through the Nav Bar, or enter your profile with the Icon to the upper right.
+Look at Games and Users, and add some to your profile. Send another user a message...
 
+Enjoy
 
 ## Project Requirements
 As per the Project Pitch Template:
 
 Overall:
-[ ] One piece new tech you want to explore
-    React(Vite), CSS(Tailwind), Google Maps API
-[ ] Well structured ReadMe
+[ DONE! ] One piece new tech you want to explore
+        React(Vite)-Yes, CSS(Tailwind)-Yes, Google Maps API-No(maybe later)
+[ DONE! ] Well structured ReadMe
+        You reading it now.
 
 Backend:
-[ ] Auth
-[ ] At least one has_many_through relationships (I’ll accept one has_many_through and one has_many/belongs_to)
-[ ] Seeds from a complex data set
-[ ] Custom routes (can be met with auth)
-[ ] Basic database query optimizations
+[ DONE! ] Auth
+        Login, Signup, CheckSession, LogOut, Encryptions, etc.... 
+[ DONE! ] At least one has_many_through relationships 
+    (I’ll accept one has_many_through and one has_many/belongs_to)
+        Many to Many for Users to other Users in Messages
+        Many to Many for Users & Games through both Inventories, and Swaps
+[ DONE! ] Seeds from a complex data set
+        My seed file is quite... involved and flesshed out
+[ DONE! ] Custom routes (can be met with auth)
+        Auth Routes, UserNew, UserList, UserDetails, GameNew, GameList, GameDetails
+[ DONE! ] Basic database query optimizations
+        Full CRUD through Fetches to the sources set up by my app.py and models.py
 [ ] Sockets or email integration
-[ ] Validations
+[ DONE! ] Validations
+        All 8 of my Tables have several validations and constraints. Not even counting Auth.
 [ ] Deploying (optional, but encouraged) to Render (free) or Heroku ($$)
 
 Frontend:
-[ ] Auth
+[ DONE! ] Auth
+        Login, Logout, CheckSession, Signup are all accessed from the front end, and restricts unauthorized users. 
 [ ] Interacting with a complex API
-[ ] Custom CSS (eg. styled components, Tailwind/Flowbite, MUI, Bulma, Bootstrap, Semantic, Chakra, Vanilla CSS)
+[ DONE! ] Custom CSS (eg. styled components, Tailwind/Flowbite, MUI, Bulma, Bootstrap, Semantic, Chakra, Vanilla CSS)
+        Tailwind... 
 [ ] Deploying (optional, but encouraged) to Render (free) or Heroku ($$)
 
 
@@ -125,7 +138,6 @@ In this schema, the Users table has a one-to-many relationship with the Inventor
 The Locations table allows for filtering games by distance from the user, and the Reviews table incorporates user reviews to establish trustworthiness. The Chatrooms and Chat Messages tables allow users to create and participate in chat rooms to find others to play games with.
 
 Overall, the Tabletops and Joysticks application provides a comprehensive platform for users to exchange board games and video games with others, while incorporating useful features such as game filtering, messaging, and user reviews. The database schema efficiently stores and retrieves information for the application while maintaining data integrity and minimizing redundancy.
-
 
 
 ### Seeded Games (so far)

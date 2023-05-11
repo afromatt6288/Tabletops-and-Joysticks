@@ -152,6 +152,7 @@ function App() {
 /////////////
 
     // Gather my Message Data
+    // This is to fetch the messages from the db every 5 seconds.
     const [messages, setMessages] = useState([]);
     useEffect(() => {
         fetch("api/messages")
