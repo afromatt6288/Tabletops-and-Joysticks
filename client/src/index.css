@@ -192,14 +192,14 @@
 
 [data-theme="green"] {
   --color-theme-text: #22c55e;
-  --color-theme-border: #22c55e;
-
   --color-theme-hover-text: #10b981;
-  --color-theme-hover-border: #10b981;
-
   --color-theme-active-text: #34d399;
+  --color-theme-gradient-text: #22543d;
+  
+  --color-theme-border: #22c55e;
+  --color-theme-hover-border: #10b981;
   --color-theme-active-border: #34d399;
-
+  
   --color-theme-background-start: #22c55e;
   --color-theme-background-2: #38d171;
   --color-theme-background-3: #4ddf85;
@@ -209,7 +209,7 @@
   --color-theme-background-7: #4ddf85;
   --color-theme-background-8: #38d171;
   --color-theme-background-end: #22c55e;
-
+  
   --color-theme-hover-background-start: #10b981;
   --color-theme-hover-background-2: #22c55e;
   --color-theme-hover-background-3: #38d171;
@@ -219,7 +219,7 @@
   --color-theme-hover-background-7: #38d171;
   --color-theme-hover-background-8: #22c55e;
   --color-theme-hover-background-end: #10b981;
-
+  
   --color-theme-active-background-start: #059669;
   --color-theme-active-background-2: #10b981;
   --color-theme-active-background-3: #22c55e;
@@ -227,9 +227,14 @@
   --color-theme-active-background-middle: #4ddf85;
   --color-theme-active-background-6: #38d171;
   --color-theme-active-background-7: #22c55e;
-  --color-theme-active-background-8: #10b981;
+  --color-theme-active-background-8: #10b981;  
+  --color-theme-active-background-end: #059669;
 
-  --color-theme-active-background-end: #059669;--color-theme-shadow: 0 4px 6px rgba(52, 211, 153, 0.1);
+  --color-theme-text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  --color-theme-hover-text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.7);
+  --color-theme-active-text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.7);
+
+  --color-theme-shadow: 0 4px 6px rgba(52, 211, 153, 0.1);
 }
 
 [data-theme="blue"] {
@@ -280,9 +285,9 @@
 }
 
 [data-theme="purple"] {
-  --color-theme-text: #6b46c1;
-  --color-theme-hover-text: #7c3aed;
-  --color-theme-active-text: #9333ea;
+  --color-theme-text: #8a47ff;
+  --color-theme-hover-text: #9b5bff;
+  --color-theme-active-text: #ac70ff;
   --color-theme-gradient-text: #4a2787;
 
   --color-theme-border: #6b46c1;

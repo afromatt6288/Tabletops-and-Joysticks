@@ -4,7 +4,7 @@ import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 
 function GameNew({onGameAdd, games, currentUser, theme}) {
     const [title, setTitle] = useState("");
-    const [type, setType] = useState("")
+    const [type, setType] = useState("Board Games")
     const [genres, setGenres] = useState(null)
     const [platforms, setPlatforms] = useState(null)
     const [player_num_min, setPlayer_num_min] = useState("")
@@ -79,7 +79,6 @@ function GameNew({onGameAdd, games, currentUser, theme}) {
         setPlatforms(gamePlatforms);
       }
 
-
     function handleSubmit(e) {
         e.preventDefault()
         history.push(`/`)
@@ -101,91 +100,132 @@ function GameNew({onGameAdd, games, currentUser, theme}) {
             },
             body: JSON.stringify(formData)
         })
-            .then(r => {
-                if (r.ok) {
-                    r.json()
-                    .then(game => {
-                        onGameAdd(game)
-                        history.push(`/games/${game.id}`)
-                })}
+        .then(r => {
+            if (r.ok) {
+                r.json()
+                .then(game => {
+                    onGameAdd(game)
+                    history.push(`/games/${game.id}`)
+                })
+            }
         })
     }
     
     return (
-        <div className="text-white">
-            <form onSubmit={handleSubmit}>
-                <p className="mb-4 text-center">Welcome </p>
-                <h1 className="mb-4 text-center">{currentUser.username}!</h1>
-                <p className="mb-4 text-center"> Add New Game Below!</p>
-                <div className="flex justify-center">
-                    {/* <!--Game Title input--> */}
-                    <div className="relative mb-5" data-te-input-wrapper-init>
-                        <input type="text" value={title} onChange={e => setTitle(e.target.value)}
-                            className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"/>
-                        <label 
-                            className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-purple-400 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                        >Title </label>
-                    </div>
-                    {/* <!--Type input--> */}
-                    <div className="relative mb-3" >
-                        <select onChange={handleTypeFilter} data-te-select-init>
-                            {typesList.map((type)=> <option key={type} value={type}>{type}</option>)}
-                        </select>
-                        <label data-te-select-label-ref className="text-purple-400">Type</label>
+        <div className="flex items-center justify-center h-screen w-full">
+            <div className="absolute inset-x-[30%] bottom-5 top-5 text-center md:block space-y-2 md:space-y-4 lg:space-y-6">
+                <div className="g-6 flex h-full flex-wrap items-center justify-center text-linear-gradient(to right, #d70ad3, #d00dd6, #c910d9, #bc14da, #b019db, #a41edc, #9823dd, #8c28de, #7f32df, #6b3fd9, #5346d9, #3d50d6, #2b59d1 dark:text-neutral-200 mx-auto max-w-[40rem]">
+                    <div className="text-[var(--color-theme-text)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] border-4 block rounded-lg bg-gray-600 bg-opacity-60 shadow-lg dark:bg-neutral-800 w-full md:w-auto">
+                        <div className="md:mx-2 md:p-4">
+                            <form onSubmit={handleSubmit}>
+                                <p className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'} mb-2 text-center`}
+                                    >Welcome 
+                                </p>
+                                <h1 className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'} mb-2 text-center`}
+                                    >{currentUser.username}!
+                                </h1>
+                                <p className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'} mb-2 text-center`}
+                                    > Add New Game Below!
+                                </p>
+                                <div className="flex justify-center">
+                                    {/* <!--Game Title input--> */}
+                                    <div className="relative mb-5" data-te-input-wrapper-init>
+                                        <input type="text" value={title} onChange={e => setTitle(e.target.value)}
+                                            className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important]' } peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0`}
+                                        />
+                                        <label 
+                                            className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]' } pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}
+                                            >Title 
+                                        </label>
+                                    </div>
+                                    {/* <!--Type input--> */}
+                                    <div className="relative mb-3" >
+                                        <select onChange={handleTypeFilter} data-te-select-init className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] ' }`}>
+                                            {typesList.map((type)=> <option key={type} value={type} className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active' }`}
+                                                >{type}
+                                            </option>)}
+                                        </select>
+                                        <label data-te-select-label-ref className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] ' }`}
+                                            >Type
+                                        </label>
+                                    </div>
+                                </div>
+                                <div className="flex justify-center">
+                                    <div className="relative mb-3" >
+                                        <select onChange={handleGenresFilter} data-te-select-init multiple className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] ' }`}>
+                                            {genresList.map((genre)=> <option key={genre} value={genre} className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active' }`}
+                                                >{genre}
+                                            </option>)}
+                                        </select>
+                                        <label data-te-select-label-ref className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] ' }`}
+                                            >Genres
+                                        </label>
+                                    </div>
+                                    <div className="relative mb-3" >
+                                        <select onChange={handlePlatformsFilter} data-te-select-init multiple data-te-select-init-visible-options="3" className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] ' }`}>
+                                            {platformsList.map((platform)=> <option key={platform} value={platform} className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active' }`}
+                                                >{platform}
+                                            </option>)}
+                                        </select>
+                                        <label data-te-select-label-ref className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] ' }`}
+                                            >Platforms
+                                        </label>
+                                    </div>
+                                </div>
+                                <div className="flex justify-center">
+                                    <div className="relative mb-3" data-te-input-wrapper-init >
+                                        <input type="number" value={player_num_min} onChange={e => setPlayer_num_min(e.target.value)}
+                                            className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important]' } peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0`}
+                                        />
+                                        <label
+                                            className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]' } pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}
+                                            >Player Minimum Number
+                                        </label>
+                                    </div>
+                                    <div className="relative mb-3" data-te-input-wrapper-init>
+                                        <input type="number" value={player_num_max} onChange={e => setPlayer_num_max(e.target.value)}
+                                            className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important]' } peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0`}
+                                        />
+                                        <label
+                                            className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]' } pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}
+                                            >Player Maximum Number
+                                        </label>
+                                    </div>
+                                </div>
+                                <div className="flex justify-center">
+                                    <div className="relative mb-3 w-2/5" data-te-input-wrapper-init>
+                                        <input type="url" value={image_url} onChange={e => setImage_url(e.target.value)}
+                                            className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important]' } peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0`}
+                                        />
+                                        <label 
+                                            className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]' } pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}
+                                            >Image_url
+                                        </label>
+                                    </div>
+                                </div>
+                                <div className="flex justify-center">
+                                    <div className="relative mb-3 w-2/5" data-te-input-wrapper-init>
+                                        <textarea rows="4" value={description} onChange={e => setDescription(e.target.value)}
+                                            className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important]' } peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0`}
+                                        />
+                                        <label 
+                                            className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]' } pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary`}
+                                            >Description
+                                        </label>
+                                    </div>
+                                </div>
+                                <div className="flex justify-center">  
+                                    <button type="submit" className={`bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active mx-4 px-1 py-1 rounded`}>
+                                        <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-gradient-text)!important] hover:text-[var(--color-theme-hover-text)!important] font-extrabold'}`}
+                                            >Submit
+                                        </span>
+                                    </button>
+                                </div>  
+                            </form>
+                        </div>
                     </div>
                 </div>
-                <div className="flex justify-center">
-                    <div className="relative mb-3" >
-                        <select onChange={handleGenresFilter} data-te-select-init multiple>
-                            {genresList.map((genre)=> <option key={genre} value={genre}>{genre}</option>)}
-                        </select>
-                        <label data-te-select-label-ref className="text-purple-400">Genres</label>
-                    </div>
-                    <div className="relative mb-3" >
-                        <select onChange={handlePlatformsFilter} data-te-select-init multiple data-te-select-init-visible-options="3">
-                            {platformsList.map((platform)=> <option key={platform} value={platform}>{platform}</option>)}
-                        </select>
-                        <label data-te-select-label-ref className="text-purple-400">Platforms</label>
-                    </div>
-                </div>
-                <div className="flex justify-center">
-                    <div className="relative mb-3" data-te-input-wrapper-init>
-                        <input type="number" value={player_num_min} onChange={e => setPlayer_num_min(e.target.value)}
-                            className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"/>
-                        <label
-                            className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-purple-400 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                        >Player Minimum Number</label>
-                    </div>
-                    <div className="relative mb-3" data-te-input-wrapper-init>
-                        <input type="number" value={player_num_max} onChange={e => setPlayer_num_max(e.target.value)}
-                            className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"/>
-                        <label
-                            className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-purple-400 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                        >Player Maximum Number</label>
-                    </div>
-                </div>
-                <div className="flex justify-center">
-                    <div className="relative mb-3 w-2/5" data-te-input-wrapper-init>
-                        <input type="url" value={image_url} onChange={e => setImage_url(e.target.value)}
-                            className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"/>
-                        <label 
-                            className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-purple-400 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                        >Image_url</label>
-                    </div>
-                </div>
-                <div className="flex justify-center">
-                    <div className="relative mb-3 w-2/5" data-te-input-wrapper-init>
-                        <textarea rows="4" value={description} onChange={e => setDescription(e.target.value)}
-                            className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"/>
-                        <label 
-                            className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-purple-400 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                        >Description</label>
-                    </div>
-                </div>
-                <div className="flex justify-center">  
-                    <button type="submit" className="mb-4 text-center mx-auto px-4 py-1 bg-purple-500 text-white rounded">Submit</button>
-                </div>  
-            </form>
+            </div>
         </div>
     )
 }

@@ -68,12 +68,16 @@ function Login ({currentUser, setCurrentUser, toggle, theme, users, onAddUser}) 
                         alt="Tabletops & Joysticks Logo" 
                       />
                     </button>                  
-                    <h4 className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]' } mt-1 my-2 pb-1 text-2xl font-semibold `}>Tabletops & Joysticks</h4>
+                    <h4 className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]' } mt-1 my-2 pb-1 text-2xl font-semibold `}
+                      >Tabletops & Joysticks
+                    </h4>
                   </div>
                   {newUser ? ( <UserNew onNewUser={handleNewUser} onAddUser={handleAddUser} toggle={toggle} theme={theme} /> 
                   ) : (
                     <form onSubmit={handleSubmit}>
-                      <p className={`mb-4 ${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'}`}>Please login to your account</p>
+                      <p className={`mb-4 ${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important]'}`}
+                        >Please login to your account
+                      </p>
                       {/* <!--Username input--> */}
                       <div className="relative mb-4" data-te-input-wrapper-init>
                         <input value={username} onChange={e => setUsername(e.target.value)} type="text"
