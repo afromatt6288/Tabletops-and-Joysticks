@@ -26,7 +26,7 @@ function UserProfile({users, currentUser, messages, theme, onUserDelete, onLogou
         initTE({ Datepicker, Input, Select, Ripple });
     }, []);
 
-    const themeList = [ "default-blue/black", "purple", "orange", "blue", "green", "multi",]
+    const themeList = [ "default-blue/black", "purple", "orange", "yellow", "blue", "green", "multi",]
 
     function handleAddGameToProfile(inv){
         const updatedGames = [... currentUserGames, inv.game]
