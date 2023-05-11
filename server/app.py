@@ -48,6 +48,10 @@ class Signup(Resource):
         password = data['password']
         email = data['email']
         address = data['address']
+        city = data['city']
+        state = data['state']
+        country = data['country']
+        zipcode = data['zipcode']
         avatar_url = data['avatar_url']
         travel_distance= data['travel_distance']
         stars = data['stars']
@@ -55,7 +59,7 @@ class Signup(Resource):
         # avatar_blob = data['avatar_blob']
         if username and password:
             try:
-                new_user = User(username=username, email=email, address=address, avatar_url=avatar_url, 
+                new_user = User(username=username, email=email, address=address, city=city, state=state, country=country, zipcode=zipcode, avatar_url=avatar_url, 
                     # avatar_blob=avatar_blob, 
                     stars=stars, travel_distance=travel_distance, theme=theme, is_active = False, is_admin = False)
                 new_user.password_hash = password
@@ -126,6 +130,10 @@ class Users(Resource):
                 username=data['username'], 
                 email=data['email'],
                 address=data['address'], 
+                city = data['city'],
+                state = data['state'],
+                country = data['country'],
+                zipcode = data['zipcode'],
                 avatar_url = data['avatar_url'],
                 # avatar_blob = data['avatar_blob'],
                 travel_distance= data['travel_distance'],
@@ -170,7 +178,7 @@ class UserById(Resource):                       ## For Users to see profiles
             return response 
         return make_response(jsonify({"error": "User Record not found"}), 404)
 
-    def delete(self, id):                       ## To Delete a User (not just Logging them Out) [as well as any Transactions that relies on that user]  
+    def delete(self, id):                       ## To Delete a User (not just Logging them Out) [as well as any Inventories or Swaps that relies on that user]  
         user = User.query.filter(User.id == id).first()
         if user:
             db.session.delete(user)

@@ -1,8 +1,8 @@
-"""Recreating tables, because the migration refused to cooperate.
+"""Migration refused to cooperate, so I had to delete my versions and start over... Created New Tables
 
-Revision ID: 9d75fc7f00bd
+Revision ID: 171bd27d5191
 Revises: 
-Create Date: 2023-04-27 21:58:55.315958
+Create Date: 2023-05-11 17:43:03.822660
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '9d75fc7f00bd'
+revision = '171bd27d5191'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,7 +23,7 @@ def upgrade():
     sa.Column('title', sa.String(), nullable=False),
     sa.Column('type', sa.String(), nullable=False),
     sa.Column('genres', sa.String(), nullable=False),
-    sa.Column('platform', sa.String(), nullable=False),
+    sa.Column('platforms', sa.String(), nullable=False),
     sa.Column('player_num_min', sa.Integer(), nullable=False),
     sa.Column('player_num_max', sa.Integer(), nullable=False),
     sa.Column('image_url', sa.String(), nullable=False),
@@ -38,9 +38,14 @@ def upgrade():
     sa.Column('_password_hash', sa.String(), nullable=False),
     sa.Column('email', sa.String(), nullable=False),
     sa.Column('address', sa.String(), nullable=False),
+    sa.Column('city', sa.String(), nullable=False),
+    sa.Column('state', sa.String(), nullable=False),
+    sa.Column('country', sa.String(), nullable=False),
+    sa.Column('zipcode', sa.Integer(), nullable=False),
     sa.Column('avatar_url', sa.String(), nullable=True),
     sa.Column('stars', sa.Integer(), nullable=True),
     sa.Column('travel_distance', sa.Integer(), nullable=True),
+    sa.Column('theme', sa.String(), nullable=True),
     sa.Column('is_active', sa.Boolean(), nullable=True),
     sa.Column('is_admin', sa.Boolean(), nullable=True),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),

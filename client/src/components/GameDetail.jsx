@@ -29,8 +29,8 @@ function GameDetail({admin, onGameDelete, currentUser, theme}) {
         if (!game) return <h2>Loading...</h2>
 
         
-        const { title, image_url, type, genres, platforms, player_num_min, player_num_max, image_blob, description} = game    
-        console.log(image_url)
+    const { title, image_url, type, genres, platforms, player_num_min, player_num_max, image_blob, description} = game    
+    console.log(image_url)
     const allUsers = game.inventories.map((inv)=>inv.user)
     const gamesArray = Array.from(game)
     

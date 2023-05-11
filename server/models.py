@@ -29,7 +29,7 @@ from config import bcrypt,db
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_only = ('id', 'username', '_password_hash', 'email', 'address', 'avatar_url', 'stars', 'travel_distance', 'is_active', 'is_admin', 'inventories', 'sent_messages', 'received_messages', 'theme')
+    serialize_only = ('id', 'username', '_password_hash', 'email', 'address', 'city', 'state', 'country', 'zipcode', 'avatar_url', 'stars', 'travel_distance', 'is_active', 'is_admin', 'inventories', 'sent_messages', 'received_messages', 'theme')
     serialize_rules = ('-inventories.user', '-chat_rooms.user', '-chat_messages.user', '-loaned_games.loaner', '-borrowed_games.borrower', '-swap.users', '-sent_messages.sender', '-received_messages.receiver', '-message.users', '-sent_review.review_sender', '-recieved_review.review_receiver', '-review.users', '-created_at', '-updated_at',)
    
     id = db.Column(db.Integer, primary_key=True)
@@ -37,6 +37,10 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
     address = db.Column(db.String, nullable=False)
+    city = db.Column(db.String, nullable=False, default='')
+    state = db.Column(db.String, nullable=False, default='')
+    country = db.Column(db.String, nullable=False, default='')
+    zipcode = db.Column(db.Integer, nullable=False, default=0)
     avatar_url = db.Column(db.String)
     # avatar_blob = db.Column(db.Blob)
     stars = db.Column(db.Integer)
@@ -101,8 +105,8 @@ class User(db.Model, SerializerMixin):
     
     @validates('avatar_url')
     def validate_avatar_url(self, key, avatar_url):
-        if 'https://' not in avatar_url:
-            raise ValueError("Avatar must be a URL link")
+        # if 'https://' not in avatar_url:
+        #     raise ValueError("Avatar must be a URL link")
         return avatar_url
 
     # @validates('avatar_blob')
