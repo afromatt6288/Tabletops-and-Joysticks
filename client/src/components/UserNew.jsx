@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 
-function UserNew({onNewUser, toggle, theme}) {
+function UserNew({onNewUser, onAddUser, toggle, theme}) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isPasswordSecure, setIsPasswordSecure] = useState(true)
@@ -61,7 +61,7 @@ function UserNew({onNewUser, toggle, theme}) {
                     if (r.ok) {
                         r.json()
                         .then(user => {
-                            onNewUser(user)
+                            onAddUser(user)
                             history.push(`/`)
                     })}
                 toggle()
@@ -90,7 +90,7 @@ function UserNew({onNewUser, toggle, theme}) {
                     {/* <!--Theme input--> */}
                     <div className="relative mb-3" style={{ flex: "3" }}>
                         <select value={initTheme} onChange={(e) => setInitTheme(e.target.value)} data-te-select-init className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] ' }`}>
-                            {themeList.map((initTheme)=> <option value={initTheme} className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active' }`}
+                            {themeList.map((initTheme)=> <option key={initTheme} value={initTheme} className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active' }`}
                                 >{initTheme}
                             </option>)}
                         </select>
