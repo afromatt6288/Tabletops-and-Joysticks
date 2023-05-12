@@ -61,7 +61,7 @@ function Login ({currentUser, setCurrentUser, toggle, theme, users, onAddUser}) 
                 <div className="md:mx-2 md:p-12">
                   {/* <!--Logo--> */}
                   <div className="text-center">
-                    <button onClick={toggle}>
+                    <button onClick={toggle} className="bg-transparent rounded-full border-4 border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]">
                       <img
                         className="mx-auto w-48 "
                         src="Tabletops & Joysticks Logo trans.png"

@@ -44,7 +44,7 @@ function MessageNew({ user, currentUser, onSendMessage, theme }) {
   }
   
   return (
-    <form className="flex flex-col justify-center item-center mt-2" onSubmit={handleSendMessage}>
+    <form className="flex flex-col justify-center item-center mt-1" onSubmit={handleSendMessage}>
       <div className="relative mb-3" data-te-input-wrapper-init>
         <textarea rows="4" value={messageText} onChange={e => setMessageText(e.target.value)}
           className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]' } peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0`}

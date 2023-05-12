@@ -33,7 +33,7 @@ function GameSearch({search, onSearchChange, sortBy, onSortChange, onHandleTypeF
 
   return (
     <div className={` border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] relative h-full border-2 rounded-lg`}>
-      <div className="flex justify-between my-4 w-5/6">
+      <div className="flex justify-between my-3 w-5/6">
       {/* Filters */}
         {/* Type */}
         <div className="relative">
@@ -78,7 +78,7 @@ function GameSearch({search, onSearchChange, sortBy, onSortChange, onHandleTypeF
           </label>
         </div>
       </div>
-      <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active ' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important] ' } border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] relative h-full border-2 mt-2rounded-lg`}>
+      <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active ' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important] ' } border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] relative h-full `}>
         <div className="flex justify-between w-5/6 mt-2">      
             <div className=" mr-4 inline-block min-h-[1.5rem] pl-[1.5rem]">
               <input type="radio" value="Alphabetical" checked={sortBy === "Alphabetical"} onChange={handleSortChange}

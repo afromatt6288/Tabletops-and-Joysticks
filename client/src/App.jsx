@@ -173,22 +173,10 @@ function App() {
 
     function handleDeleteMessage(id) {
         // probably not needed up here since messages are fetched after being posted or patched.
-        
-        // const updatedMessages = messages.filter(message => message.id !== id)
-        // setMessages(updatedMessages)
     }
     
     function handleEditMessage(editedMessage) {
         // Not really needed up here since messages are fetched after being posted or patched. 
-
-        // const editedMessages = messages.map(message => {
-        //     if (message.id === editedMessage.id) {
-        //         return editedMessage
-        //     } else {
-        //         return message
-        //     }
-        // })
-        // setMessages(editedMessages)
     }
 
 //////////
@@ -221,8 +209,9 @@ function App() {
                         <header>                 
                             {/* <!--Profile--> */}
                             {currentUser ? 
-                                <div className="fixed top-0 right-0 mt-4 mr-4 text-center z-10">
-                                    <button onClick={togglePop} className="bg-transparent border-0">
+                                <div className="fixed top-0 right-0 mt-4 mr-4 z-10">
+                                    <div className="fixed top-0 right-0 mt-4 mr-4 z-10">
+                                    <button onClick={togglePop} className="bg-transparent rounded-full border-4 border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]">
                                         <img 
                                             className="w-12 sm:w-16 md:w-20 lg:w-28 xl:w-36 2xl:w-44"
                                             src="Tabletops & Joysticks Logo trans.png"
@@ -231,6 +220,7 @@ function App() {
                                     <p className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important] hover:text-[var(--color-theme-hover-text)!important]'} mx-auto text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl mt-1 mb-1`}
                                         >{currentUser.username} 
                                     </p>
+                                    </div>
                                     {seen ? 
                                         <UserProfile key={currentUser.id} theme={theme} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} users={users} messages={messages} onSendMessage={handleSendMessage} onDeleteMessage={handleDeleteMessage} onEditMessage={handleEditMessage}/> 
                                     : null}                        
@@ -243,7 +233,7 @@ function App() {
                                     : 
                                         <>
                                             {/* <!--Logo--> */}
-                                            <button onClick={togglePop}>
+                                            <button onClick={togglePop} className="bg-transparent rounded-full border-4 border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]">
                                                 <img 
                                                     className="w-32 sm:w-48 md:w-64 lg:w-80 xl:w-96 2xl:w-112"
                                                     src="Tabletops & Joysticks Logo trans.png"

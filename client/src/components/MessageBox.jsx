@@ -89,10 +89,10 @@ function MessageBox({users, currentUser, messages, onSendMessage, onDeleteMessag
   : [], [selectedUser, search, messages]);
   
   return (
-    <div className="text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] border-4 block rounded-xl bg-gray-600 bg-opacity-60 shadow-lg dark:bg-neutral-800 w-full md:w-auto">
+    <div className="text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] shadow-lg dark:bg-neutral-800 w-full md:w-auto">
       {selectedUser ? 
         <div className="">
-          <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important] ' } border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] relative h-full border-2 rounded-lg`}>
+          <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important] ' } border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] relative h-full border-4 rounded-lg`}>
             <button type="submit" onClick={() => setSelectedUser(null)} className={`bg-theme-gradient hover:bg-theme-gradient-hover active:bg-theme-gradient-active mt-2 mb-2 px-3 py-0 rounded`} >
               <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-gradient-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important] font-extrabold'}`}
                 >Back
@@ -100,11 +100,13 @@ function MessageBox({users, currentUser, messages, onSendMessage, onDeleteMessag
             </button>
             <MessageSearch theme={theme} search={search} onSearchChange={setSearch} />
           </div> 
-          <MessageList theme={theme} user={selectedUser} messages={selectedUserMessages} currentUser={currentUser} onSendMessage={handleSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={handleEditMessage} />
+          <div className="overflow-y-auto">
+            <MessageList theme={theme} user={selectedUser} messages={selectedUserMessages} currentUser={currentUser} onSendMessage={handleSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={handleEditMessage} />
+          </div>
         </div>
       : 
         <div className="">
-          <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important] ' } border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] relative h-full border-2 rounded-lg`}>
+          <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important] ' } border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] relative h-full border-4 rounded-lg`}>
             <div className="flex justify-center mt-2">
               <div className="relative mb-3 " >
                 <div className="mr-4 inline-block min-h-[1.5rem] pl-[1.5rem]">

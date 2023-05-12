@@ -62,8 +62,8 @@ function GameList({theme, games, edit, currentUser, onCurrentUserGames}) {
             <div className="text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] border-2 block rounded-lg bg-gray-600 bg-opacity-60 shadow-lg dark:bg-neutral-800 w-full md:w-auto">
                 <GameSearch theme={theme} search={search} onSearchChange={setSearch} sortBy={sortBy} onSortChange={setSortBy} filterByType={filterByType} filterByGenre={filterByGenre} filterByPlatform={filterByPlatform} onHandleTypeFilter={setFilterByType} onHandleGenreFilter={setFilterByGenre} onHandlePlatformFilter={setFilterByPlatform} types={uniqueTypes} genres={uniqueGenres} platforms={uniquePlatforms}/>
             </div>
-            <section id="games" className="h-[calc(100vh-215px)] flex flex-col">
-                <div className="overflow-y-auto w-full h-full" style={{ padding: '1rem' }}>
+            <section id="games" className="h-[calc(100vh-205px)] flex flex-col">
+                <div className=" border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] overflow-y-auto w-full h-full border-4 block rounded-xl " style={{ padding: '1rem' }}>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-2">
                         {displayedGames.map((game)=> (
                             <GameItem key={game.id} theme={theme} game={game} edit={edit} currentUser={currentUser} onCurrentUserGames={onCurrentUserGames} games={games}/>

@@ -35,8 +35,6 @@ function UserNew({onNewUser, onAddUser, toggle, theme}) {
 
     const themeList = ["red","orange", "yellow", "green", "blue", "purple", "multi"]
 
-    console.log(`${username} ${password} ${email} ${address} ${city} ${state} ${country} ${zipcode} ${avatarUrl} ${stars} ${travelDistance} ${is_active} ${is_admin}`)
-    
     function handleSubmit(e) {
         e.preventDefault()
         history.push(`/`)

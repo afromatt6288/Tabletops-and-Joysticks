@@ -140,8 +140,11 @@ function UserProfile({users, currentUser, setCurrentUser, messages, theme, onUse
                                         :
                                             <div>
                                                 <div className="flex">
-                                                    <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } mt-4 mr-2`}>
-                                                        <h3 className="">ID# {id}</h3>
+                                                    <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } mt-4 mr-2 `}>
+                                                        <h3>{username}</h3>
+                                                    </div>
+                                                    <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } border-[var(--color-theme-border)!important] border-l-2 mt-4 mr-2`}>
+                                                        <h3 className="ml-2">ID# {id}</h3>
                                                     </div>
                                                     {is_admin ?
                                                         <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } border-[var(--color-theme-border)!important] border-l-2 mt-4`}>
@@ -300,25 +303,27 @@ function UserProfile({users, currentUser, setCurrentUser, messages, theme, onUse
                 </div>  
             </div>
             <div className="flex my-4 justify-between min-w-screen ">
-                <div className="flex flex-col w-2/3 ml-7 h-[calc(100vh-450px)] md:h-[calc(100vh-475px)] lg:h-[calc(100vh-500px)] xl:h-[calc(100vh-525px)] 2xl:h-[calc(100vh-550px)] ">
+                <div className="flex flex-col w-2/3 ml-7 h-[calc(100vh-335px)] ">
                     <label className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] ' } mb-2 font-extrabold border-b-4`}
                         >YOUR GAMES:
                     </label>
-                    <span>
-                        {edit ? 
-                            <AddGameByNameId currentUser={currentUser} onAddGameToProfile={handleAddGameToProfile} theme={theme}/> 
-                        : null}
-                    </span> 
-                    <div className="overflow-y-auto justify-between">                    
-                        <GameList theme={theme} currentUser={currentUser} games={currentUserGames} edit={edit} onCurrentUserGames={setCurrentUserGames}/>
-                    </div> 
+                    <div>
+                        <span>
+                            {edit ? 
+                                <AddGameByNameId currentUser={currentUser} onAddGameToProfile={handleAddGameToProfile} theme={theme}/> 
+                            : null}
+                        </span> 
+                        <div className={`${edit? 'h-[calc(100vh-452px)]' : 'h-[calc(100vh-370px)]' } border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] border-4 block rounded-xl overflow-hidden overflow-y-auto h-[calc(100vh-370px)] `} >                    
+                            <GameList theme={theme} currentUser={currentUser} games={currentUserGames} edit={edit} onCurrentUserGames={setCurrentUserGames}/>
+                        </div> 
+                    </div>
                 </div>
-                <div className="flex flex-col w-1/3 h-[calc(100vh-450px)] md:h-[calc(100vh-475px)] lg:h-[calc(100vh-500px)] xl:h-[calc(100vh-525px)] 2xl:h-[calc(100vh-550px)]">
+                <div className="flex flex-col w-1/3 h-[calc(100vh-335px)] ">
                     <label className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' } mb-2 font-extrabold border-b-4`}
                         >YOUR MESSAGES:
                     </label>
-                    <div className="overflow-y-auto">
-                        <MessageBox theme={theme} users={users} currentUser={currentUser} setCurrentUser={setCurrentUser} messages={messages} onSendMessage={onSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage}/>
+                    <div className={`border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] border-4 block rounded-xl bg-gray-600 bg-opacity-60 overflow-y-auto h-[calc(100vh-350px)]`}>
+                        <MessageBox theme={theme} users={users} currentUser={currentUser} messages={messages} onSendMessage={onSendMessage} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage}/>
                     </div>
                 </div>
                 {/* <Link to={`/swaps`}>Swap History</Link> */}

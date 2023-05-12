@@ -20,12 +20,17 @@ function MessageList({ users, user, messages, currentUser, onSendMessage, onDele
   messages.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
   return (
-    <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important]' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] ' } list`}>
-      <ul>{messages.map(message => (
+    <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important] ' } border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] list`}>
+      <ul >
+        {messages.map(message => (
+          <div className="">
             <Message theme={theme} key={message.id} message={message} user={user} currentUser={currentUser} onDeleteMessage={onDeleteMessage} onEditMessage={onEditMessage} />
-      ))}
+          </div>
+        ))}
       </ul>
-      <MessageNew theme={theme} user={user} currentUser={currentUser} onSendMessage={onSendMessage} />
+      <div className=" border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] mt-4 border-4 rounded-lg">
+        <MessageNew theme={theme} user={user} currentUser={currentUser} onSendMessage={onSendMessage} />
+      </div>
     </div>
   );
 }

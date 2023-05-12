@@ -41,7 +41,7 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
 }).format(date);
 
   return (
-    <li className="border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] mt-2 pb-2 border-b-4 ">
+    <li className="border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] mt-2 pb-2 rounded-lg border-2 ">
       <span>{formattedDate}</span>
       <br/>
       {sender_user_id == currentUser.id ?
@@ -50,7 +50,11 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
       <span>From: {user.username} (ID#{sender_user_id}) | To: {currentUser.username} (ID#{receiver_user_id})</span>
       }
       
-      {isEditing ? <MessageEdit id={id} theme={theme} message_text={message_text} onEditMessage={handleEditMessage} /> : <p>{message_text}</p>}
+      {isEditing ? 
+        <MessageEdit id={id} theme={theme} message_text={message_text} onEditMessage={handleEditMessage} /> 
+      : 
+        <p>{message_text}</p>
+      }
       <div className="">
         {currentUser.id == sender_user_id ? 
           <div >
