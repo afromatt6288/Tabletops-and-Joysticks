@@ -40,7 +40,7 @@ class User(db.Model, SerializerMixin):
     city = db.Column(db.String, nullable=False, default='')
     state = db.Column(db.String, nullable=False, default='')
     country = db.Column(db.String, nullable=False, default='')
-    zipcode = db.Column(db.Integer, nullable=False, default=0)
+    zipcode = db.Column(db.String, nullable=False, default='')
     avatar_url = db.Column(db.String)
     # avatar_blob = db.Column(db.Blob)
     stars = db.Column(db.Integer)

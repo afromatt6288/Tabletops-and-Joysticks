@@ -6,11 +6,15 @@ import GameList from "./GameList"
 import AddGameByNameId from "./AddGameByNameId"
 
 function UserProfile({users, currentUser, setCurrentUser, messages, theme, onUserDelete, onLogoutClick, onEditProfile, onSendMessage, onDeleteMessage, onEditMessage}) {
-    const {id, username, email, address, avatar_url, stars, travel_distance, is_active, is_admin} = currentUser    
+    const {id, username, email, address, city, state, country, zipcode, avatar_url, stars, travel_distance, is_active, is_admin} = currentUser    
     const [edit, setEdit] = useState(false)
     const [newAvatar, setNewAvatar] = useState(`${avatar_url}`)
     const [newEmail, setNewEmail] = useState(`${email}`)
     const [newAddress, setNewAddress] = useState(`${address}`)
+    const [newCity, setNewCity] = useState(`${city}`)
+    const [newState, setNewState] = useState(`${state}`)
+    const [newCountry, setNewCountry] = useState(`${country}`)
+    const [newZipcode, setNewZipcode] = useState(`${zipcode}`)
     const [newTravel, setNewTravel] = useState(`${travel_distance}`)
     const [currentUserGames, setCurrentUserGames] = useState(currentUser.inventories.map((inv)=>inv.game))
     const [newTheme, setNewTheme] = useState("")
@@ -26,7 +30,7 @@ function UserProfile({users, currentUser, setCurrentUser, messages, theme, onUse
         initTE({ Datepicker, Input, Select, Ripple });
     }, []);
 
-    const themeList = [ "default-blue/black", "purple", "orange", "yellow", "red", "blue", "green", "multi",]
+    const themeList = ["red", "orange", "yellow", "green", "blue", "purple", "multi"]
 
     function handleAddGameToProfile(inv){
         const updatedGames = [... currentUserGames, inv.game]
@@ -91,7 +95,7 @@ function UserProfile({users, currentUser, setCurrentUser, messages, theme, onUse
                         <button className="mx-4" onClick={() => setEdit(!edit)}> ✏️</button>
                         {edit ? (
                             <span role="img" aria-label="edit" className="flex items-center">
-                                <select value={newTheme} onChange={(e) => setNewTheme(e.target.value)} data-te-select-init
+                                <select value={theme} onChange={(e) => setNewTheme(e.target.value)} data-te-select-init
                                     className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important] '} w-24 mr-1`} 
                                 >
                                     {themeList.map((newTheme) => <option key={newTheme} value={newTheme} className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]'}`}
@@ -112,10 +116,12 @@ function UserProfile({users, currentUser, setCurrentUser, messages, theme, onUse
                     </header>
                     <header className="flex justify-center">
                         <div className="flex">
-                            <div className={`border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] h-40 w-40 object-cover border-2 rounded-full mr-8 overflow-hidden `}>
-                                <img src={avatar_url} alt={`${username} Avatar`} className="object-contain h-full w-full" />
+                            <div className="flex flex-col">
+                                <div className={`border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] h-40 w-40 object-cover border-2 rounded-full mr-8 overflow-hidden `}>
+                                    <img src={avatar_url} alt={`${username} Avatar`} className="object-contain h-full w-full" />
+                                </div>    
                                 {edit? 
-                                    <span className="flex">
+                                    <span className="flex mt-2">
                                         <div className="relative mb-3" data-te-input-wrapper-init>
                                             <input type="url" value={newAvatar} onChange={e => setNewAvatar(e.target.value)}
                                                 className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]' } peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0`}/>
@@ -129,32 +135,28 @@ function UserProfile({users, currentUser, setCurrentUser, messages, theme, onUse
                             <div className="flex-grow">
                                 <div className=" mb-2">
                                     <div>
-                                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } flex mt-4`}>
-                                            {username} | #{id} {is_admin ? " | Moderator" : null }
-                                        </div>
-                                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } flex`}>
-                                            <h3>Peer Rating: {stars} Stars </h3>
-                                        </div>
-                                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } flex`}>
-                                            <h3>Status: {is_active ? "Online" : "Offline"}</h3>
-                                        </div>
                                         {edit? 
-                                            <div className="flex">
-                                                <label className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } mr-2`}
-                                                    >Travel Distance:
-                                                </label>
-                                                <div className="relative mb-3" data-te-input-wrapper-init>
-                                                    <input type="number" onChange={e => setNewTravel(e.target.value)} value={newTravel}
-                                                    className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } peer block min-h-[auto] w-24 rounded border-0 bg-transparent px-3 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0`}
-                                                    />
+                                            null 
+                                        :
+                                            <div>
+                                                <div className="flex">
+                                                    <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } mt-4 mr-2`}>
+                                                        <h3 className="">ID# {id}</h3>
+                                                    </div>
+                                                    {is_admin ?
+                                                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } border-[var(--color-theme-border)!important] border-l-2 mt-4`}>
+                                                            <h3 className="ml-2">Moderator</h3>
+                                                        </div>
+                                                    : null }
                                                 </div>
-                                                <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' }`}
-                                                    >Miles 
-                                                </span>
-                                                <span>✏️</span>
-                                            </div>
-                                        :   <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } flex`}>
-                                                <h3>Travel Distance: {travel_distance} Miles</h3>
+                                                <div className="flex">
+                                                    <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } mr-2 `}>
+                                                        <h3>Peer Rating: {stars} Stars </h3>
+                                                    </div>
+                                                    <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } border-[var(--color-theme-border)!important] border-l-2 flex`}>
+                                                        <h3 className="ml-2">Status: {is_active ? "Online" : "Offline"}</h3>
+                                                    </div>
+                                                </div>
                                             </div>
                                         }
                                         {edit? 
@@ -187,6 +189,93 @@ function UserProfile({users, currentUser, setCurrentUser, messages, theme, onUse
                                             </div>
                                         :   <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } flex`}>
                                                 <h3> Address: {address} </h3>
+                                            </div>
+                                        }
+                                        <div className="flex">
+                                            {edit? 
+                                                <div className="flex">
+                                                    <label className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } mr-2`}
+                                                        >City: 
+                                                    </label>
+                                                    <div className="relative mb-3" data-te-input-wrapper-init>
+                                                        <input type="city" onChange={e => setNewCity(e.target.value)} value={newCity}
+                                                            className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3  leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0`}
+                                                        />
+                                                    </div>
+                                                    <span> ✏️</span>
+                                                </div>
+                                            :   <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } mr-2`}>
+                                                    <h3> City: {city} </h3>
+                                                </div>
+                                            }
+                                            {edit? 
+                                                <div className="flex ">
+                                                    <label className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } mr-2`}
+                                                        >State: 
+                                                    </label>
+                                                    <div className="relative mb-3" data-te-input-wrapper-init>
+                                                        <input type="state" onChange={e => setNewState(e.target.value)} value={newState}
+                                                            className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3  leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0`}
+                                                        />
+                                                    </div>
+                                                    <span> ✏️</span>
+                                                </div>
+                                            :   <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } border-[var(--color-theme-border)!important] border-l-2`}>
+                                                    <h3 className="ml-2"> State: {state} </h3>
+                                                </div>
+                                            }
+                                        </div>
+                                        <div className="flex">
+                                            {edit? 
+                                                <div className="flex">
+                                                    <label className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } mr-2`}
+                                                        >Country: 
+                                                    </label>
+                                                    <div className="relative mb-3" data-te-input-wrapper-init>
+                                                        <input type="country" onChange={e => setNewCountry(e.target.value)} value={newCountry}
+                                                            className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3  leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0`}
+                                                        />
+                                                    </div>
+                                                    <span> ✏️</span>
+                                                </div>
+                                            :   <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } mr-2`}>
+                                                    <h3> Country: {country} </h3>
+                                                </div>
+                                            }
+                                            {edit? 
+                                                <div className="flex ">
+                                                    <label className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } mr-2`}
+                                                        >Zipcode: 
+                                                    </label>
+                                                    <div className="relative mb-3" data-te-input-wrapper-init>
+                                                        <input type="zipcode" onChange={e => setNewZipcode(e.target.value)} value={newZipcode}
+                                                            className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3  leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0`}
+                                                        />
+                                                    </div>
+                                                    <span> ✏️</span>
+                                                </div>
+                                            :   <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } border-[var(--color-theme-border)!important] border-l-2`}>
+                                                    <h3 className="ml-2"> Zipcode: {zipcode} </h3>
+                                                </div>
+                                            }
+                                        </div>
+                                        {edit? 
+                                            <div className="flex">
+                                                <label className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } mr-2`}
+                                                    >Travel Distance:
+                                                </label>
+                                                <div className="relative mb-3" data-te-input-wrapper-init>
+                                                    <input type="number" onChange={e => setNewTravel(e.target.value)} value={newTravel}
+                                                    className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } peer block min-h-[auto] w-24 rounded border-0 bg-transparent px-3 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0`}
+                                                    />
+                                                </div>
+                                                <span className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' }`}
+                                                    >Miles 
+                                                </span>
+                                                <span>✏️</span>
+                                            </div>
+                                        :   <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } flex`}>
+                                                <h3>Travel Distance: {travel_distance} Miles</h3>
                                             </div>
                                         }
                                     </div>

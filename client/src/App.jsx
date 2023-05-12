@@ -155,34 +155,40 @@ function App() {
     // This is to fetch the messages from the db every 5 seconds.
     const [messages, setMessages] = useState([]);
     useEffect(() => {
-        fetch("api/messages")
-            .then(r => r.json())
-            .then(data => {
-                setMessages(data)
-            })
-    }, 5000)
+        const interval = setInterval(() => {
+            fetch("api/messages")
+                .then(r => r.json())
+                .then(data => {
+                    setMessages(data)
+                    console.log("my message fetch is running")
+                })
+        }, 5000)
+        return () => clearInterval(interval);
+    }, [])
 
     // Handle Message Send, Delete, & Edit
     function handleSendMessage(addMessage){
-        const updatedMessages = [...messages, addMessage]
-        setMessages(updatedMessages)
-        console.log(addMessage)
+        // Not really needed up here since messages are fetched after being posted or patched. 
     }
 
     function handleDeleteMessage(id) {
-        const updatedMessages = messages.filter(message => message.id !== id)
-        setMessages(updatedMessages)
+        // probably not needed up here since messages are fetched after being posted or patched.
+        
+        // const updatedMessages = messages.filter(message => message.id !== id)
+        // setMessages(updatedMessages)
     }
     
     function handleEditMessage(editedMessage) {
-        const editedMessages = messages.map(message => {
-            if (message.id === editedMessage.id) {
-                return editedMessage
-            } else {
-                return message
-            }
-        })
-        setMessages(editedMessages)
+        // Not really needed up here since messages are fetched after being posted or patched. 
+
+        // const editedMessages = messages.map(message => {
+        //     if (message.id === editedMessage.id) {
+        //         return editedMessage
+        //     } else {
+        //         return message
+        //     }
+        // })
+        // setMessages(editedMessages)
     }
 
 //////////
@@ -197,7 +203,6 @@ function App() {
 ////////////
 // RETURN //
 ////////////
-console.log(theme)
     return (
         <div data-theme={theme}>
             {/* <!--Background Video--> */}
@@ -224,7 +229,7 @@ console.log(theme)
                                             alt="Tabletops & Joysticks Logo" />
                                     </button>
                                     <p className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important] hover:text-[var(--color-theme-hover-text)!important]'} mx-auto text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl mt-1 mb-1`}
-                                        >{currentUser.username}
+                                        >{currentUser.username} 
                                     </p>
                                     {seen ? 
                                         <UserProfile key={currentUser.id} theme={theme} currentUser={currentUser} setCurrentUser={setCurrentUser} onUserDelete={handleUserDelete} onLogoutClick={handleLogoutClick} onEditProfile={handleEditProfile} users={users} messages={messages} onSendMessage={handleSendMessage} onDeleteMessage={handleDeleteMessage} onEditMessage={handleEditMessage}/> 

@@ -33,7 +33,7 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete, theme}) {
         
         if (!user) return <h2>Loading...</h2>
         
-    const {username, email, address, avatar_url, stars, travel_distance, is_active, is_admin} = user
+    const {username, email, address, city, state, country, zipcode, avatar_url, stars, travel_distance, is_active, is_admin} = user
     
     // Add the users games to each user
     const allGames = user.inventories.map((inv)=>inv.game)
@@ -60,37 +60,49 @@ function UserDetail({admin, currentUser, onSendMessage, onUserDelete, theme}) {
                                         ✏️
                                     </span>
                                 </button>
-                                <button onClick={handleUserDelete}>
+                                <button onClick={handleUserDelete} >
                                     <span role="img" aria-label="delete">
                                         🗑
                                     </span>
                                 </button>
                             </div>
                         : null}   
-                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } flex`}>
+                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } mx-auto flex`}>
                             <div className={`border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] mt-4 h-40 w-40 object-cover border-2 rounded-full overflow-hidden mr-8 flex-shrink-0`}>
                                 <img src={avatar_url} alt={`${username} Avatar`} className="object-contain h-full w-full"/>
                             </div>                
                             <div className="flex-grow">
                                 <div className=" mb-2">
                                     <div>
-                                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } mt-4`}>
-                                            {username} | #{id} {is_admin ? " | Moderator" : null }
+                                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } mt-4 mr-2 flex`} >
+                                            <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } mt-4 mr-2 `}>
+                                                <h3>{username}</h3>
+                                            </div>
+                                            <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } border-[var(--color-theme-border)!important] border-l-2 mt-4 mr-2`}>
+                                                <h3 className="ml-2">ID# {id}</h3>
+                                            </div>
+                                            {is_admin ?
+                                                <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } border-[var(--color-theme-border)!important] border-l-2 mt-4`}>
+                                                    <h3 className="ml-2">Moderator</h3>
+                                                </div>
+                                            : null }
                                         </div>
-                                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } `}>
-                                            <h3>Peer Rating: {stars} Stars </h3>
-                                        </div>
-                                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } `}>
-                                            <h3>Status: {is_active ? "Online" : "Offline"}</h3>
+                                        <div className="flex">
+                                            <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } mr-2 `}>
+                                                <h3>Peer Rating: {stars} Stars </h3>
+                                            </div>
+                                            <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } border-[var(--color-theme-border)!important] border-l-2 flex`}>
+                                                <h3 className="ml-2">Status: {is_active ? "Online" : "Offline"}</h3>
+                                            </div>
                                         </div>
                                         <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } `}>
                                             <h3>Travel Distance: {travel_distance} Miles</h3>
                                         </div>
-                                        <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } `}>
+                                        {/* <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } `}>
                                             <h3> Email: {email} </h3>
-                                        </div>
+                                        </div> */}
                                         <div className={`${theme === 'multi' ? 'text-multi bg-multi-gradient hover:bg-multi-gradient-hover active:bg-multi-gradient-active' : 'text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important]  ' } `}>
-                                            <h3> Address: {address} </h3>
+                                            <h3> Zipcode: {zipcode} </h3>
                                         </div>
                                     </div>
                                 </div>

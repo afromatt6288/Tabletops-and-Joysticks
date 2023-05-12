@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useMemo} from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { Datepicker, Input, Ripple, Select, initTE } from "tw-elements";
 import MessageSearch from "./MessageSearch";
@@ -46,7 +46,8 @@ function MessageBox({users, currentUser, messages, onSendMessage, onDeleteMessag
     });
   }
 
-  const filteredMessages = messages
+  // Takes all incoming messages and only keeps messages that have the currentUser.id
+  const filteredMessages = useMemo(() => messages
     .filter(message => 
       (message.sender_user_id === currentUser.id || message.receiver_user_id === currentUser.id) &&
       message.message_text.toLowerCase().includes(search.toLowerCase())
@@ -57,19 +58,38 @@ function MessageBox({users, currentUser, messages, onSendMessage, onDeleteMessag
       sender_user_id: message.sender_user_id,
       receiver_user_id: message.receiver_user_id,
       created_at: message.created_at
-    }));
+    })),
+    [messages])
 
-  const userIds = new Set(filteredMessages.flatMap(message => [message.sender_user_id, message.receiver_user_id]));
-  const filteredUsers = users.filter(user => userIds.has(user.id) && user.id !== currentUser.id);
+  // Takes the filtered messages, and grabs all the user ids, then removes the duplicates
+  const userIds = useMemo(() => new Set(filteredMessages.flatMap(message => [message.sender_user_id, message.receiver_user_id])), [filteredMessages]);
+
+  // goes through all the users, and pulls the info for any from the above list, who are not the current user.
+  const filteredUsers = useMemo(() => users.filter(user => userIds.has(user.id) && user.id !== currentUser.id), [users, userIds, currentUser.id]);
   
-  const usersWithMessageHistory = sortUsers(filteredUsers.map((user) => {
+  // creates the list of users that you have messages with. Is also used as the button to select specific users.
+  const usersWithMessageHistory = useMemo(() => sortUsers(filteredUsers.map((user) => {
     const userMessages = filteredMessages.filter(message => message.sender_user_id === user.id || message.receiver_user_id === user.id);
     return { ...user, messages: userMessages };
-  }));
+  })), [filteredUsers, filteredMessages]);
+
+  // same as above and mixed with below. To make the selected users messages update when the db changes. 
+  useEffect(() => {
+    if (selectedUser) {
+      const userMessages = filteredMessages.filter(
+        (message) => message.sender_user_id === selectedUser.id || message.receiver_user_id === selectedUser.id
+      );
+      setSelectedUser({ ...selectedUser, messages: userMessages });
+    }
+  }, [messages, filteredMessages, selectedUser]);
   
-  const selectedUserMessages = selectedUser ? 
-    selectedUser.messages.filter(message => message.message_text.toLowerCase().includes(search.toLowerCase()))
-  : [];
+  // sets the initial selectedUserMessages, that will then adjust based on the above useEffect
+  const selectedUserMessages = useMemo(() => selectedUser ? 
+  selectedUser.messages.filter(message => message.message_text.toLowerCase().includes(search.toLowerCase()))
+  : [], [selectedUser, search, messages]);
+
+  console.log(messages)
+  console.log(selectedUserMessages)
   
   return (
     <div className="text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] border-4 block rounded-xl bg-gray-600 bg-opacity-60 shadow-lg dark:bg-neutral-800 w-full md:w-auto">
