@@ -48,7 +48,7 @@ with app.app_context():
         state="CO",
         zipcode="80205",
         country="USA",
-        avatar_url="https://cdn-icons-png.flaticon.com/512/8053/8053055.png",
+        avatar_url="https://png.pngtree.com/png-vector/20190629/ourmid/pngtree-office-work-user-icon-avatar-png-image_1527655.jpg",
         # avatar_blob="TBD",
         stars=3,
         travel_distance=5,
@@ -60,12 +60,12 @@ with app.app_context():
     new_user_2 = User(
         username="Matthew",
         email="Matthew@flatironschool.com",
-        address="2228 Blake St.",
-        city="Denver",
+        address="6946 S Albion St",
+        city="Centennial",
         state="CO",
-        zipcode="80205",
+        zipcode="80122",
         country="USA",
-        avatar_url="https://cdn-icons-png.flaticon.com/512/8053/8053055.png",
+        avatar_url="https://store.playstation.com/store/api/chihiro/00_09_000/container/US/en/19/UP2538-CUSA05620_00-AV00000000000179/image?w=320&h=320&bg_color=000000&opacity=100&_version=00_09_000",
         # avatar_blob="TBD",
         stars=5,
         travel_distance=25,
@@ -75,14 +75,14 @@ with app.app_context():
     )
     new_user_2.password_hash = "Matthew"
     new_user_3 = User(
-        username="Preston",
-        email="Preston@flatironschool.com",
+        username="KentClark",
+        email="ManSuper@flatironschool.com",
         address="2282 Blake St.",
         city="Denver",
         state="CO",
         zipcode="80205",
         country="USA",
-        avatar_url="https://cdn-icons-png.flaticon.com/512/8053/8053055.png",
+        avatar_url="https://cdn.shopify.com/s/files/1/0281/7035/4736/articles/superman-dc-shopify_720x720.png?v=1614581300",
         # avatar_blob="TBD",
         stars=3,
         travel_distance=5,
@@ -90,16 +90,16 @@ with app.app_context():
         is_active=False,
         is_admin=False,
     )
-    new_user_3.password_hash = "Preston"
+    new_user_3.password_hash = "Kent"
     new_user_4 = User(
-        username="Dylan",
-        email="Dylan@flatironschool.com",
+        username="PurpPanda",
+        email="PurpPanda@flatironschool.com",
         address="2822 Blake St.",
         city="Denver",
         state="CO",
         zipcode="80205",
         country="USA",
-        avatar_url="https://cdn-icons-png.flaticon.com/512/8053/8053055.png",
+        avatar_url="data:image/jpeg;base64,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",
         # avatar_blob="TBD",
         stars=3,
         travel_distance=5,
@@ -107,16 +107,16 @@ with app.app_context():
         is_active=False,
         is_admin=False,
     )
-    new_user_4.password_hash = "Dylan"
+    new_user_4.password_hash = "PurpPanda"
     new_user_5 = User(
-        username="Sarah",
-        email="Sarah@flatironschool.com",
+        username="SmoothMonkey",
+        email="SmoothMonkey@flatironschool.com",
         address="8222 Blake St.",
         city="Denver",
         state="CO",
         zipcode="80205",
         country="USA",
-        avatar_url="https://cdn-icons-png.flaticon.com/512/8053/8053055.png",
+        avatar_url="data:image/jpeg;base64,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",
         # avatar_blob="TBD",
         stars=3,
         travel_distance=5,
@@ -124,10 +124,27 @@ with app.app_context():
         is_active=False,
         is_admin=False,
     )
-    new_user_5.password_hash = "Sarah"
+    new_user_5.password_hash = "SmoothMonkey"
+    new_user_6 = User(
+        username="PixieVixen",
+        email="PixieVixen@flatironschool.com",
+        address="8222 Blake St.",
+        city="Denver",
+        state="CO",
+        zipcode="80205",
+        country="USA",
+        avatar_url="https://x.boardgamearena.net/data/avatar/0/84/84936/84936180_184.jpg?h=93c752ad29",
+        # avatar_blob="TBD",
+        stars=3,
+        travel_distance=5,
+        theme="purple",
+        is_active=False,
+        is_admin=False,
+    )
+    new_user_6.password_hash = "PixieVixen"
     users = [new_user_1, new_user_2, new_user_3, new_user_4, new_user_5]
-    usernames = ["Admin", "Matthew", "Preston", "Dylan", "Sarah"]
-    themes = ["purple", "blue", "green", "orange", "multi"]
+    usernames = ["Admin", "Matthew", "KentClark", "PurpPanda", "SmoothMonkey", "PixieVixen"]
+    themes = ["red", "orange", "yellow", "green", "blue", "purple", "multi"]
     for n in range(20):
         username = fake.first_name()
         while username in usernames:
