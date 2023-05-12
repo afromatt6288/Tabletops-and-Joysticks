@@ -162,7 +162,7 @@ function App() {
                     setMessages(data)
                     console.log("my message fetch is running")
                 })
-        }, 5000)
+        }, 1000)
         return () => clearInterval(interval);
     }, [])
 

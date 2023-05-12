@@ -81,15 +81,12 @@ function MessageBox({users, currentUser, messages, onSendMessage, onDeleteMessag
       );
       setSelectedUser({ ...selectedUser, messages: userMessages });
     }
-  }, [messages, filteredMessages, selectedUser]);
+  }, [messages, filteredMessages]);
   
   // sets the initial selectedUserMessages, that will then adjust based on the above useEffect
   const selectedUserMessages = useMemo(() => selectedUser ? 
   selectedUser.messages.filter(message => message.message_text.toLowerCase().includes(search.toLowerCase()))
   : [], [selectedUser, search, messages]);
-
-  console.log(messages)
-  console.log(selectedUserMessages)
   
   return (
     <div className="text-[var(--color-theme-text)!important] hover:text-[var(--color-theme-hover-text)!important] text-shadow-[var(--color-theme-text-shadow)!important] hover:text-shadow-[var(--color-theme-hover-text-shadow)!important] border-[var(--color-theme-border)!important] hover:border-[var(--color-theme-hover-border)!important] border-4 block rounded-xl bg-gray-600 bg-opacity-60 shadow-lg dark:bg-neutral-800 w-full md:w-auto">
